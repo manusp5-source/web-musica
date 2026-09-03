@@ -72,3 +72,26 @@ tests + CI». Quedan fuera datos reales, rendimiento, accesibilidad, SEO local y
 **Razón:** decisión de Manuel en discovery.
 **Impacto:** **la web sigue sin ser publicable al terminar esta tanda.** Está escrito en
 `planning/scope.md` y vigilado en `docs/maintain.md` para que no se olvide.
+**Revertida parcialmente por DEC-010 el mismo día.**
+
+## DEC-009: Se instala `gh` y se arregla `sharp`
+**Fecha:** 2026-09-03
+**Decisión:** `winget install GitHub.cli` (2.99.0) y `npm audit fix`.
+**Razón:** sin `gh` no hay remoto y el CI sería un YAML decorativo. `sharp` traía 4
+vulnerabilidades altas en dependencias **de producción**, heredadas del proyecto original.
+**Impacto:** 0 vulnerabilidades tras el fix; tests 6/6 y build 13/13 siguen en verde.
+Queda pendiente `gh auth login`, que exige navegador y lo hace Manuel.
+
+## DEC-010: Se reabre el milestone M2 — publicar la web
+**Fecha:** 2026-09-03
+**Decisión:** dominio propio, datos legales reales y despliegue en Cloudflare Pages entran
+en alcance. `planning/intent-003.md`.
+**Razón:** Manuel pidió un QR impreso para repartir en eventos. Un QR impreso es
+permanente, así que necesita una URL definitiva; sin publicación no hay QR que imprimir.
+El efecto en cadena es mayor: sin web publicada no hay ficha de Google que la declare, y sin
+ficha no entran reseñas — el milestone M1 se quedaría enseñando un fichero vacío.
+**Alternativas descartadas:** QR a `*.pages.dev` (no es un dominio propio y se ve
+improvisado en papel), QR a WhatsApp como sustituto (buena idea, pero no es lo que se pidió),
+posponer el QR.
+**Impacto:** M2 pasa de `SKIP` a `TODO` con 5 ITs y 2 UJs. Bloqueado por datos que solo
+Manuel tiene: dominio, NIF, dirección y teléfono real.
