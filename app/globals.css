@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  /* Compensa la barra de navegación fija en los saltos de ancla */
+  scroll-padding-top: 5rem;
+}
+
+/* Scroll suave solo si el usuario no pidió menos movimiento */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  @apply bg-marfil text-carbon antialiased;
+}
+
+h1,
+h2,
+h3 {
+  @apply font-serif;
+}
+
+@layer components {
+  .section {
+    @apply mx-auto max-w-6xl px-6 py-20 md:py-28;
+  }
+  .eyebrow {
+    @apply mb-3 text-xs font-medium uppercase tracking-widest2 text-bronce;
+  }
+  .h-section {
+    @apply font-serif text-3xl leading-tight text-carbon sm:text-4xl md:text-5xl;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium transition-all duration-300;
+  }
+  .btn-primary {
+    @apply btn bg-carbon text-marfil hover:bg-carbon2;
+  }
+  .btn-gold {
+    @apply btn bg-dorado text-carbon hover:bg-doradoDark;
+  }
+  .btn-outline {
+    @apply btn border border-carbon/30 text-carbon hover:border-carbon hover:bg-carbon hover:text-marfil;
+  }
+}
+
+.legal-prose h2 {
+  @apply mt-10 font-serif text-2xl text-carbon;
+}
+.legal-prose h3 {
+  @apply mt-6 font-serif text-xl text-carbon;
+}
+.legal-prose p,
+.legal-prose li {
+  @apply mt-3 leading-relaxed text-carbon/75;
+}
+.legal-prose ul {
+  @apply mt-3 list-disc space-y-1 pl-6;
+}
+.legal-prose a {
+  @apply text-bronce underline;
+}
