@@ -85,6 +85,37 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
 - **Notas**: confirma el supuesto **S-05** — Testing Library 16 convive con React `19.0.0`
   fijado exacto, sin `--legacy-peer-deps`.
 
+### 2026-09-03 — Fuera de tarea: `gh` instalado y `sharp` parcheado
+- **Trabajo hecho**: `winget install GitHub.cli` → 2.99.0. `npm audit fix` → de 4
+  vulnerabilidades altas en dependencias de **producción** (todas en `sharp`, heredadas del
+  proyecto original) a **0**.
+- **Verificación (salida)**: `npm audit --omit=dev` → `found 0 vulnerabilities`;
+  `npx vitest run` → 6/6; `npm run build` → 13/13 páginas. Nada se rompió.
+- **Notas**: `gh` sigue sin autenticar (`gh auth status` → *not logged into any GitHub
+  hosts*). `gh auth login` abre navegador y lo tiene que hacer Manuel. B-03 sigue abierto
+  pero cambia de causa.
+
+### 2026-09-03 — M0-IT-004: Playwright + smoke ES/EN — DONE
+- **Trabajo hecho**: `playwright.config.ts` (puerto 3100, build de producción como
+  `webServer`, no `dev`), `tests/e2e/home.spec.ts` con 7 casos, y `NEXT_PUBLIC_HERO3D` en
+  `src/config/site.ts` para poder apagar el hero 3D sin tocar código.
+- **Modelo usado / Skill cargada**: `opus` (previsto `sonnet`). Skill `e2e-testing`:
+  **es un router de fases, no contenido** — enumera otras skills a invocar y no aporta
+  patrones. No está rota, pero no aporta; para un smoke no hace falta volver a abrirla.
+- **Verificación (salida)**: `npx playwright test` → `6 passed, 1 skipped` en 25 s.
+- **Verificación (trayectoria)**: **se cazó un falso verde y esto es el hallazgo del día.**
+  El test original afirmaba `expect(page.locator("canvas")).toHaveCount(0)` y pasaba
+  **también con el 3D encendido** (`HERO3D_E2E=on`), o sea que no comprobaba nada. Causa:
+  `Scene` se carga con `dynamic(ssr:false)` y WebGL puede no inicializar nunca en Chromium
+  headless, así que nunca hay canvas, encendido o apagado. Sustituido por un marcador
+  determinista —el botón de audio `aria-label="Escuchar"`, que solo existe si `Hero3D` se
+  montó— y **comprobado en las dos direcciones**: con `HERO3D_E2E=on` el botón aparece; por
+  defecto, no existe.
+- **Tests**: 7 e2e (uno guardado tras `HERO3D_E2E=on`), más los 6 unitarios de M0-IT-003.
+- **Notas**: la lección vale para todo el proyecto — **una aserción negativa que nunca se ha
+  visto fallar no es un test, es una decoración.** Aplicará igual al «sin reseñas, sección
+  ausente» de `M1-UJ-001`: hay que verlo en rojo con datos presentes.
+
 ---
 
 ## Review

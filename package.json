@@ -10,7 +10,8 @@
     "lint": "eslint app src",
     "check-legal": "node scripts/check-legal.mjs --strict",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e": "playwright test"
   },
   "overrides": {
     "postcss": "^8.5.10"
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
+    "@playwright/test": "^1.62.1",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@types/node": "^20",

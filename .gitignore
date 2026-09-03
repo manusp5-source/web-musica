@@ -29,3 +29,12 @@ next-env.d.ts
 
 # vercel
 .vercel
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# QR generado (los SVG maestros sí se versionan)
+assets/qr/*.png

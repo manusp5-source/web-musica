@@ -52,7 +52,9 @@ export const site = {
   effects: {
     // Partículas 3D audio-reactivas en el hero (React Three Fiber).
     // Se desactivan SOLAS en móvil y con "reduce motion" (fallback = gradiente).
-    hero3d: true, // pon false para volver al hero plano
+    // NEXT_PUBLIC_HERO3D=off lo apaga sin tocar código: lo usan los tests e2e,
+    // donde WebGL en headless es lento e inestable. Por defecto, encendido.
+    hero3d: process.env.NEXT_PUBLIC_HERO3D !== "off", // pon "off" para volver al hero plano
   },
 
   // --- Datos legales (RGPD / LSSI España) — RELLENA antes de publicar ---
