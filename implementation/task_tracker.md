@@ -43,9 +43,9 @@ volver al intent.
 
 | ID | Nombre | Milestone | Estado | Skill | Model | Security ✓ | Eval ✓ | Review ✓ | Notas |
 |----|--------|-----------|--------|-------|-------|-----------|--------|---------|-------|
-| M0-IT-001 | Rename a `web-musica`, rama `feat/factoria-reviews`, primer commit | M0 | TODO | `ninguna` | `haiku` | — | [ ] | [ ] | Rename ya ejecutado en el scaffold del 3 sep. Falta rama y commit |
-| M0-IT-002 | Repo privado en GitHub + remoto | M0 | TODO | `ninguna` | `haiku` | — | — | [ ] | Requiere `gh` autenticado. Si no lo está → BLOCKED, no se inventa |
-| M0-IT-003 | Vitest + Testing Library + jsdom | M0 | TODO | `javascript-testing-patterns` | `sonnet` | — | [ ] | [ ] | Ojo peer deps con React 19.0.0 exacto |
+| M0-IT-001 | Rename a `web-musica`, rama `feat/factoria-reviews`, primer commit | M0 | **DONE** | `ninguna` | `opus` (previsto `haiku`) | — | — | [ ] | `master`→`main`; commit base del sitio en `main`, scaffold en la rama. Árbol limpio. Ejecutado con el modelo de sesión, no se pudo bajar a haiku |
+| M0-IT-002 | Repo privado en GitHub + remoto | M0 | **BLOCKED** | `ninguna` | `haiku` | — | — | [ ] | **`gh` no está instalado** (ni bash ni PowerShell). Ver B-03. Arrastra a M0-IT-005: el workflow se escribe pero no se ejecuta |
+| M0-IT-003 | Vitest + Testing Library + jsdom | M0 | **DONE** | `javascript-testing-patterns` | `opus` (previsto `sonnet`) | — | — | [ ] | 6 tests en verde en 1,78 s. Supuesto S-05 confirmado: RTL 16 + React 19.0.0 exacto sin conflicto. `esbuild.jsx: automatic` obligatorio por el `jsx: preserve` de Next |
 | M0-IT-004 | Playwright + smoke ES/EN | M0 | TODO | `e2e-testing` | `sonnet` | — | [ ] | [ ] | `NEXT_PUBLIC_HERO3D=off` en el entorno de test |
 | M0-IT-005 | GitHub Actions: lint → check-legal → unit → build → e2e | M0 | TODO | `deployment-procedures` | `sonnet` | — | [ ] | [ ] | `github-actions-templates` está **rota** (todas las refs) — no cargarla |
 | M0-IT-006 | **Eval harness** — runner de `implementation/evals/` + `npm run evals` | M0 | TODO | `evaluation` | `sonnet` | — | [ ] | [ ] | Sin esto ningún UJ puede marcar `Eval ✓` |
@@ -68,6 +68,8 @@ volver al intent.
 |----|-----------------|--------|-----------|----------|
 | B-01 | Conexión real de `M1-UJ-004` | **No existe ficha de Google Business.** Hay que crearla y verificarla | 2026-09-03 | — |
 | B-02 | Conexión real de `M1-UJ-004` | Cuota de Business Profile API sin solicitar a Google | 2026-09-03 | — |
+| B-03 | `M0-IT-002` y la ejecución real de `M0-IT-005` | **`gh` CLI no instalado** en la máquina. Sin remoto no hay CI que se ejecute | 2026-09-03 | — |
+| B-04 | `M1-IT-001` (QR) | **No hay dominio ni sitio publicado.** Un QR impreso necesita una URL estable y definitiva | 2026-09-03 | — |
 
 > Ninguno de los dos bloquea el código: `M1-UJ-004` se implementa y se prueba con fixtures.
 > Lo bloqueado es ver reseñas reales en la página, no entregar la tarea.
