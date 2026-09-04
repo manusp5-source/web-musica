@@ -47,10 +47,10 @@ volver al intent.
 | M0-IT-002 | Repo privado en GitHub + remoto | M0 | **BLOCKED** | `ninguna` | `haiku` | — | — | [ ] | `gh` **ya instalado** (2.99.0, winget, 3 sep). Bloqueado ahora en `gh auth login`: exige navegador, lo hace Manuel. Ver B-03 |
 | M0-IT-003 | Vitest + Testing Library + jsdom | M0 | **DONE** | `javascript-testing-patterns` | `opus` (previsto `sonnet`) | — | — | [ ] | 6 tests en verde en 1,78 s. Supuesto S-05 confirmado: RTL 16 + React 19.0.0 exacto sin conflicto. `esbuild.jsx: automatic` obligatorio por el `jsx: preserve` de Next |
 | M0-IT-004 | Playwright + smoke ES/EN | M0 | **DONE** | `e2e-testing` | `opus` (previsto `sonnet`) | — | — | [ ] | 7 casos, 6 activos + 1 guardado tras `HERO3D_E2E=on`. Riesgo R-06 mitigado. Se cazó un falso verde: el canvas no vale como marcador |
-| M0-IT-005 | GitHub Actions: lint → check-legal → unit → build → e2e | M0 | TODO | `deployment-procedures` | `sonnet` | — | [ ] | [ ] | `github-actions-templates` está **rota** (todas las refs) — no cargarla |
-| M0-IT-006 | **Eval harness** — runner de `implementation/evals/` + `npm run evals` | M0 | TODO | `evaluation` | `sonnet` | — | [ ] | [ ] | Sin esto ningún UJ puede marcar `Eval ✓` |
-| M0-IT-007 | Estructura FactorIA + `CLAUDE.md` de proyecto | M0 | TODO | `plan-writing` | `haiku` | — | — | [ ] | Hecho en el scaffold del 3 sep; se cierra al commitear |
-| M0-IT-008 | Guardia de placeholders en `check-legal.mjs` | M0 | TODO | `ninguna` | `haiku` | — | [ ] | [ ] | Avisa de dominio, WhatsApp y vídeos. **Avisa, no falla** |
+| M0-IT-005 | GitHub Actions: lint → check-legal → unit → build → e2e → evals | M0 | **DONE (dormido)** | `deployment-procedures` | `opus` (previsto `sonnet`) | — | — | [ ] | Workflow escrito y su cadena verificada **en local, paso a paso**. No se ha ejecutado nunca en GitHub: sin remoto (B-03). `deployment-procedures` es doctrina de despliegue, no plantillas de CI |
+| M0-IT-006 | **Eval harness** — runner de `implementation/evals/` + `npm run evals` | M0 | **DONE** | `evaluation` (no encaja) | `opus` (previsto `sonnet`) | — | ✓ | [ ] | Runner + EV-006 y EV-009 reales. **Probado en rojo** plantando un secreto en `.next`: exit 1 con ruta exacta. Después, 2/2 en verde |
+| M0-IT-007 | Estructura FactorIA + `CLAUDE.md` de proyecto | M0 | **DONE** | `plan-writing` | `opus` (previsto `haiku`) | — | — | [ ] | 24 ficheros, commiteados el 3 sep |
+| M0-IT-008 | Guardia de placeholders en `check-legal.mjs` | M0 | **DONE** | `ninguna` | `opus` (previsto `haiku`) | — | ✓ | [ ] | Dos niveles: LEGAL bloquea con `--strict`, PENDIENTE solo avisa. Caza 4 placeholders. Se corrigió un defecto propio: la regla de `social` leía las URLs de los comentarios |
 
 ## User Journeys (UJs)
 

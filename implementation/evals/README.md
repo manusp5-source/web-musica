@@ -47,10 +47,15 @@ evals de trayectoria: comprueban el camino, no la pantalla.
 | `EV-003.eval.md` | salida | spec | `/en` con rótulos traducidos y reseñas sin traducir | Render ES/EN | PENDIENTE | — |
 | `EV-004.eval.md` | salida | spec | JSON-LD con `aggregateRating` coherente; ausente si `count` es 0 | JSON-LD válido | PENDIENTE | — |
 | `EV-005.eval.md` | salida | spec | Mapper v4 → esquema con fixtures: enums, anónimos, paginación | Fetcher con y sin credenciales | PENDIENTE | — |
-| `EV-006.eval.md` | **trayectoria** | spec | `grep` del `.next` de producción: ni `client_secret` ni `refresh_token` | Cero secretos en cliente | PENDIENTE | — |
+| `EV-006.eval.md` | **trayectoria** | spec | Recorre el `.next` de producción buscando nombres y valores de credencial | Cero secretos en cliente | **PASA** | 2026-09-04 |
 | `EV-007.eval.md` | salida | spec | `reviews.disclosure` presente en `/` y `/en`; apartado de reseñas en ambas privacidades | Cumplimiento Omnibus | PENDIENTE | — |
 | `EV-008.eval.md` | **trayectoria** | constitución | Ninguna comparación sobre `rating` en la ruta de render (no hay filtro por estrellas) | Cumplimiento Omnibus | PENDIENTE | — |
-| `EV-009.eval.md` | salida | spec | Build sin ninguna credencial en el entorno termina en 0 | Build no depende de la red | PENDIENTE | — |
+| `EV-009.eval.md` | salida | spec | Build sin ninguna credencial en el entorno termina en 0 | Build no depende de la red | **PASA** | 2026-09-04 |
+
+**Runner:** `npm run evals` → `implementation/evals/run.mjs`. Extrae el comando del bloque
+` ```bash ` que hay bajo `## Comando` en cada `*.eval.md`, lo ejecuta desde la raíz y
+devuelve exit ≠ 0 si falla alguno. Un eval cuyo comando siga siendo el placeholder de la
+plantilla cuenta como **PENDIENTE**, nunca como aprobado.
 
 _Una fila por eval. `/review` actualiza la columna de estado tras cada ejecución._
 

@@ -116,6 +116,57 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
   visto fallar no es un test, es una decoración.** Aplicará igual al «sin reseñas, sección
   ausente» de `M1-UJ-001`: hay que verlo en rojo con datos presentes.
 
+### 2026-09-04 — M0-IT-005: workflow de CI — DONE (dormido)
+- **Trabajo hecho**: `.github/workflows/ci.yml` — checkout, Node 20 con caché de npm,
+  `npm ci`, lint, `check-legal` en modo aviso, unitarios, build, Chromium, smoke e2e,
+  evals, y subida del informe de Playwright si algo falla. `concurrency` cancela la
+  ejecución anterior de la misma rama.
+- **Modelo usado / Skill cargada**: `opus` (previsto `sonnet`). Skill
+  `deployment-procedures`: **es doctrina de despliegue** (plataformas, rollback, ventanas
+  de verificación), no plantillas de CI. Útil para M2, poco para esta tarea. No está rota.
+- **Verificación (salida)**: el workflow **no se ha ejecutado nunca en GitHub** — no hay
+  remoto (B-03). Lo verificable era la cadena, y se ejecutó paso a paso en local:
+  `npm run lint` limpio, `check-legal` avisa y sale 0, `vitest run` 6/6,
+  `npm run build` 13/13, `playwright test` 6+1. **Un YAML que no se ha ejecutado no está
+  verificado, y así queda anotado: `DONE (dormido)`.**
+- **Notas**: `check-legal` va en modo aviso a propósito. Con `--strict` el CI estaría en
+  rojo permanente desde el primer día, y un CI que siempre falla es un CI que nadie mira.
+  `M2-IT-002` lo pasa a `--strict` cuando existan los datos reales.
+
+### 2026-09-04 — M0-IT-006: eval harness — DONE
+- **Trabajo hecho**: `implementation/evals/run.mjs` (extrae el comando del bloque ```bash
+  bajo `## Comando` de cada `*.eval.md`, lo ejecuta y devuelve exit ≠ 0 si falla alguno),
+  más dos evals reales: `EV-006` (ningún secreto en `.next/`) y `EV-009` (el build no
+  necesita credenciales). Los checks van en Node, no en `grep`: el runner puede lanzarse
+  desde PowerShell y un eval que solo corre en una shell deja de ejecutarse sin avisar.
+- **Modelo usado / Skill cargada**: `opus` (previsto `sonnet`). Skill `evaluation`
+  **cargada y descartada**: trata de evaluación de agentes —rúbricas multidimensionales,
+  LLM-as-judge, no determinismo— y aquí los evals son comandos deterministas. No está rota,
+  simplemente no era la tarea. Anotado para no volver a abrirla por este motivo.
+- **Verificación (salida)**: **rojo primero.** Se plantó `.next/static/__eval-red.js` con
+  un `refresh_token` falso → `npm run evals` devolvió `EXIT=1` y `EV-006 FALLA`, nombrando
+  el fichero y el término encontrado. Retirado el fichero → `2 pasan · 0 fallan`, exit 0.
+- **Verificación (trayectoria)**: el runner cuenta como `PENDIENTE`, nunca como aprobado,
+  cualquier eval cuyo comando siga siendo el placeholder de la plantilla. Sin eso, siete
+  ficheros vacíos darían una suite «verde».
+- **Notas**: EV-009 tarda ~60 s porque reconstruye. Es el precio de comprobar el build de
+  verdad; si molesta, se separa en una suite rápida y otra lenta.
+
+### 2026-09-04 — M0-IT-008: guardia de placeholders — DONE
+- **Trabajo hecho**: `scripts/check-legal.mjs` gana un segundo nivel. **LEGAL** (nombre,
+  NIF, dirección) bloquea con `--strict`; **PENDIENTE** (dominio, WhatsApp, vídeos, redes)
+  solo avisa, y cada aviso dice *por qué* importa, no solo que falta.
+- **Modelo usado / Skill cargada**: `opus` (previsto `haiku`). Skill: `ninguna`.
+- **Verificación (salida)**: modo aviso → 4 pendientes + 3 legales, `EXIT=0`. Modo
+  `--strict` → `EXIT=1`. Los dos comportamientos, ejecutados y confirmados.
+- **Verificación (trayectoria)**: **defecto propio cazado al leer la salida.** La primera
+  regla de `social` daba falso negativo: buscaba `https://` dentro del bloque y encontraba
+  las URLs de ejemplo de los comentarios `←CAMBIAR`. Corregido quitando los comentarios
+  antes de evaluar. Es el mismo patrón que el falso verde de M0-IT-004 — una comprobación
+  que mira el sitio equivocado y siempre dice que sí.
+- **Notas**: no rellena nada, solo avisa. Rellenar los datos es `M2-IT-002` y necesita a
+  Manuel.
+
 ---
 
 ## Review

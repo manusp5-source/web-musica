@@ -11,7 +11,8 @@
     "check-legal": "node scripts/check-legal.mjs --strict",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "evals": "node implementation/evals/run.mjs"
   },
   "overrides": {
     "postcss": "^8.5.10"
