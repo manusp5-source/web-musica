@@ -82,6 +82,26 @@ vulnerabilidades altas en dependencias **de producción**, heredadas del proyect
 **Impacto:** 0 vulnerabilidades tras el fix; tests 6/6 y build 13/13 siguen en verde.
 Queda pendiente `gh auth login`, que exige navegador y lo hace Manuel.
 
+## DEC-011: Iniciales en vez de las fotos de Google (resuelve Q-02)
+**Fecha:** 2026-09-05
+**Decisión:** las tarjetas de reseña muestran las iniciales del autor sobre un círculo
+dorado. `avatarUrl` se sigue guardando en `data/reviews.json`, pero no se renderiza.
+**Razón:** mostrar la foto obliga a abrir `images.remotePatterns` y la CSP a
+`lh3.googleusercontent.com`, y hace que cada visitante pida imágenes a Google desde una web
+que hoy no tiene ni analítica ni cookies de terceros. El beneficio visual no compensa.
+**Alternativas descartadas:** hotlink al avatar, descargar y servir las fotos (implica
+almacenar imágenes de terceros, peor desde RGPD).
+**Impacto:** reversible en diez líneas si algún día se quiere. El dato ya está guardado.
+
+## DEC-012: `M0-IT-002` se aparta a `SKIP` temporal
+**Fecha:** 2026-09-05
+**Decisión:** el repo remoto deja de bloquear el arranque de M1.
+**Razón:** `gh` lleva instalado desde el 4 sep y sigue sin autenticar; `gh auth login` exige
+navegador. La regla «ningún UJ con un IT abierto» protege contra empezar un journey sin la
+infraestructura que necesita, y `M1-UJ-001` no necesita un remoto para nada.
+**Impacto:** el CI sigue sin ejecutarse nunca (riesgo ya anotado en `M0-IT-005`). Vuelve a
+`TODO` con un `gh auth login`.
+
 ## DEC-010: Se reabre el milestone M2 — publicar la web
 **Fecha:** 2026-09-03
 **Decisión:** dominio propio, datos legales reales y despliegue en Cloudflare Pages entran

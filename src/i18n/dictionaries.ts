@@ -25,6 +25,12 @@ export type Dict = {
   process: { eyebrow: string; title: string; steps: Step[] };
   events: { eyebrow: string; title: string; intro: string; empty: string };
   testimonials: { eyebrow: string; title: string; items: Testimonial[] };
+  // Rótulos de la sección de reseñas de Google. Los datos NO viven aquí: vienen de
+  // data/reviews.json (ver design/data_model.md).
+  reviews: {
+    eyebrow: string; title: string; aggregate: string; disclosure: string;
+    cta: string; starsLabel: string;
+  };
   faq: { eyebrow: string; title: string; items: Faq[] };
   contact: {
     eyebrow: string; title: string; intro: string;
@@ -109,6 +115,16 @@ export const dictionaries: Record<Locale, Dict> = {
       // La sección permanece oculta mientras esté vacío.
       // Formato: { quote: "…", author: "Nombre", role: "Boda en Madrid" }
       items: [],
+    },
+    reviews: {
+      eyebrow: "Opiniones",
+      title: "Lo que dicen quienes ya me han contratado",
+      aggregate: "{rating} · {count} reseñas en Google",
+      // Texto exigido por el RDL 24/2021 (Directiva Omnibus). No se recorta por diseño.
+      disclosure:
+        "Reseñas publicadas en Google por clientes reales. Se muestran todas, sin filtrar ni editar.",
+      cta: "Ver todas en Google",
+      starsLabel: "{n} de 5 estrellas",
     },
     faq: {
       eyebrow: "Dudas frecuentes",
@@ -222,6 +238,16 @@ export const dictionaries: Record<Locale, Dict> = {
       // IMPORTANT: add ONLY REAL client testimonials here.
       // The section stays hidden while empty.
       items: [],
+    },
+    reviews: {
+      eyebrow: "Reviews",
+      title: "What my clients say",
+      aggregate: "{rating} · {count} reviews on Google",
+      // Required by the Omnibus Directive (RDL 24/2021 in Spain). Never trimmed for design.
+      disclosure:
+        "Reviews published on Google by real clients. All of them are shown, unfiltered and unedited.",
+      cta: "See all on Google",
+      starsLabel: "{n} out of 5 stars",
     },
     faq: {
       eyebrow: "FAQ",

@@ -2,14 +2,18 @@ import { site } from "@/config/site";
 import { getDict, type Locale } from "@/i18n/dictionaries";
 import Nav from "./Nav";
 import Hero from "./Hero";
-import { Services, About, Process, Events, Media, Testimonials, Faq } from "./Sections";
+import { Services, About, Process, Events, Media, Faq } from "./Sections";
+import Reviews from "./Reviews";
 import Contact from "./Contact";
 import Footer from "./Footer";
 import WhatsAppButton from "./WhatsAppButton";
 import CookieBanner from "./CookieBanner";
+import { loadReviews } from "@/lib/reviews/load";
 
 export default function HomePage({ locale }: { locale: Locale }) {
   const dict = getDict(locale);
+  // Se lee una sola vez, en build. Las dos raíces de idioma comparten el mismo fichero.
+  const reviews = loadReviews();
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -46,7 +50,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
         <Media dict={dict} />
         <About dict={dict} />
         <Process dict={dict} />
-        <Testimonials dict={dict} />
+        <Reviews dict={dict} file={reviews} locale={locale} />
         <Events dict={dict} />
         <Faq dict={dict} />
         <Contact dict={dict} />

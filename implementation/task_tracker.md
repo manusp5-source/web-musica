@@ -44,7 +44,7 @@ volver al intent.
 | ID | Nombre | Milestone | Estado | Skill | Model | Security ✓ | Eval ✓ | Review ✓ | Notas |
 |----|--------|-----------|--------|-------|-------|-----------|--------|---------|-------|
 | M0-IT-001 | Rename a `web-musica`, rama `feat/factoria-reviews`, primer commit | M0 | **DONE** | `ninguna` | `opus` (previsto `haiku`) | — | — | [ ] | `master`→`main`; commit base del sitio en `main`, scaffold en la rama. Árbol limpio. Ejecutado con el modelo de sesión, no se pudo bajar a haiku |
-| M0-IT-002 | Repo privado en GitHub + remoto | M0 | **BLOCKED** | `ninguna` | `haiku` | — | — | [ ] | `gh` **ya instalado** (2.99.0, winget, 3 sep). Bloqueado ahora en `gh auth login`: exige navegador, lo hace Manuel. Ver B-03 |
+| M0-IT-002 | Repo privado en GitHub + remoto | M0 | **SKIP (temporal)** | `ninguna` | `haiku` | — | — | [ ] | `gh` instalado (2.99.0) pero sin autenticar tras dos sesiones. Se aparta **conscientemente** para no bloquear M1: el remoto no es prerrequisito técnico de ningún UJ. Vuelve a `TODO` en cuanto haya `gh auth login`. Ver B-03 |
 | M0-IT-003 | Vitest + Testing Library + jsdom | M0 | **DONE** | `javascript-testing-patterns` | `opus` (previsto `sonnet`) | — | — | [ ] | 6 tests en verde en 1,78 s. Supuesto S-05 confirmado: RTL 16 + React 19.0.0 exacto sin conflicto. `esbuild.jsx: automatic` obligatorio por el `jsx: preserve` de Next |
 | M0-IT-004 | Playwright + smoke ES/EN | M0 | **DONE** | `e2e-testing` | `opus` (previsto `sonnet`) | — | — | [ ] | 7 casos, 6 activos + 1 guardado tras `HERO3D_E2E=on`. Riesgo R-06 mitigado. Se cazó un falso verde: el canvas no vale como marcador |
 | M0-IT-005 | GitHub Actions: lint → check-legal → unit → build → e2e → evals | M0 | **DONE (dormido)** | `deployment-procedures` | `opus` (previsto `sonnet`) | — | — | [ ] | Workflow escrito y su cadena verificada **en local, paso a paso**. No se ha ejecutado nunca en GitHub: sin remoto (B-03). `deployment-procedures` es doctrina de despliegue, no plantillas de CI |
@@ -56,7 +56,7 @@ volver al intent.
 
 | ID | Nombre | Milestone | Estado | Skill | Model | Security ✓ | Eval ✓ | Review ✓ | Notas |
 |----|--------|-----------|--------|-------|-------|-----------|--------|---------|-------|
-| M1-UJ-001 | Visitante ve las reseñas en la home ES | M1 | TODO | `react-best-practices` | `sonnet` | [ ] | [ ] | [ ] | Incluye schema, load, Reviews.tsx y estados vacío/corrupto |
+| M1-UJ-001 | Visitante ve las reseñas en la home ES | M1 | **REVIEW** | `react-best-practices` | `opus` (previsto `sonnet`) | ✓ | ✓ | [ ] | 17 tests nuevos (23 en total). Probado en build real **en las dos direcciones**: con datos sale `id="opiniones"`, sin datos no. `EV-001` rojo→verde |
 | M1-UJ-002 | Visitante ve las reseñas en `/en`, idioma original | M1 | TODO | `nextjs-best-practices` | `sonnet` | [ ] | [ ] | [ ] | Rótulos traducidos, reseñas sin traducir |
 | M1-UJ-003 | Google puede mostrar estrellas: JSON-LD | M1 | TODO | `seo-fundamentals` | `sonnet` | [ ] | [ ] | [ ] | `aggregateRating` coherente con `aggregate.count` |
 | M1-UJ-004 | Manuel sincroniza con `npm run reviews:fetch` | M1 | TODO | `auth-implementation-patterns` | `opus` | [ ] | [ ] | [ ] | OAuth, paginación, reintentos, fallback. **Nunca rompe el build** |

@@ -167,6 +167,49 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
 - **Notas**: no rellena nada, solo avisa. Rellenar los datos es `M2-IT-002` y necesita a
   Manuel.
 
+### 2026-09-05 — M0-IT-002: apartado a `SKIP` temporal
+- **Motivo**: `gh` instalado desde el 4 sep, sin autenticar tras dos sesiones.
+  `gh auth login` abre navegador y solo lo puede hacer Manuel.
+- **Decisión**: se aparta conscientemente en vez de dejar M1 parado. La regla de FactorIA
+  —ningún UJ con un IT abierto de su milestone— existe para que la infraestructura que un
+  UJ necesita esté lista. **Un repo remoto no es prerrequisito técnico de `M1-UJ-001`**:
+  no cambia una línea del código de reseñas. Lo que se pierde es la ejecución del CI, ya
+  anotada como riesgo en `M0-IT-005`.
+- **Reversible**: vuelve a `TODO` con un `gh auth login`.
+
+### 2026-09-05 — M1-UJ-001: reseñas en la home — REVIEW
+- **Trabajo hecho**: `src/lib/reviews/schema.ts` (Zod + `EMPTY_REVIEWS`),
+  `src/lib/reviews/load.ts` (lee, valida, ordena, nunca lanza), `src/components/Reviews.tsx`
+  (Server Component), `data/reviews.json` con el snapshot vacío, rótulos `reviews.*` en ES
+  y EN, y `HomePage` pasando de `Testimonials` a `Reviews`.
+- **Modelo usado / Skill cargada**: `opus` (previsto `sonnet`). Skill `react-best-practices`
+  cargada y **aplicada de verdad**: `rendering-conditional-render` (ternarios en vez de `&&`,
+  que con una cadena vacía puede renderizar basura) y `js-early-exit` en el retorno `null`.
+- **Verificación (salida)**: 23/23 unitarios · lint limpio · build 13/13 páginas.
+- **Verificación (trayectoria)** — lo importante de esta tarea:
+  1. **Rojo primero**: los dos suites fallaban por `Failed to resolve import`, escritos
+     antes que el código.
+  2. **Probado en un build real, en las dos direcciones.** Con el fixture como
+     `data/reviews.json`: `id="opiniones"`, «Laura M.» y «1 de 5 estrellas» presentes en el
+     HTML generado. Con el snapshot vacío: `id="opiniones"` ausente.
+  3. **Tercer falso positivo del proyecto, otra vez por mirar donde no era.** El primer
+     `grep` recorría `.next/server/app/` entero y daba «Opiniones» como presente incluso sin
+     datos. No era un fallo del componente: Next serializa el diccionario completo en el
+     payload RSC porque `dict` se pasa a componentes de cliente (Nav, Contact, CookieBanner).
+     El marcador correcto es `id="opiniones"` sobre ficheros `.html`.
+- **Eval**: `EV-001` — FALLA el 5 sep antes del código, PASA después.
+- **Comprobación de seguridad**: el texto se renderiza como texto (test con
+  `<img src=x onerror=...>`, comprueba que no aparece ningún `<img>`); `load.ts` importa
+  `node:fs`, así que un componente de cliente que lo importe rompe el build; **no se
+  muestran los avatares de Google** (iniciales en su lugar), lo que evita abrir la CSP y
+  que el visitante haga peticiones a Google. Resuelve Q-02 por el lado conservador.
+- **Notas**: un JSON válido pero fuera de esquema también degrada a vacío, con el campo
+  culpable en el log. La reseña de 1 estrella del fixture está a propósito: hay un test que
+  falla si alguien introduce un filtro por puntuación.
+- **Hallazgo lateral**: pasar `dict` entero a componentes de cliente mete todos los textos
+  ES o EN en el HTML. No es un fallo, pero es peso; la regla `server-serialization` de la
+  skill apunta justo a eso. Anotado para un intent de rendimiento, fuera de alcance hoy.
+
 ---
 
 ## Review

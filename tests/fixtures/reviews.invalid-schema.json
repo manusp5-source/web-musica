@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "source": "manual",
+  "fetchedAt": "no-es-una-fecha",
+  "profileUrl": null,
+  "aggregate": { "rating": 9, "count": -2 },
+  "reviews": [{ "id": "x", "author": "Y", "rating": 7, "text": null, "createdAt": "2026-01-01T00:00:00.000Z" }]
+}

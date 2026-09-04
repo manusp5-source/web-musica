@@ -42,7 +42,7 @@ evals de trayectoria: comprueban el camino, no la pantalla.
 
 | Eval | Tipo | Origen | Cubre | Criterio del intent | Estado | Última ejecución |
 |---|---|---|---|---|---|---|
-| `EV-001.eval.md` | salida | spec | La home ES renderiza las reseñas del fixture | Render ES/EN | PENDIENTE | — |
+| `EV-001.eval.md` | salida | spec | La sección pinta los datos del fichero y desaparece sin ellos | Render ES/EN | **PASA** | 2026-09-05 |
 | `EV-002.eval.md` | salida | spec | Fichero vacío o corrupto → sección ausente y build en verde | Degradación limpia | PENDIENTE | — |
 | `EV-003.eval.md` | salida | spec | `/en` con rótulos traducidos y reseñas sin traducir | Render ES/EN | PENDIENTE | — |
 | `EV-004.eval.md` | salida | spec | JSON-LD con `aggregateRating` coherente; ausente si `count` es 0 | JSON-LD válido | PENDIENTE | — |
