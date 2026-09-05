@@ -23,7 +23,8 @@
 implementation/evals/
   README.md            este fichero
   EVAL-TEMPLATE.md     plantilla
-  EV-001…EV-007.eval.md
+  EV-001…EV-009.eval.md
+  checks/            comprobaciones en Node que invocan los evals
   run.mjs              recorre todos, exit ≠ 0 si falla alguno  → npm run evals
 ```
 
@@ -43,9 +44,9 @@ evals de trayectoria: comprueban el camino, no la pantalla.
 | Eval | Tipo | Origen | Cubre | Criterio del intent | Estado | Última ejecución |
 |---|---|---|---|---|---|---|
 | `EV-001.eval.md` | salida | spec | La sección pinta los datos del fichero y desaparece sin ellos | Render ES/EN | **PASA** | 2026-09-05 |
-| `EV-002.eval.md` | salida | spec | Fichero vacío o corrupto → sección ausente y build en verde | Degradación limpia | PENDIENTE | — |
-| `EV-003.eval.md` | salida | spec | `/en` con rótulos traducidos y reseñas sin traducir | Render ES/EN | PENDIENTE | — |
-| `EV-004.eval.md` | salida | spec | JSON-LD con `aggregateRating` coherente; ausente si `count` es 0 | JSON-LD válido | PENDIENTE | — |
+| ~~`EV-002`~~ | salida | spec | Fichero vacío o corrupto → sección ausente | Degradación limpia | **ABSORBIDO por EV-001** | 2026-09-05 |
+| `EV-003.eval.md` | salida | spec | `/en` con rótulos traducidos y reseñas sin traducir | Render ES/EN | **PASA** | 2026-09-05 |
+| `EV-004.eval.md` | salida | spec | JSON-LD con `aggregateRating` coherente; ausente si `count` es 0 | JSON-LD válido | **PASA** | 2026-09-05 |
 | `EV-005.eval.md` | salida | spec | Mapper v4 → esquema con fixtures: enums, anónimos, paginación | Fetcher con y sin credenciales | PENDIENTE | — |
 | `EV-006.eval.md` | **trayectoria** | spec | Recorre el `.next` de producción buscando nombres y valores de credencial | Cero secretos en cliente | **PASA** | 2026-09-04 |
 | `EV-007.eval.md` | salida | spec | `reviews.disclosure` presente en `/` y `/en`; apartado de reseñas en ambas privacidades | Cumplimiento Omnibus | PENDIENTE | — |
@@ -67,4 +68,4 @@ _Una fila por eval. `/review` actualiza la columna de estado tras cada ejecució
 | Rendimiento y Core Web Vitals | Fuera del alcance de esta tanda | Bajo por ahora; sube si se publica |
 | Accesibilidad más allá de las etiquetas de estrellas | Fuera del alcance | Medio si se publica |
 | Regresión visual de la sección | Playwright se usa solo para smoke | Bajo |
-| Publicación real (deploy, dominio, datos legales) | Fuera del alcance, milestone M2 en `SKIP` | **Alto para el negocio**: sin esto la web no existe para nadie |
+| Publicación real (deploy, dominio, datos legales) | Milestone M2, reabierto el 4 sep. Bloqueado por B-04 y B-05 | **Alto para el negocio**: sin esto la web no existe para nadie |

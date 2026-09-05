@@ -57,8 +57,8 @@ volver al intent.
 | ID | Nombre | Milestone | Estado | Skill | Model | Security ✓ | Eval ✓ | Review ✓ | Notas |
 |----|--------|-----------|--------|-------|-------|-----------|--------|---------|-------|
 | M1-UJ-001 | Visitante ve las reseñas en la home ES | M1 | **REVIEW** | `react-best-practices` | `opus` (previsto `sonnet`) | ✓ | ✓ | [ ] | 17 tests nuevos (23 en total). Probado en build real **en las dos direcciones**: con datos sale `id="opiniones"`, sin datos no. `EV-001` rojo→verde |
-| M1-UJ-002 | Visitante ve las reseñas en `/en`, idioma original | M1 | TODO | `nextjs-best-practices` | `sonnet` | [ ] | [ ] | [ ] | Rótulos traducidos, reseñas sin traducir |
-| M1-UJ-003 | Google puede mostrar estrellas: JSON-LD | M1 | TODO | `seo-fundamentals` | `sonnet` | [ ] | [ ] | [ ] | `aggregateRating` coherente con `aggregate.count` |
+| M1-UJ-002 | Visitante ve las reseñas en `/en`, idioma original | M1 | **REVIEW** | `ninguna` (ver Notas) | `opus` | ✓ | ✓ | [ ] | **Sin código nuevo**: el diseño de UJ-001 (un componente con `locale`, un solo fichero) ya lo cubría. 6 tests verdes a la primera. No se cargó `nextjs-best-practices` porque no había nada que implementar |
+| M1-UJ-003 | Google puede mostrar estrellas: JSON-LD | M1 | **REVIEW** | `seo-fundamentals` | `opus` (previsto `sonnet`) | ✓ | ✓ | [ ] | `jsonld.ts` + 7 tests. `EV-004` rojo→verde. Verificado en HTML real: con datos `reviewCount: 23`, sin datos ninguna clave |
 | M1-UJ-004 | Manuel sincroniza con `npm run reviews:fetch` | M1 | TODO | `auth-implementation-patterns` | `opus` | [ ] | [ ] | [ ] | OAuth, paginación, reintentos, fallback. **Nunca rompe el build** |
 | M1-UJ-005 | La sección cumple Omnibus y RGPD (ES/EN) | M1 | TODO | `gdpr-data-handling` | `opus` | [ ] | [ ] | [ ] | Nota de verificación + atribución + párrafo en privacidad |
 

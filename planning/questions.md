@@ -9,9 +9,9 @@ Actualizado: 2026-09-03
 | # | Pregunta | Impacto si se responde tarde | Responde |
 |---|---|---|---|
 | Q-01 | ¿Ficha de Google de tipo «área de servicio» (sin dirección pública, lo normal en un músico que se desplaza) o con dirección física? | Ninguno sobre el código. Afecta a la verificación y a la coherencia con `LocalBusiness` del JSON-LD | Manuel |
-| Q-02 | ¿Avatares de Google o iniciales en círculo? | Decide si hay que abrir `remotePatterns` + CSP a `lh3.googleusercontent.com` y si el visitante manda peticiones a Google | Manuel, en `M1-UJ-001` |
-| Q-03 | ¿Cuántas reseñas visibles y en qué orden? Propuesta: 6 más recientes primero, enlace «ver todas en Google» | Trivial de cambiar después | Manuel, en `M1-UJ-001` |
-| Q-04 | ¿Se borra `testimonials.items` del diccionario o se conserva como respaldo manual? Propuesta: se borra el array, se conservan `eyebrow` y `title` | Duplicidad de fuentes de datos si no se decide | En `M1-UJ-001` |
+| ~~Q-02~~ | ~~¿Avatares de Google o iniciales?~~ | **RESUELTA 5 sep**: iniciales. DEC-011 | — |
+| ~~Q-03~~ | ~~¿Cuántas reseñas visibles y en qué orden?~~ | **RESUELTA 5 sep**: 6 más recientes, `visibleReviews(file, 6)`, con enlace a la ficha | — |
+| ~~Q-04~~ | ~~¿Se borra `testimonials.items`?~~ | **RESUELTA 5 sep**: `Testimonials` deja de usarse en `HomePage` y `Reviews` ocupa su sitio. El componente y el bloque del diccionario **siguen en el código**: los usa un test de M0-IT-003 y no molestan. Se retiran cuando `/review` lo confirme | — |
 | Q-05 | Cuando llegue la cuota de la API, ¿el fetch va en el CI o se ejecuta a mano y se commitea el JSON? Propuesta: a mano al principio, automático cuando exista deploy | Ninguno ahora | Post-entrega |
 | Q-06 | ¿La web se publica finalmente? Hoy no es publicable: faltan datos legales obligatorios | Todo el valor del proyecto está en publicarla | Manuel |
 

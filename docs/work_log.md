@@ -210,6 +210,47 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
   ES o EN en el HTML. No es un fallo, pero es peso; la regla `server-serialization` de la
   skill apunta justo a eso. Anotado para un intent de rendimiento, fuera de alcance hoy.
 
+### 2026-09-05 — M1-UJ-002: reseñas en la raíz inglesa — REVIEW
+- **Trabajo hecho**: **ninguno de código.** `app/(en)/en/page.tsx` ya pasaba `locale="en"` y
+  el componente de `M1-UJ-001` ya consumía `locale` para fecha, número y rótulos. La tarea
+  se convirtió en escribir la prueba de que eso es cierto: `tests/unit/reviews-en.test.tsx`,
+  6 casos.
+- **Modelo usado / Skill cargada**: `opus`. Skill: **`ninguna`**, y es una decisión, no un
+  olvido — `nextjs-best-practices` estaba anotada, pero no había nada que implementar y
+  abrirla habría sido teatro. Anotado en el tracker.
+- **Verificación (salida)**: 6/6 **en verde a la primera**. Lo digo tal cual: aquí no hubo
+  rojo previo porque no hubo código nuevo. Un eval que nace verde no demuestra que el
+  código de hoy funcione; demuestra que el de ayer sigue funcionando. Por eso se queda.
+- **Verificación (trayectoria)**: el test compara ES y EN en la misma ejecución en vez de
+  fiarse de una cadena fija, y comprueba que el número de tarjetas coincide — si alguien
+  duplicara el fichero de datos por idioma, se pondría rojo.
+- **Eval**: `EV-003`, PASA.
+- **Notas**: el caso que de verdad importa aquí es que **una reseña en español aparece sin
+  traducir en `/en`**. Traducir el texto de un tercero y seguir atribuyéndoselo es
+  problemático, y ahora hay un test que lo impide.
+
+### 2026-09-05 — M1-UJ-003: JSON-LD con valoración — REVIEW
+- **Trabajo hecho**: `src/lib/reviews/jsonld.ts` con `buildRatingJsonLd`, esparcido en el
+  bloque JSON-LD que `HomePage` ya emitía. Sin reseñas no añade ninguna clave.
+- **Modelo usado / Skill cargada**: `opus` (previsto `sonnet`). Skill `seo-fundamentals`:
+  es doctrina general —E-E-A-T, Core Web Vitals, principios— con una tabla de tipos de
+  schema y una frase que sí valía: *el schema da elegibilidad para resultados enriquecidos,
+  no los garantiza*. Poco sobre `AggregateRating` en concreto. No está rota.
+- **Verificación (salida)**: 36/36 unitarios, lint limpio.
+- **Verificación (trayectoria)**: rojo primero (`Failed to resolve import`), verde después.
+  Y comprobado **sobre el HTML generado**, parseando el `<script type="application/ld+json">`
+  del build real: con datos, `{"ratingValue":4.7,"reviewCount":23}`, 3 reseñas, incluida la
+  de 1 estrella; sin datos, ni `aggregateRating` ni `review`, y el bloque
+  `MusicGroup+LocalBusiness` intacto.
+- **Comprobación de seguridad**: test con `</script><script>alert(1)</script>` dentro del
+  texto de una reseña; el escape de `<` que ya tenía `HomePage` lo neutraliza y el JSON
+  sigue siendo parseable.
+- **Notas**: dos decisiones que parecen detalles y no lo son. **`reviewCount` publica el
+  total de la ficha (23), no las mostradas (3)** — recortarlo contradice lo que Google ya
+  sabe. Y **sin reseñas no se emite `aggregateRating`**, porque un `ratingValue: 0` se lee
+  como una valoración pésima, no como ausencia de valoración.
+- **Pendiente**: validar en el Rich Results Test de Google. Necesita URL pública → B-04.
+
 ---
 
 ## Review

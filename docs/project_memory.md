@@ -13,12 +13,14 @@ antes de empezar los UJs de M1.
 Árbol limpio.
 
 ## Último completado
-M0-IT-001, 003, 004, 005, 006, 007 y 008. Quedan verificados con comandos ejecutados:
-6 tests unitarios, 6+1 e2e, build 13/13 páginas, evals 2/2, `check-legal` en sus dos modos.
+**M0 entero** salvo `M0-IT-002`, apartado a `SKIP` temporal (DEC-012).
+**M1-UJ-001, UJ-002 y UJ-003 en `REVIEW`**: la sección de reseñas existe, lee
+`data/reviews.json`, funciona en los dos idiomas y publica `aggregateRating` coherente.
+36 tests unitarios, 6+1 e2e, 5 evals, lint limpio, build 13/13.
 
 ## Siguiente paso
-`/review` de la frontera de M0 — revisor y crítico en subagentes distintos. Después,
-**y solo si M0-IT-002 deja de estar BLOCKED**, `M1-UJ-001`.
+`/review` — está pendiente desde la frontera de M0 y ahora hay tres UJs esperándolo.
+Después, `M1-UJ-004` (el fetcher OAuth, modelo `opus`) y `M1-UJ-005` (Omnibus y RGPD).
 
 ## Bloqueadores
 - **B-01 / B-02**: no hay ficha de Google Business ni cuota de la API. No bloquean código.

@@ -9,6 +9,7 @@ import Footer from "./Footer";
 import WhatsAppButton from "./WhatsAppButton";
 import CookieBanner from "./CookieBanner";
 import { loadReviews } from "@/lib/reviews/load";
+import { buildRatingJsonLd } from "@/lib/reviews/jsonld";
 
 export default function HomePage({ locale }: { locale: Locale }) {
   const dict = getDict(locale);
@@ -32,6 +33,9 @@ export default function HomePage({ locale }: { locale: Locale }) {
     areaServed: { "@type": "Country", name: "España" },
     genre: ["Classical", "Wedding", "Live music"],
     sameAs: [site.social.instagram, site.social.youtube, site.social.spotify].filter(Boolean),
+    // Valoración y reseñas. Sin datos no añade ninguna clave: lo declarado siempre
+    // coincide con lo que se ve en la página (M1-UJ-003).
+    ...buildRatingJsonLd(reviews),
   };
 
   return (
