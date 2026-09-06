@@ -50,7 +50,7 @@ volver al intent.
 | M0-IT-005 | GitHub Actions: lint → check-legal → unit → build → e2e → evals | M0 | **DONE (dormido)** | `deployment-procedures` | `opus` (previsto `sonnet`) | — | — | [ ] | Workflow escrito y su cadena verificada **en local, paso a paso**. No se ha ejecutado nunca en GitHub: sin remoto (B-03). `deployment-procedures` es doctrina de despliegue, no plantillas de CI |
 | M0-IT-006 | **Eval harness** — runner de `implementation/evals/` + `npm run evals` | M0 | **DONE** | `evaluation` (no encaja) | `opus` (previsto `sonnet`) | — | ✓ | [ ] | Runner + EV-006 y EV-009 reales. **Probado en rojo** plantando un secreto en `.next`: exit 1 con ruta exacta. Después, 2/2 en verde |
 | M0-IT-007 | Estructura FactorIA + `CLAUDE.md` de proyecto | M0 | **DONE** | `plan-writing` | `opus` (previsto `haiku`) | — | — | [ ] | 24 ficheros, commiteados el 3 sep |
-| M0-IT-008 | Guardia de placeholders en `check-legal.mjs` | M0 | **DONE** | `ninguna` | `opus` (previsto `haiku`) | — | ✓ | [ ] | Dos niveles: LEGAL bloquea con `--strict`, PENDIENTE solo avisa. Caza 4 placeholders. Se corrigió un defecto propio: la regla de `social` leía las URLs de los comentarios |
+| M0-IT-008 | Guardia de placeholders en `check-legal.mjs` | M0 | **DONE** | `ninguna` | `opus` (previsto `haiku`) | — | ✓ `EV-010` | [ ] | Dos niveles: LEGAL bloquea con `--strict`, PENDIENTE solo avisa. **La review tumbó el `Eval ✓` anterior**: estaba marcado con una frase del work_log por toda prueba. Ahora lo respalda `EV-010`, que además cazó un segundo defecto en la regla de `social` |
 
 ## User Journeys (UJs)
 

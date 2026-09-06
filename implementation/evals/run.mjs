@@ -35,9 +35,43 @@ function extractCommand(markdown) {
   return body || null;
 }
 
+/**
+ * Evals listados en el registro del README pero sin fichero en disco.
+ *
+ * Hallazgo de la review del 5-6 sep: recorrer el directorio no basta. `EV-008` llevaba
+ * días listado como pendiente sin fichero, y el runner no podía echarlo en falta porque
+ * solo ve lo que existe. Un eval listado y ausente es peor que uno que falta: parece
+ * cubierto.
+ *
+ * Regla: si el registro dice que un eval PASA y no hay fichero, es un fallo duro
+ * (alguien marcó verde algo que no se ejecuta). Si dice PENDIENTE, se enseña como FALTA
+ * y no tumba la suite: su UJ todavía no está construido.
+ */
+function evalsDelRegistro() {
+  let readme;
+  try {
+    readme = readFileSync(join(EVALS_DIR, "README.md"), "utf8");
+  } catch {
+    return [];
+  }
+
+  const filas = [];
+  for (const linea of readme.split("\n")) {
+    if (!linea.startsWith("|")) continue;
+    if (linea.includes("ABSORBIDO")) continue; // cubierto por otro eval, a propósito
+    const id = linea.match(/\bEV-(\d{3})\b/);
+    if (!id) continue;
+    filas.push({ id: `EV-${id[1]}`, pendiente: linea.includes("PENDIENTE") });
+  }
+  return filas;
+}
+
 const files = readdirSync(EVALS_DIR)
   .filter((f) => f.endsWith(".eval.md"))
   .sort();
+
+const enDisco = new Set(files.map((f) => f.replace(/\.eval\.md$/, "")));
+const ausentes = evalsDelRegistro().filter((fila) => !enDisco.has(fila.id));
 
 if (files.length === 0) {
   console.error("No hay ningún fichero *.eval.md en implementation/evals/");
@@ -70,13 +104,23 @@ for (const file of files) {
   }
 }
 
+for (const fila of ausentes) {
+  results.push({
+    id: fila.id,
+    status: fila.pendiente ? "FALTA" : "FALLA",
+    detail: fila.pendiente
+      ? "listado en el registro como pendiente, todavía sin fichero"
+      : "EL REGISTRO LO DA POR BUENO Y NO EXISTE EL FICHERO. Alguien marcó verde algo que no se ejecuta.",
+  });
+}
+
 console.log("\n─────────── RESUMEN ───────────");
 for (const r of results) {
   console.log(`${r.status.padEnd(10)} ${r.id}`);
 }
 
 const failed = results.filter((r) => r.status === "FALLA");
-const pending = results.filter((r) => r.status === "PENDIENTE");
+const pending = results.filter((r) => r.status === "PENDIENTE" || r.status === "FALTA");
 
 if (failed.length > 0) {
   console.log("\n─────────── FALLOS ───────────");

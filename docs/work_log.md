@@ -255,4 +255,53 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
 
 ## Review
 
-_(`/review` escribe aquí las dos pasadas —REVISOR y CRÍTICO— y el veredicto)_
+### Pasada 1 — 5-6 sep 2026 · frontera M0 + M1-UJ-001/002/003
+
+**REVISOR** (subagente, contexto limpio, `sonnet`) — **pasada inválida por error del
+constructor.** Se lanzó con el tipo de agente `code-reviewer`, cuyo toolset es solo
+Read/Grep/Glob: **sin shell**. No ejecutó ni uno de los siete comandos exigidos. Él mismo
+lo declaró como bloqueante en su primera línea, que es lo correcto y lo que salva la
+pasada: un revisor que hubiera firmado "todo correcto" desde análisis estático habría sido
+mucho peor.
+
+Aun sin ejecutar nada, encontró cuatro cosas ciertas:
+
+1. **CRÍTICO — `M0-IT-008` con `Eval ✓` sin fichero de eval.** Cierto. Se marcó tras
+   ejecutar los dos modos a mano y narrarlo aquí. Ejecutar algo una vez no es un eval.
+2. **`EV-008` listado en el registro y sin fichero.** Cierto, y peor de lo que parecía: el
+   runner recorría el directorio, así que **no podía echar en falta lo que no existe**. El
+   principio 4 de la constitución (no filtrar por puntuación) llevaba días sin vigilancia.
+3. `implementation/user_journeys.md` seguía describiendo un comportamiento condicional de
+   los avatares que DEC-011 había eliminado. Criterio de aceptación obsoleto.
+4. Ningún test fijaba que `avatarUrl` se ignora a propósito: nada impedía reintroducir la
+   foto de Google sin abrir `remotePatterns` y CSP a la vez.
+
+**CRÍTICO** (subagente distinto, `opus`) — **abortado**: límite de sesión del modelo
+(HTTP 429). Alcanzó a ejecutar `npm run lint` (limpio) y `npx vitest run` (36/36) antes de
+morir. **La auditoría de la review sigue pendiente**, y hasta que exista no hay veredicto
+de avanzar: `Review ✓` sigue sin marcar en las cinco tareas afectadas.
+
+**Arreglos aplicados por el constructor** (rojo primero en los dos casos):
+
+- **`EV-010`** + `checks/check-legal-modos.mjs`: cinco casos sobre tres fixtures, y
+  `scripts/check-legal.mjs` acepta ahora `--file` para poder ejercitarlo sin tocar la
+  configuración real. **Nació en rojo sin necesidad de forzarlo**: el caso «todo relleno»
+  falló porque la regla de `social` quitaba comentarios con `/\/\/.*$/gm` y eso se come el
+  `//` de `https://`, dejando `"https:` y dando por vacía una red rellenada. Segunda vez
+  que esa regla estaba mal, primera que algo automático se entera.
+- **`EV-008`** + `checks/sin-filtro-por-rating.mjs`: probado en rojo metiendo
+  `filter((r) => r.rating >= 4)` en `visibleReviews`; lo cazó nombrando fichero y
+  expresión, y se revirtió con `git diff` limpio.
+- **`run.mjs` ya no puede ignorar un eval ausente**: lee el registro del README. Si una
+  fila dice PENDIENTE y no hay fichero → `FALTA`, visible y sin tumbar la suite (su UJ no
+  existe todavía). Si dice PASA y no hay fichero → `FALLA` duro. Probado en las dos
+  direcciones renombrando `EV-010.eval.md`: exit 1, y restaurado.
+- `user_journeys.md` actualizado a DEC-011, y test nuevo que falla si aparece un `<img>` o
+  la cadena `googleusercontent` en la sección.
+
+**Estado tras los arreglos**: 37 unitarios, 7 evals PASA + 2 FALTA declarados, lint limpio.
+
+**Veredicto**: **arreglar primero — hecho, pendiente de re-revisión.** No hay veredicto de
+avanzar porque falta la pasada del crítico. `Review ✓` no se marca en ninguna tarea.
+Bloqueantes vivos: (a) crítico sin ejecutar, `opus` limitado hasta las 16:30; (b) el CI
+sigue sin haberse ejecutado nunca (B-03).

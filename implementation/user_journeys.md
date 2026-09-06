@@ -22,7 +22,9 @@
 - JSON **corrupto o fuera de esquema** → igual que el anterior, con el motivo en el log.
 - `reviews: []` pero `count > 0` → se muestra solo la cabecera de agregado con el enlace.
 - Reseña **sin texto** → tarjeta con estrellas, autor y fecha, sin cita. No se descarta.
-- `avatarUrl` roto o ausente → iniciales sobre círculo dorado.
+- `avatarUrl` **nunca se pinta**, esté roto, ausente o perfectamente válido: siempre van
+  iniciales sobre círculo dorado (DEC-011, 5 sep 2026). El campo se sigue guardando en el
+  fichero por si algún día se decide lo contrario.
 - Texto muy largo → recorte **visual** con `line-clamp`; el dato no se toca.
 
 ### Criterios de aceptación
@@ -37,8 +39,10 @@
 
 ### Checklist de seguridad
 - [ ] El texto de la reseña se renderiza como texto, nunca con `dangerouslySetInnerHTML`.
-- [ ] Si se muestran avatares, `lh3.googleusercontent.com` está en `remotePatterns` **sin
-      comodines** y la CSP lo contempla.
+- [ ] **No se muestran avatares** (DEC-011), así que `lh3.googleusercontent.com` NO está
+      en `remotePatterns` y no debe estarlo. Si alguien reintroduce la foto, tiene que
+      abrir `remotePatterns` **sin comodines** y la CSP a la vez — hay un test que se pone
+      rojo si se pinta un `<img>` en la sección.
 - [ ] `load.ts` es server-only: no puede importarse desde un componente de cliente.
 - [ ] Ningún dato del fichero llega al cliente más allá de lo renderizado.
 

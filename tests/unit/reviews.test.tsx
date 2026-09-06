@@ -48,6 +48,19 @@ describe("Reviews con datos", () => {
     expect(link).toHaveAttribute("href", valid.profileUrl);
   });
 
+  it("ignora avatarUrl aunque venga poblado: iniciales, nunca la foto de Google", () => {
+    // El fixture trae un avatarUrl de lh3.googleusercontent.com a propósito. Pintarlo
+    // exigiría abrir remotePatterns y la CSP, y haría que cada visitante pidiese imágenes
+    // a Google (DEC-011). Este test se pone rojo si alguien lo reintroduce sin darse cuenta.
+    const conFoto = valid.reviews.find((r) => r.avatarUrl !== null);
+    expect(conFoto, "el fixture debe traer al menos un avatarUrl poblado").toBeDefined();
+
+    const { container } = render(<Reviews dict={dict} file={valid} locale="es" />);
+    expect(container.querySelector("img")).toBeNull();
+    expect(container.innerHTML).not.toContain("googleusercontent");
+    expect(screen.getByText("LM")).toBeInTheDocument(); // iniciales de Laura M.
+  });
+
   it("renderiza el texto como texto, nunca como HTML", () => {
     const withHtml = {
       ...valid,

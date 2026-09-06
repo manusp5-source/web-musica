@@ -6,9 +6,16 @@
 //   LEGAL       — obligatorio por ley (art. 10 LSSI-CE, art. 13 RGPD). Con --strict, bloquea.
 //   PENDIENTE   — placeholders que no son ilegales, solo dejan la web a medias.
 //                 Avisan siempre y NUNCA bloquean: rellenarlos está fuera del alcance de M0.
+//       node scripts/check-legal.mjs --file <ruta>  → comprueba otro fichero (evals)
 import { readFileSync } from "node:fs";
 
-const src = readFileSync("src/config/site.ts", "utf8");
+// --file existe para que EV-010 pueda ejercitar los dos desenlaces —con y sin
+// placeholders— sin tocar el site.ts real. Un script que solo se puede probar
+// modificando la configuración de verdad es un script que no se prueba.
+const fileFlag = process.argv.indexOf("--file");
+const target = fileFlag !== -1 ? process.argv[fileFlag + 1] : "src/config/site.ts";
+
+const src = readFileSync(target, "utf8");
 const strict = process.argv.includes("--strict");
 
 // --- Nivel LEGAL ---
@@ -40,7 +47,12 @@ const pendingRules = [
       if (!block) return false;
       // Sin los comentarios: si no, las URLs de ejemplo de los `//  https://…  ←CAMBIAR`
       // cuentan como perfiles rellenados y la regla nunca salta.
-      const values = block[1].replace(/\/\/.*$/gm, "");
+      //
+      // El `(^|\s)` NO es decorativo: sin él, este replace se come también el `//` de
+      // `https://`, deja `"https:` y da por vacía una red que sí estaba rellenada.
+      // Un comentario empieza tras espacio o al principio de línea; el de una URL va
+      // pegado a los dos puntos. Lo cazó EV-010 en su primera ejecución.
+      const values = block[1].replace(/(^|\s)\/\/.*$/gm, "$1");
       return !/https?:\/\//.test(values);
     },
     why: "no hay ni un perfil social enlazado, y sameAs del JSON-LD sale vacío",
@@ -50,7 +62,7 @@ const pendingRules = [
 const pending = pendingRules.filter((rule) => rule.test());
 
 if (pending.length > 0) {
-  console.warn(`\n○ PENDIENTE: ${pending.length} dato(s) sin rellenar en src/config/site.ts`);
+  console.warn(`\n○ PENDIENTE: ${pending.length} dato(s) sin rellenar en ${target}`);
   for (const rule of pending) {
     console.warn(`   · site.${rule.field} — ${rule.why}`);
   }
@@ -59,7 +71,7 @@ if (pending.length > 0) {
 
 if (legalPlaceholders.length > 0) {
   console.warn(
-    `⚠️  AVISO LEGAL INCOMPLETO: ${legalPlaceholders.length} placeholder(s) sin rellenar en src/config/site.ts → ${legalPlaceholders.join(", ")}` +
+    `⚠️  AVISO LEGAL INCOMPLETO: ${legalPlaceholders.length} placeholder(s) sin rellenar en ${target} → ${legalPlaceholders.join(", ")}` +
       `\n   Publicar así incumple el art. 10 LSSI-CE y el art. 13 RGPD. Rellena site.legal antes del deploy.\n`
   );
   if (strict) process.exit(1);
