@@ -305,3 +305,30 @@ de avanzar: `Review ✓` sigue sin marcar en las cinco tareas afectadas.
 avanzar porque falta la pasada del crítico. `Review ✓` no se marca en ninguna tarea.
 Bloqueantes vivos: (a) crítico sin ejecutar, `opus` limitado hasta las 16:30; (b) el CI
 sigue sin haberse ejecutado nunca (B-03).
+
+### Pasada 2 — 6-7 sep 2026 · re-revisión sobre los arreglos
+
+**REVISOR** (subagente **con shell** esta vez, `sonnet`) — **abortado por límite de sesión
+del modelo** (HTTP 429, se restablece a las 22:40). Murió a mitad de un experimento y
+**dejó el árbol sucio**: había reintroducido a propósito el regex defectuoso
+(`replace(/\/\/.*$/gm, "")`) en `scripts/check-legal.mjs` para comprobar si `EV-010` cazaba
+la regresión, y no llegó a revertirlo.
+
+El constructor terminó el experimento que dejó planteado y revirtió:
+
+```
+EV-010 con la regresión plantada  → FALLA "todo relleno", 1 de 5 casos, EXIT=1
+git checkout -- scripts/check-legal.mjs  → git status limpio
+EV-010 tras revertir               → 5 casos correctos, EXIT=0
+```
+
+**Respuesta a la pregunta que estaba haciendo: sí, `EV-010` tiene dientes.** Detecta la
+vuelta atrás del defecto exacto que lo originó. Que la evidencia la complete el constructor
+es menos limpio que si la hubiera cerrado el revisor, y por eso queda escrito aquí quién
+hizo qué: el experimento lo diseñó el revisor, la ejecución final y la reversión son mías.
+
+**Lección operativa, no del código**: un subagente que muere a media faena puede dejar
+regresiones deliberadas en el árbol. Tras cualquier revisión abortada, lo primero es
+`git status` y `git diff`, antes de dar por bueno nada de lo que hay en disco.
+
+**Estado**: sin cambios respecto a la pasada 1. Sigue sin haber veredicto de avanzar.
