@@ -380,3 +380,14 @@ descubra.
    sección, y la coherencia CSP / `remotePatterns`.
 
 `Review ✓` sigue sin marcar en ninguna tarea, y así se queda.
+
+### Pasada 4 — 9 sep 2026 · CRÍTICO (`opus`) — abortado antes de empezar
+
+Límite de sesión otra vez, esta vez antes de ejecutar nada: su última línea fue *«Now let me
+start executing»*. `git status` limpio, no dejó nada plantado — comprobado, que es la
+lección de las pasadas 2 y 3.
+
+**Cuatro intentos, cuatro muertes por cuota.** Se toma DEC-013: el crítico baja a `sonnet`,
+con encargo más estrecho para compensar. Es una desviación del método, con fecha y con
+vuelta atrás escrita, no un cambio de las reglas.
+

@@ -82,6 +82,25 @@ vulnerabilidades altas en dependencias **de producción**, heredadas del proyect
 **Impacto:** 0 vulnerabilidades tras el fix; tests 6/6 y build 13/13 siguen en verde.
 Queda pendiente `gh auth login`, que exige navegador y lo hace Manuel.
 
+## DEC-013: El crítico de `/review` baja a `sonnet` — desviación del método
+**Fecha:** 2026-09-09
+**Decisión:** la auditoría del crítico se ejecuta con `sonnet` en vez de `opus`.
+**Razón:** cuatro intentos, cuatro muertes por límite de cuota del modelo (dos de sesión,
+una semanal, una de sesión otra vez). El método fija `opus` para el crítico y hay motivo:
+es el papel que tiene que ser más listo que el constructor. Pero **la alternativa real no
+es un crítico `opus`, es ningún crítico**, y llevamos cinco días sin veredicto con tres UJs
+esperando en `REVIEW`.
+**Qué se pierde:** capacidad de razonamiento en la parte más adversarial del ciclo. Un
+crítico `sonnet` encuentra menos que uno `opus`; el hallazgo que destapó el quinto falso
+verde lo hizo `opus`, y no es casualidad.
+**Mitigación:** el encargo se estrecha para compensar — en vez de «audita todo», se le
+piden las áreas concretas que nadie ha mirado y se le dice exactamente qué romper. Un
+crítico más limitado con instrucciones más precisas.
+**Cuándo se revierte:** en la siguiente frontera de milestone (`M1-UJ-004` y `UJ-005`), el
+crítico vuelve a `opus` si hay cuota. Esta desviación **no sienta precedente**: es una
+excepción con fecha, no un cambio del método.
+**Alternativa descartada:** esperar a las 21:00 y arriesgar una quinta muerte.
+
 ## DEC-011: Iniciales en vez de las fotos de Google (resuelve Q-02)
 **Fecha:** 2026-09-05
 **Decisión:** las tarjetas de reseña muestran las iniciales del autor sobre un círculo
