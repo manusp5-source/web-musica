@@ -332,3 +332,51 @@ regresiones deliberadas en el árbol. Tras cualquier revisión abortada, lo prim
 `git status` y `git diff`, antes de dar por bueno nada de lo que hay en disco.
 
 **Estado**: sin cambios respecto a la pasada 1. Sigue sin haber veredicto de avanzar.
+
+### Pasada 3 — 7-9 sep 2026 · CRÍTICO (`opus`)
+
+**Abortado por límite semanal del modelo** (HTTP 429, se restablecía el 9 sep a las 16:00).
+Tercer subagente que muere por cuota en esta review. Y aun así **es el que ha encontrado el
+hallazgo más grave del proyecto**, justo antes de caer.
+
+Dejó, otra vez, una regresión plantada en el árbol — `git status` mostraba
+`M src/components/HomePage.tsx` — y una frase: *«EV-008 is blind to HomePage.tsx.
+Confirming the whole suite stays green with an illegal filter live.»*
+
+El constructor terminó el experimento:
+
+```
+Con `cargado.reviews.filter((r) => r.rating >= 4)` vivo en HomePage.tsx:
+  npm run lint   → 0 avisos
+  npx vitest run → 37/37 pasan
+  npm run evals  → 7 pasan · 0 fallan   ← EV-008 entre ellos
+```
+
+**SOSTENIDO, y es el quinto falso verde del proyecto.** El anterior récord eran
+comprobaciones mías mirando el sitio equivocado; este es peor: **el eval escrito
+específicamente para vigilar el principio 4 de la constitución no vigilaba el fichero
+donde más fácil es romperlo.** `HomePage.tsx` es quien llama a `loadReviews()` y reparte el
+resultado a la sección y al JSON-LD — el sitio natural para colar un filtro— y la v1 de
+`EV-008` llevaba la ruta de render enumerada a mano sin incluirlo.
+
+**Arreglo (rojo primero, con la regresión del propio crítico):** `EV-008` v2 **descubre** la
+ruta de render en vez de enumerarla. Recorre `src/` y `app/` y vigila todo fichero que
+mencione `lib/reviews`, `loadReviews`, `visibleReviews` o `buildRatingJsonLd`, más un núcleo
+fijo. Pasa de 3 ficheros a 4, `HomePage.tsx` incluido sin nombrarlo, y un consumidor nuevo
+entra solo. Verificado: rojo con la regresión, verde tras revertir, y la salida enumera qué
+está vigilando para que un encogimiento de la lista se vea.
+
+**Lección, y es la más cara de las cinco:** un eval que **enumera** lo que vigila solo
+protege de lo que ya se te había ocurrido. Si puede descubrir su propio alcance, que lo
+descubra.
+
+**Veredicto**: **arreglar primero.** Bloqueantes vivos:
+1. **La auditoría del crítico sigue sin completarse.** Tres intentos, tres muertes por
+   cuota. Lo que hay verificado de las pasadas 2 y 3 lo completó el constructor, que es
+   precisamente lo que el papel del crítico existe para no permitir.
+2. El CI nunca se ha ejecutado (B-03).
+3. Cuatro áreas quedan sin auditar por nadie: la trayectoria de los commits contra el plan,
+   los posibles falsos verdes de `EV-001`, `EV-004` y `EV-006`, la accesibilidad de la
+   sección, y la coherencia CSP / `remotePatterns`.
+
+`Review ✓` sigue sin marcar en ninguna tarea, y así se queda.

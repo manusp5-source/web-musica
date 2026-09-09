@@ -4,48 +4,95 @@
  *
  * Mostrar solo las reseñas positivas ocultando las negativas es práctica desleal
  * tipificada (RDL 24/2021, Directiva Omnibus, Anexo I). Es el principio 4 de
- * design/constitution.md, y hasta hoy no lo vigilaba nadie: el fichero no existía y el
- * runner no puede echar en falta un eval que no está.
+ * design/constitution.md.
  *
- * Comprueba el camino, no la pantalla: busca construcciones de filtrado sobre `rating`
- * en los ficheros que deciden qué se muestra.
+ * HISTORIA DE ESTE FICHERO, que explica por qué está escrito así:
+ *
+ * v1 (6 sep) llevaba la ruta de render escrita a mano: Reviews.tsx, load.ts, jsonld.ts.
+ * El crítico de /review plantó `cargado.reviews.filter((r) => r.rating >= 4)` en
+ * HomePage.tsx —que no estaba en la lista— y la suite entera siguió verde: lint 0,
+ * 37/37 tests, 7 evals PASA incluido este. Quinto falso verde del proyecto, y dentro
+ * del eval que existía para impedirlo.
+ *
+ * v2 no añade HomePage.tsx a la lista: **descubre** la ruta de render. Cualquier fichero
+ * de src/ o app/ que toque el módulo de reseñas entra automáticamente. Añadir un consumidor
+ * nuevo no vuelve a abrir el agujero.
  */
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { extname, join } from "node:path";
 
-const RUTA_DE_RENDER = [
+const RAICES = ["src", "app"];
+const EXTENSIONES = new Set([".ts", ".tsx", ".mjs", ".js"]);
+
+// Núcleo: siempre se vigila, importe lo que importe.
+const NUCLEO = [
   "src/components/Reviews.tsx",
   "src/lib/reviews/load.ts",
   "src/lib/reviews/jsonld.ts",
 ];
 
-// Comparaciones sobre rating (rating > 3, rating >= 4, ratingValue < 5…) y filtrados
-// que mencionen rating. `Math.round(...rating)` o `ratingValue: r.rating` no son filtros
-// y no deben saltar: por eso se busca el operador, no la palabra.
+// Señales de que un fichero participa en decidir qué reseñas se muestran.
+const TOCA_RESENAS = /lib\/reviews|loadReviews|visibleReviews|buildRatingJsonLd/;
+
 const PATRONES = [
-  { re: /\brating\w*\s*(?:>=|<=|>|<)\s*\d/g, que: "comparación numérica sobre rating" },
-  { re: /\.filter\s*\([^)]*\brating\b/gs, que: "filter() que menciona rating" },
-  { re: /\brating\w*\s*(?:>=|<=|>|<)\s*\w+/g, que: "comparación sobre rating" },
+  { re: /\brating\w*\s*(?:>=|<=|>|<)\s*[\w.]+/g, que: "comparación sobre rating" },
+  // Permite un nivel de paréntesis anidado: `.filter((r) => r.rating >= 4)`
+  { re: /\.filter\s*\((?:[^()]|\([^()]*\))*\brating\b/g, que: "filter() que menciona rating" },
+  { re: /\bslice\s*\([^)]*\brating\b/g, que: "slice() condicionado por rating" },
 ];
+
+function ficheros(dir, acc = []) {
+  let entradas;
+  try {
+    entradas = readdirSync(dir, { withFileTypes: true });
+  } catch {
+    return acc;
+  }
+  for (const entrada of entradas) {
+    const ruta = join(dir, entrada.name);
+    if (entrada.isDirectory()) {
+      ficheros(ruta, acc);
+    } else if (EXTENSIONES.has(extname(entrada.name))) {
+      acc.push(ruta.replace(/\\/g, "/"));
+    }
+  }
+  return acc;
+}
+
+function sinComentarios(codigo) {
+  return codigo.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|\s)\/\/.*$/gm, "$1");
+}
+
+const candidatos = RAICES.flatMap((raiz) => ficheros(raiz));
+const rutaDeRender = new Set(NUCLEO);
+
+for (const fichero of candidatos) {
+  const contenido = readFileSync(fichero, "utf8");
+  if (TOCA_RESENAS.test(sinComentarios(contenido))) rutaDeRender.add(fichero);
+}
 
 const hallazgos = [];
 
-for (const fichero of RUTA_DE_RENDER) {
-  let contenido;
+for (const fichero of NUCLEO) {
   try {
-    contenido = readFileSync(fichero, "utf8");
+    statSync(fichero);
   } catch {
-    // Un fichero de la ruta de render que desaparece es un hallazgo, no un "no aplica":
-    // puede significar que la lógica se movió a un sitio que este eval ya no vigila.
+    // Un fichero del núcleo que desaparece no es "no aplica": puede significar que la
+    // lógica se mudó a un sitio que este eval ya no vigila.
     hallazgos.push(`${fichero}: no existe. ¿Se movió la ruta de render sin actualizar EV-008?`);
-    continue;
   }
+}
 
-  // Fuera comentarios: un `// nunca filtres por rating < 4` no es un filtro.
-  const codigo = contenido.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|\s)\/\/.*$/gm, "$1");
-
+for (const fichero of [...rutaDeRender].sort()) {
+  let codigo;
+  try {
+    codigo = sinComentarios(readFileSync(fichero, "utf8"));
+  } catch {
+    continue; // ya reportado arriba si era del núcleo
+  }
   for (const { re, que } of PATRONES) {
     for (const match of codigo.matchAll(re)) {
-      hallazgos.push(`${fichero}: ${que} → "${match[0].trim()}"`);
+      hallazgos.push(`${fichero}: ${que} → "${match[0].trim().replace(/\s+/g, " ")}"`);
     }
   }
 }
@@ -59,4 +106,7 @@ if (hallazgos.length > 0) {
   process.exit(1);
 }
 
-console.log(`Sin filtros por puntuación en ${RUTA_DE_RENDER.length} ficheros de la ruta de render.`);
+console.log(
+  `Sin filtros por puntuación en ${rutaDeRender.size} ficheros de la ruta de render:\n  ` +
+    [...rutaDeRender].sort().join("\n  ")
+);
