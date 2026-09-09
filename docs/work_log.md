@@ -391,3 +391,52 @@ lección de las pasadas 2 y 3.
 con encargo más estrecho para compensar. Es una desviación del método, con fecha y con
 vuelta atrás escrita, no un cambio de las reglas.
 
+### Pasada 5 — 9 sep 2026 · CRÍTICO (`sonnet`, DEC-013) — **COMPLETADA**
+
+105 llamadas a herramientas, 22 minutos. Rompió a propósito los siete objetos que se le
+pidieron, revirtió cada uno y terminó con `git status` limpio, confirmado explícitamente.
+
+**Lo que sostuvo (todo con comando y salida):**
+
+- `EV-001`, `EV-004` y `EV-006` **tienen dientes**. Los rompió uno a uno —`if (false)` en
+  el retorno temprano de `Reviews`, lo mismo en `jsonld.ts`, y un fichero con
+  `client_secret` plantado en `.next/static/`— y los tres se pusieron rojos.
+- `EV-008` v2 **descubre de verdad, no enumera**: plantó el filtro en un fichero **nuevo**
+  (`src/lib/reviews/__critic_test__/side-consumer.ts`), ni siquiera en el `HomePage.tsx`
+  que ya era el caso conocido, y lo cazó igual.
+- `EV-010`, el runner que ya no ignora un eval fantasma, y el test de `avatarUrl`:
+  los tres rotos a propósito, los tres rojos.
+- Trayectoria de los commits limpia: `git show --stat` de los cinco últimos, sin ficheros
+  ni dependencias que nadie pidiera. `zod` en `devDependencies` es deliberado y está en la
+  constitución.
+- Un detalle metodológico **suyo**, que vale más que el hallazgo: su primera comprobación
+  del exit code usaba `| tail`, así que el `$?` era el de `tail` y no el de `npm run evals`.
+  Lo detectó y lo repitió sin pipe. Eso es un crítico haciendo su trabajo consigo mismo.
+
+**Dos hallazgos nuevos, los dos ciertos y los dos arreglados (rojo primero):**
+
+1. **Comodín en la CSP.** `img-src 'self' https: data:` aceptaba **cualquier** host HTTPS,
+   contra el principio de «hosts concretos, nunca comodín» de la propia constitución.
+   `remotePatterns` sí lo respetaba; la CSP no, y llevaba así desde el primer día. Nadie lo
+   había mirado en cinco pasadas de revisión porque la constitución nombraba
+   `remotePatterns` explícitamente y la CSP solo de pasada — **lo que se nombra se revisa;
+   lo que se da por supuesto, no.** Arreglado a los dos hosts de YouTube, verificado con
+   `curl -sI` contra el servidor de producción, y protegido por `EV-011`.
+2. **Contraste 4.42:1 en el aviso legal.** `text-carbon/60` sobre marfil, por debajo del
+   4.5:1 de AA. Usado **exactamente una vez** en todo el componente: en
+   `dict.reviews.disclosure`, el aviso que obliga el RDL 24/2021, a 14 px. De toda la
+   sección, el único texto que no se leía bien era el que la ley obliga a mostrar. Es un
+   fallo que ninguna revisión a ojo encuentra: 4.42 y 4.5 son indistinguibles mirando.
+   Arreglado a `text-carbon/70` (6.14:1) y protegido por `EV-012`, que calcula la
+   luminancia relativa con composición alfa en vez de estimarla.
+
+**Menor, también cierto**: la cabecera de `task_tracker.md` seguía diciendo
+`Milestone actual: M0` con el cuerpo ya en M1. Corregido.
+
+**Estado tras los arreglos**: 37 unitarios · 6+1 e2e · **9 evals PASA**, 0 fallan, 2 `FALTA`
+declarados (`EV-005` y `EV-007`, de UJs sin construir) · lint limpio · CSP verificada en la
+cabecera servida.
+
+**Veredicto de la pasada 5**: los dos bloqueantes están arreglados y cada uno dejó su eval.
+Pendiente la confirmación de que los arreglos son reales — pasada 6.
+

@@ -20,7 +20,11 @@ const securityHeaders = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline'",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' https: data:",
+      // Hosts concretos, nunca `https:` a secas: el esquema suelto acepta cualquier
+      // origen. Los dos que hay son las miniaturas de YouTube y coinciden con
+      // images.remotePatterns. Si algún día se muestran las fotos de los reseñadores,
+      // aquí entra lh3.googleusercontent.com — explícito, no por comodín. (EV-011)
+      "img-src 'self' https://i.ytimg.com https://img.youtube.com data:",
       "font-src 'self'",
       "media-src 'self'",
       "connect-src 'self' https://formspree.io",

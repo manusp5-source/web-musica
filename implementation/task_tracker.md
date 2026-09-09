@@ -1,7 +1,7 @@
 # Task Tracker — web-musica
 
 _Fuente de verdad del estado de todas las tareas. Se actualiza tras cada tarea completada._
-_Última actualización: 2026-09-03 | Milestone actual: **M0**_
+_Última actualización: 2026-09-09 | Milestone actual: **M1**_
 
 ---
 

@@ -25,6 +25,10 @@ function Stars({ rating, label }: { rating: number; label: string }) {
 function Avatar({ author }: { author: string }) {
   // Iniciales, no la foto de Google: evita abrir la CSP a lh3.googleusercontent.com y
   // que el visitante haga peticiones a Google sin necesitarlo. (Q-02 de planning/questions)
+  //
+  // a11y-exento: el `aria-hidden` de abajo no oculta información. Las iniciales duplican
+  // el nombre del autor, que se muestra en texto justo al lado dentro de ReviewCard.
+  // Leerlas en voz alta sería repetir "L, M" antes de "Laura M.". (EV-012)
   const initials = author
     .split(/\s+/)
     .slice(0, 2)
@@ -112,7 +116,9 @@ export default function Reviews({
         <div className="mt-10 flex flex-col gap-3 text-sm sm:flex-row sm:items-center sm:justify-between">
           {/* Exigido por el RDL 24/2021 (Directiva Omnibus): hay que decir de dónde salen
               las reseñas y si se verifica que son de clientes reales. No es decorativo. */}
-          <p className="max-w-xl text-carbon/60">{dict.reviews.disclosure}</p>
+          {/* carbon/70 y no /60: sobre marfil, /60 da 4.42:1 y AA exige 4.5:1. Es el
+              aviso que obliga el RDL 24/2021 — el último texto que puede costar leer. */}
+          <p className="max-w-xl text-carbon/70">{dict.reviews.disclosure}</p>
           {file.profileUrl !== null ? (
             <a
               href={file.profileUrl}

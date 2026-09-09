@@ -53,6 +53,8 @@ evals de trayectoria: comprueban el camino, no la pantalla.
 | `EV-008.eval.md` | **trayectoria** | constitución + review | Ninguna comparación sobre `rating` en la ruta de render | Cumplimiento Omnibus | **PASA** | 2026-09-06 |
 | `EV-010.eval.md` | salida | review (hallazgo crítico) | `check-legal` bloquea por datos legales y nunca por los pendientes | Guardia de placeholders | **PASA** | 2026-09-06 |
 | `EV-009.eval.md` | salida | spec | Build sin ninguna credencial en el entorno termina en 0 | Build no depende de la red | **PASA** | 2026-09-04 |
+| `EV-011.eval.md` | **trayectoria** | review, pasada 5 | CSP y `remotePatterns` sin comodines de esquema ni de host | Seguridad de cabeceras | **PASA** | 2026-09-09 |
+| `EV-012.eval.md` | salida | review, pasada 5 | Contraste AA real de la seccion de resenas, con exenciones declaradas | Accesibilidad del aviso legal | **PASA** | 2026-09-09 |
 
 **Runner:** `npm run evals` → `implementation/evals/run.mjs`. Extrae el comando del bloque
 ` ```bash ` que hay bajo `## Comando` en cada `*.eval.md`, lo ejecuta desde la raíz y
@@ -67,6 +69,6 @@ _Una fila por eval. `/review` actualiza la columna de estado tras cada ejecució
 |---|---|---|
 | Llamada real a la API de Google | No hay ficha ni cuota aprobada. Todo se prueba con fixtures | **Medio** — el mapeo está verificado, la autenticación real no se ha ejercitado nunca |
 | Rendimiento y Core Web Vitals | Fuera del alcance de esta tanda | Bajo por ahora; sube si se publica |
-| Accesibilidad más allá de las etiquetas de estrellas | Fuera del alcance | Medio si se publica |
+| Accesibilidad más allá del contraste y las etiquetas de estrellas (axe, teclado, lector de pantalla) | Fuera del alcance. El contraste sí está cubierto por `EV-012` desde el 9 sep | Medio si se publica |
 | Regresión visual de la sección | Playwright se usa solo para smoke | Bajo |
 | Publicación real (deploy, dominio, datos legales) | Milestone M2, reabierto el 4 sep. Bloqueado por B-04 y B-05 | **Alto para el negocio**: sin esto la web no existe para nadie |
