@@ -18,8 +18,10 @@ export const site = {
 
   // --- Contacto ---
   email: "manuelgpw@gmail.com", //                 ←CAMBIAR si quieres otro
-  whatsapp: "34600000000", // solo dígitos, con prefijo país. ←CAMBIAR
-  whatsappDisplay: "+34 600 000 000", //           ←CAMBIAR
+  // OJO: 858 es prefijo fijo de Granada. El botón de WhatsApp solo funciona si este
+  // número está dado de alta en WhatsApp Business (se puede, verificando por llamada).
+  whatsapp: "34858886795", // solo dígitos, con prefijo país
+  whatsappDisplay: "+34 858 886 795",
 
   // --- Dominio (para metadatos / SEO) ---
   domain: "https://tunombre.es", //                ←CAMBIAR cuando lo tengas
@@ -48,9 +50,9 @@ export const site = {
     heroAudio: "/demo-tone.wav", //                ←CAMBIAR (ahora un demo; pon tu mp3 real)
     // Foto principal del hero. Deja "" para volver al gradiente.
     // Ponla en /public y escribe aqui su ruta, por ejemplo "/manuel-viola.jpg".
-    heroPhoto: "", //                                ←CAMBIAR
+    heroPhoto: "/manuel-viola.jpg",
     // Retrato de la seccion "Sobre mi". Puede ser la misma foto u otra distinta.
-    portraitPhoto: "", //                            ←CAMBIAR
+    portraitPhoto: "/manuel-viola.jpg",
   },
 
   // --- Efectos visuales ---
@@ -64,12 +66,12 @@ export const site = {
 
   // --- Datos legales (RGPD / LSSI España) — RELLENA antes de publicar ---
   legal: {
-    fullName: "[NOMBRE Y APELLIDOS]", //           ←CAMBIAR  (titular real)
-    nif: "[NIF / DNI]", //                          ←CAMBIAR
-    address: "[Dirección postal completa]", //      ←CAMBIAR
+    fullName: "Manuel Gálvez del Postigo Fernández",
+    nif: "77148158V",
+    address: "Calle Emir 5, 18006 Granada, España",
     // Email para ejercer derechos RGPD (puede ser el mismo de contacto)
     privacyEmail: "manuelgpw@gmail.com", //         ←CAMBIAR si quieres otro
-    lastUpdated: "2026-06-02", // fecha última revisión de los textos legales
+    lastUpdated: "2026-09-10", // fecha última revisión de los textos legales
   },
 
   // --- Cookies / analytics ---
