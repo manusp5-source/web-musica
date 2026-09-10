@@ -8,13 +8,13 @@
 export const site = {
   // --- Identidad ---
   artistName: "Manuel", //                         ←CAMBIAR  (tu nombre)
-  brand: "Manuel · Piano & Viola", //              ←CAMBIAR
-  tagline: "Piano y viola en directo", // subtítulo corto
+  brand: "Manuel · Viola en directo", //           ←CAMBIAR
+  tagline: "Viola en directo para ceremonias", // subtítulo corto
 
   // --- Localización (SEO local España) ---
-  city: "Madrid", //                               ←CAMBIAR  (tu ciudad)
-  region: "Comunidad de Madrid", //                ←CAMBIAR
-  serviceArea: "Disponible en toda España",
+  city: "Granada", // decidido en plan-negocio-viola.md §4: el segmento nucleo son
+  region: "Provincia de Granada", //               las 736 ceremonias religiosas de Granada
+  serviceArea: "Granada y provincia · desplazamiento gratis hasta 50 km",
 
   // --- Contacto ---
   email: "manuelgpw@gmail.com", //                 ←CAMBIAR si quieres otro

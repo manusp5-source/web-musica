@@ -13,6 +13,7 @@ type Service = { title: string; desc: string };
 type Faq = { q: string; a: string };
 type Testimonial = { quote: string; author: string; role: string };
 type Step = { title: string; desc: string };
+type Price = { name: string; detail: string; price: string; featured?: boolean };
 
 export type Dict = {
   seo: { description: string };
@@ -20,6 +21,12 @@ export type Dict = {
   hero: { eyebrow: string; title: string; subtitle: string; ctaPrimary: string; ctaSecondary: string; location: string };
   trust: string[];
   services: { eyebrow: string; title: string; intro: string; items: Service[] };
+  // Tarifa publicada. Es el diferenciador central del plan de negocio (§4): ningún
+  // competidor local publica precio. Cambiarla aquí la cambia en toda la web.
+  pricing: {
+    eyebrow: string; title: string; intro: string; note: string; cta: string;
+    items: Price[];
+  };
   media: { eyebrow: string; title: string; intro: string; placeholder: string; videoTitle: string };
   about: { eyebrow: string; title: string; body: string[]; highlights: string[]; photoSoon: string };
   process: { eyebrow: string; title: string; steps: Step[] };
@@ -51,55 +58,71 @@ export const dictionaries: Record<Locale, Dict> = {
   es: {
     seo: {
       description:
-        "Piano y viola en directo para bodas, eventos corporativos y celebraciones. Música en vivo a medida en toda España.",
+        "Viola en directo para ceremonias de boda en Granada. Arreglo propio de vuestra canción, equipo de sonido incluido y tarifa publicada desde 390 €.",
     },
     nav: { services: "Servicios", media: "Escuchar", about: "Sobre mí", events: "Eventos", contact: "Contratar", cta: "Reservar fecha", menu: "Menú" },
     hero: {
-      eyebrow: "Música en vivo para eventos",
-      title: "Piano y viola en directo para los momentos que no se repiten",
+      eyebrow: "Música en directo · Granada",
+      title: "La ceremonia a viola sola, con vuestro arreglo hecho por mí",
       subtitle:
-        "Un solo músico, dos instrumentos. Pongo la banda sonora de tu boda, evento corporativo o celebración con la elegancia que cada momento merece.",
-      ctaPrimary: "Consultar disponibilidad",
+        "Y el precio, ya en la web. Desde 390 € la ceremonia, con equipo de sonido incluido y una pieza arreglada a medida para vuestro momento.",
+      ctaPrimary: "Ver tarifa y reservar",
       ctaSecondary: "Escuchar",
-      location: "Madrid · Disponible en toda España",
+      location: "Granada y provincia",
     },
-    trust: ["Bodas", "Eventos corporativos", "Hoteles & restaurantes", "Celebraciones privadas"],
+    trust: ["Bodas religiosas", "Ceremonias civiles", "Funerales", "Comuniones"],
     services: {
       eyebrow: "Servicios",
-      title: "Música a medida para cada momento",
+      title: "Una sola contratación, dos momentos distintos",
       intro:
-        "Adapto repertorio, instrumento y formato a tu evento. Piano para el cóctel, viola para la ceremonia, o ambos para una experiencia única.",
+        "La ceremonia se toca a viola sola: el timbre desnudo, sin nada detrás. En el cóctel la viola va sobre bases que produzco yo, para que el repertorio moderno suene lleno.",
       items: [
-        { title: "Bodas", desc: "Ceremonia, cóctel y banquete. Repertorio clásico, moderno o personalizado para vuestro día." },
-        { title: "Eventos corporativos", desc: "Inauguraciones, galas, cenas de empresa y presentaciones con música en directo de nivel." },
-        { title: "Hoteles y restaurantes", desc: "Música ambiente recurrente que eleva la experiencia de tus clientes." },
-        { title: "Celebraciones privadas", desc: "Aniversarios, cumpleaños y cenas especiales con la pieza perfecta para cada instante." },
+        { title: "Ceremonia", desc: "Viola sola, sin bases. 45 minutos: entrada, momentos clave y salida. Es donde el instrumento se sostiene solo." },
+        { title: "Cóctel", desc: "Una hora de viola sobre bases propias. Repertorio moderno con cuerpo, sin necesidad de más músicos." },
+        { title: "Funerales y despedidas", desc: "Disponibilidad todo el año, también fuera de temporada de bodas. Discreción y puntualidad." },
+        { title: "Comuniones y hostelería", desc: "Ceremonias breves y música de ambiente recurrente para hoteles y restaurantes." },
+      ],
+    },
+    pricing: {
+      eyebrow: "Tarifa",
+      title: "El precio, aquí. Sin pedir presupuesto para saberlo",
+      intro:
+        "Precio cerrado, equipo de sonido incluido y un arreglo propio de vuestra pieza. Lo que veéis es lo que cuesta.",
+      note: "Desplazamiento gratis hasta 50 km de Granada; a partir de ahí, 0,40 €/km. Sin extras ocultos.",
+      cta: "Reservar fecha",
+      items: [
+        { name: "Ceremonia", detail: "Viola sola, sin bases. 45 min, equipo incluido y 1 arreglo propio.", price: "390 €" },
+        { name: "Ceremonia + cóctel", detail: "Lo anterior más 1 h de cóctel con viola y bases propias.", price: "690 €", featured: true },
+        { name: "Jornada completa", detail: "Ceremonia, cóctel y entrada al banquete.", price: "990 €" },
+        { name: "Comunión o funeral", detail: "45 minutos, viola sola.", price: "250 €" },
+        { name: "Hostelería · set de 1 h", detail: "Repertorio de ambiente. Precio por recurrencia.", price: "200 €" },
+        { name: "Vídeo-concierto grabado", detail: "Pieza a medida, grabada con calidad de estudio.", price: "150 €" },
       ],
     },
     media: {
       eyebrow: "Escuchar",
       title: "Mira y escucha",
-      intro: "Una muestra del directo. La mejor forma de imaginar tu evento es escucharlo.",
+      intro: "Una muestra del directo y de los arreglos. La mejor forma de imaginar vuestra ceremonia es escucharla.",
       placeholder: "Vídeos próximamente — material en producción",
       videoTitle: "Vídeo",
     },
     about: {
       eyebrow: "Sobre mí",
-      title: "Dos instrumentos, una misma sensibilidad",
+      title: "Violista, y el arreglo lo hago yo",
       photoSoon: "Foto próximamente",
       body: [
-        "Soy pianista y violista. Lo que empezó como una doble pasión se ha convertido en mi sello: la capacidad de cubrir un evento completo —el recogimiento de la viola en la ceremonia, la calidez del piano en el cóctel— sin perder coherencia ni elegancia.",
-        "Cada evento es distinto y por eso preparo el repertorio contigo, pieza a pieza, hasta que la música cuente exactamente la historia que quieres contar.",
+        "Soy violista. La viola tiene el registro más cercano a la voz humana, y en una ceremonia eso se nota: no acompaña el momento, lo sostiene.",
+        "Vuestra canción no la compro hecha: la arreglo yo, la produzco yo y la ensayo antes del día. Por eso puedo tocar lo que os importe de verdad, y no solo lo que está en el repertorio de todos.",
       ],
-      highlights: ["Piano y viola en directo", "Repertorio personalizado", "Sonido propio de calidad", "Trato cercano y profesional"],
+      highlights: ["Viola en directo", "Arreglo propio de vuestra canción", "Equipo de sonido incluido", "Tarifa publicada, sin sorpresas"],
     },
     process: {
       eyebrow: "Cómo funciona",
       title: "Reservar es sencillo",
       steps: [
         { title: "1. Cuéntame tu evento", desc: "Fecha, lugar y tipo de celebración. Me escribes y te respondo con disponibilidad." },
-        { title: "2. Diseñamos la música", desc: "Elegimos juntos repertorio, instrumento y momentos clave del evento." },
-        { title: "3. Disfruta el directo", desc: "Llego con tiempo, monto mi equipo y me encargo de que todo suene perfecto." },
+        { title: "2. Arreglo vuestra pieza", desc: "Elegimos los momentos clave y preparo el arreglo de vuestra canción. Lo escucháis grabado antes del día." },
+        { title: "3. El día, resuelto", desc: "Llego con antelación, monto mi propio equipo y me encargo de que suene. Vosotros no gestionáis nada." },
       ],
     },
     events: {
@@ -130,23 +153,25 @@ export const dictionaries: Record<Locale, Dict> = {
       eyebrow: "Dudas frecuentes",
       title: "Preguntas habituales",
       items: [
-        { q: "¿Te desplazas fuera de tu ciudad?", a: "Sí. Trabajo en toda España; para desplazamientos largos lo valoramos en el presupuesto." },
-        { q: "¿Puedo elegir el repertorio?", a: "Por supuesto. Preparamos juntos las piezas, incluida 'la canción' de los momentos clave." },
-        { q: "¿Tocas piano y viola en el mismo evento?", a: "Sí, es mi especialidad: viola para la ceremonia y piano para el cóctel, por ejemplo." },
-        { q: "¿Aportas tú el equipo de sonido?", a: "Sí, llevo mi propio equipo. Solo necesito un punto de luz y espacio para montar." },
+        { q: "¿Se puede tocar en iglesia?", a: "Sí, y es donde mejor funciona. La ceremonia se toca a viola sola, sin pistas ni altavoces, así que no hay nada que negociar con el párroco." },
+        { q: "¿Las bases son grabaciones de otros?", a: "No. Las produzco yo, con mis propios arreglos. Ni descargo pistas ni uso audio de terceros: además de ser ilegal en una actuación comercial, sonaría a genérico." },
+        { q: "¿Puedo elegir la canción?", a: "Sí, y es la parte que más disfruto. Me decís la pieza, la arreglo para viola y os la mando grabada antes del día para que la aprobéis." },
+        { q: "¿El precio de la web es el precio final?", a: "Sí. Incluye equipo de sonido y desplazamiento hasta 50 km de Granada. Más lejos, 0,40 €/km. Sin extras ocultos." },
+        { q: "¿Y si te pones enfermo?", a: "Tengo acuerdo previo con dos músicos de confianza para cubrir la fecha. Una boda no se aplaza." },
+        { q: "¿Cuánto dura cada parte?", a: "La ceremonia son unos 45 minutos: entrada, momentos clave y salida. El cóctel, una hora." },
       ],
     },
     contact: {
       eyebrow: "Contratar",
       title: "Reserva tu fecha",
-      intro: "Cuéntame los detalles de tu evento y te respondo en menos de 24 h con disponibilidad y presupuesto.",
+      intro: "Contadme la fecha y el sitio. Respondo en menos de 24 h con disponibilidad y presupuesto cerrado.",
       name: "Nombre",
       emailField: "Email",
       phone: "Teléfono",
       date: "Fecha del evento",
       type: "Tipo de evento",
       message: "Cuéntame más",
-      typeOptions: ["Boda", "Evento corporativo", "Hotel / Restaurante", "Celebración privada", "Otro"],
+      typeOptions: ["Boda religiosa", "Boda civil", "Funeral o despedida", "Comunión", "Hostelería", "Otro"],
       submit: "Enviar consulta",
       whatsapp: "Escríbeme por WhatsApp",
       or: "o",
@@ -175,47 +200,63 @@ export const dictionaries: Record<Locale, Dict> = {
   en: {
     seo: {
       description:
-        "Live piano and viola for weddings, corporate events and celebrations. Tailor-made live music across Spain.",
+        "Live viola for wedding ceremonies in Granada. Your song arranged by me, PA included, and the price already on the site — from €390.",
     },
     nav: { services: "Services", media: "Listen", about: "About", events: "Events", contact: "Book", cta: "Check date", menu: "Menu" },
     hero: {
-      eyebrow: "Live music for events",
-      title: "Live piano and viola for the moments that happen only once",
+      eyebrow: "Live music · Granada",
+      title: "The ceremony on solo viola, with your song arranged by me",
       subtitle:
-        "One musician, two instruments. I score your wedding, corporate event or celebration with the elegance every moment deserves.",
-      ctaPrimary: "Check availability",
+        "And the price already here. From €390 for the ceremony, PA included and one piece arranged specifically for your moment.",
+      ctaPrimary: "See prices and book",
       ctaSecondary: "Listen",
-      location: "Madrid · Available across Spain",
+      location: "Granada and province",
     },
-    trust: ["Weddings", "Corporate events", "Hotels & restaurants", "Private celebrations"],
+    trust: ["Church weddings", "Civil ceremonies", "Funerals", "Communions"],
     services: {
       eyebrow: "Services",
-      title: "Tailor-made music for every moment",
+      title: "One booking, two very different moments",
       intro:
-        "I adapt repertoire, instrument and format to your event. Piano for the cocktail, viola for the ceremony, or both for a unique experience.",
+        "The ceremony is played on solo viola: the bare timbre, nothing behind it. At the cocktail the viola sits on backing tracks I produce myself, so modern repertoire sounds full.",
       items: [
-        { title: "Weddings", desc: "Ceremony, cocktail and reception. Classic, modern or fully personalised repertoire for your day." },
-        { title: "Corporate events", desc: "Openings, galas, company dinners and launches with high-level live music." },
-        { title: "Hotels & restaurants", desc: "Recurring ambient music that elevates your guests' experience." },
-        { title: "Private celebrations", desc: "Anniversaries, birthdays and special dinners with the perfect piece for every instant." },
+        { title: "Ceremony", desc: "Solo viola, no backing. 45 minutes: entrance, key moments and exit. This is where the instrument carries itself." },
+        { title: "Cocktail", desc: "One hour of viola over my own backing tracks. Modern repertoire with body, without hiring more musicians." },
+        { title: "Funerals and farewells", desc: "Available all year, including outside the wedding season. Discretion and punctuality." },
+        { title: "Communions and hospitality", desc: "Short ceremonies and recurring ambient music for hotels and restaurants." },
+      ],
+    },
+    pricing: {
+      eyebrow: "Prices",
+      title: "The price, right here. No need to ask for a quote",
+      intro:
+        "Fixed price, PA system included and one arrangement of your piece written by me. What you see is what it costs.",
+      note: "Travel is free within 50 km of Granada; beyond that, €0.40/km. No hidden extras.",
+      cta: "Check your date",
+      items: [
+        { name: "Ceremony", detail: "Solo viola, no backing. 45 min, PA included, one custom arrangement.", price: "€390" },
+        { name: "Ceremony + cocktail", detail: "The above plus one hour of cocktail with viola and my own tracks.", price: "€690", featured: true },
+        { name: "Full day", detail: "Ceremony, cocktail and the entrance to the reception.", price: "€990" },
+        { name: "Communion or funeral", detail: "45 minutes, solo viola.", price: "€250" },
+        { name: "Hospitality · 1 h set", detail: "Ambient repertoire. Priced by recurrence.", price: "€200" },
+        { name: "Recorded video performance", detail: "A custom piece, recorded at studio quality.", price: "€150" },
       ],
     },
     media: {
       eyebrow: "Listen",
       title: "Watch & listen",
-      intro: "A taste of the live performance. The best way to picture your event is to hear it.",
+      intro: "A taste of the playing and of the arrangements. The best way to picture your ceremony is to hear it.",
       placeholder: "Videos coming soon — material in production",
       videoTitle: "Video",
     },
     about: {
       eyebrow: "About",
-      title: "Two instruments, one sensibility",
+      title: "A violist — and I write the arrangement myself",
       photoSoon: "Photo coming soon",
       body: [
-        "I'm a pianist and violist. What began as a double passion became my signature: the ability to cover a whole event —the intimacy of the viola during the ceremony, the warmth of the piano at the cocktail— without losing coherence or elegance.",
-        "Every event is different, so I build the repertoire with you, piece by piece, until the music tells exactly the story you want to tell.",
+        "I'm a violist. The viola sits closest to the human voice, and in a ceremony you can hear it: it doesn't accompany the moment, it holds it up.",
+        "I don't buy your song ready-made. I arrange it, produce it and rehearse it before the day, which is why I can play what actually matters to you rather than only what's in everyone's repertoire.",
       ],
-      highlights: ["Live piano & viola", "Personalised repertoire", "Own quality sound", "Warm, professional service"],
+      highlights: ["Live viola", "Your song, arranged by me", "PA system included", "Published prices, no surprises"],
     },
     process: {
       eyebrow: "How it works",
@@ -253,10 +294,12 @@ export const dictionaries: Record<Locale, Dict> = {
       eyebrow: "FAQ",
       title: "Frequently asked questions",
       items: [
-        { q: "Do you travel outside your city?", a: "Yes. I work across Spain; long trips are factored into the quote." },
-        { q: "Can I choose the repertoire?", a: "Absolutely. We prepare the pieces together, including 'the song' for key moments." },
-        { q: "Do you play piano and viola at the same event?", a: "Yes, that's my specialty: viola for the ceremony and piano for the cocktail, for example." },
-        { q: "Do you bring the sound equipment?", a: "Yes, I bring my own gear. I just need a power point and space to set up." },
+        { q: "Can you play inside a church?", a: "Yes, and that is where it works best. The ceremony is solo viola — no tracks, no speakers — so there is nothing to negotiate with the priest." },
+        { q: "Are the backing tracks somebody else's recordings?", a: "No. I produce them myself, with my own arrangements. I never download tracks or use third-party audio: besides being illegal in a commercial performance, it would sound generic." },
+        { q: "Can I choose the song?", a: "Yes, and it's the part I enjoy most. Tell me the piece, I arrange it for viola and send you a recording before the day so you can approve it." },
+        { q: "Is the price on the site the final price?", a: "Yes. It includes the PA system and travel within 50 km of Granada. Beyond that, €0.40/km. No hidden extras." },
+        { q: "What if you fall ill?", a: "I have a standing agreement with two trusted musicians to cover the date. A wedding does not get postponed." },
+        { q: "How long is each part?", a: "The ceremony runs about 45 minutes: entrance, key moments and exit. The cocktail, one hour." },
       ],
     },
     contact: {
@@ -269,7 +312,7 @@ export const dictionaries: Record<Locale, Dict> = {
       date: "Event date",
       type: "Event type",
       message: "Tell me more",
-      typeOptions: ["Wedding", "Corporate event", "Hotel / Restaurant", "Private celebration", "Other"],
+      typeOptions: ["Church wedding", "Civil wedding", "Funeral or farewell", "Communion", "Hospitality", "Other"],
       submit: "Send enquiry",
       whatsapp: "Message me on WhatsApp",
       or: "or",

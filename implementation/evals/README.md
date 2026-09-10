@@ -55,6 +55,7 @@ evals de trayectoria: comprueban el camino, no la pantalla.
 | `EV-009.eval.md` | salida | spec | Build sin ninguna credencial en el entorno termina en 0 | Build no depende de la red | **PASA** | 2026-09-04 |
 | `EV-011.eval.md` | **trayectoria** | review, pasada 5 | CSP y `remotePatterns` sin comodines de esquema ni de host | Seguridad de cabeceras | **PASA** | 2026-09-09 |
 | `EV-012.eval.md` | salida | review, pasada 5 | Contraste AA real de la seccion de resenas, con exenciones declaradas | Accesibilidad del aviso legal | **PASA** | 2026-09-09 |
+| `EV-013.eval.md` | **trayectoria** | INT-006 | La web no promete piano en vivo en ninguno de los 5 ficheros de contenido | Honestidad de la copy | **PASA** | 2026-09-10 |
 
 **Runner:** `npm run evals` → `implementation/evals/run.mjs`. Extrae el comando del bloque
 ` ```bash ` que hay bajo `## Comando` en cada `*.eval.md`, lo ejecuta desde la raíz y

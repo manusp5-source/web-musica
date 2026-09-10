@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import HomePage from "@/components/HomePage";
 
 export const metadata: Metadata = {
-  title: "Live piano & viola for events in Spain",
+  title: "Live viola for wedding ceremonies in Granada",
   description:
-    "Live piano and viola for weddings, corporate events and celebrations across Spain.",
+    "Solo viola for the ceremony, your song arranged by me, PA included. Published prices from €390. Granada and province.",
   alternates: { canonical: "/en", languages: { es: "/", en: "/en" } },
 };
 

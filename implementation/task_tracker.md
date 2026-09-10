@@ -72,6 +72,7 @@ volver al intent.
 | M2-IT-004 | Dominio propio + HTTPS + cabeceras verificadas en producción | M2 | TODO | `security-scanning-security-hardening` | `opus` | [ ] | [ ] | [ ] | `curl -I` tiene que devolver CSP, HSTS, X-Frame-Options y Referrer-Policy |
 | M2-IT-005 | Deploy Hook + Cron Trigger para refrescar reseñas | M2 | TODO | `deployment-procedures` | `sonnet` | — | [ ] | [ ] | Cierra el bucle de M1: una reseña nueva aparece sola en <24 h |
 | M2-UJ-001 | Un visitante llega por el dominio real y ve la web | M2 | TODO | `ninguna` | `sonnet` | [ ] | [ ] | [ ] | Smoke contra producción, ES y EN |
+| M2-IT-006 | Contenido segun el posicionamiento del CMO + quitar el piano en vivo | M2 | **DONE** | `copywriting` (no cargada: la decision ya estaba tomada en el plan) | `opus` | - | OK `EV-013` | [ ] | `INT-006`. 14 promesas de piano fuera, Granada en lugar de Madrid, tarifa publicada, servicios reordenados por el segmento del §4. 42 tests |
 | M2-UJ-002 | Un asistente escanea el QR impreso y llega a la web | M2 | TODO | `ninguna` | `sonnet` | [ ] | [ ] | [ ] | `planning/intent-002.md`. Incluye `npm run qr` y **prueba de escaneo en papel**, no en pantalla |
 
 ## Blockers Log

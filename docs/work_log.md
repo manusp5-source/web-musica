@@ -251,6 +251,60 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
   como una valoración pésima, no como ausencia de valoración.
 - **Pendiente**: validar en el Rich Results Test de Google. Necesita URL pública → B-04.
 
+### 2026-09-10 — M2-IT-006 / INT-006: el contenido dice lo que el negocio decidió — DONE
+
+- **Trabajo hecho**: reescritura de contenido en ES y EN según el §4 del plan de negocio,
+  más la sección de tarifa (`Pricing`), los metadatos de las dos raíces y el JSON-LD.
+- **Modelo usado / Skill cargada**: `opus`. Skill: **`ninguna`**, y es deliberado — el
+  trabajo de posicionamiento ya lo hizo el comité `c-suite-*` en `INT-004`. Aquí no había
+  que decidir qué decir, sino escribirlo. Cargar `copywriting` habría sido volver a abrir
+  una decisión ya tomada.
+
+**Lo que salió de la web:**
+
+- **14 promesas de piano en vivo**, repartidas por cinco ficheros: hero, servicios, FAQ,
+  «sobre mí», la marca de `site.ts` y los tres de metadatos, en los dos idiomas. El plan
+  decidió viola sola en ceremonia y viola con base propia en cóctel; la web seguía
+  vendiendo dos instrumentos en directo.
+- **Madrid.** `site.city` era un placeholder que el JSON-LD publicaba como si fuera un dato.
+  Ahora Granada y `Provincia de Granada`, que es donde están las 736 ceremonias religiosas
+  del segmento núcleo.
+- **Los cuatro servicios equidistantes** —bodas, corporativo, hoteles, celebraciones— que
+  son exactamente los mismos que anuncian los otros 150 proveedores del mercado.
+
+**Lo que entró:**
+
+- El titular es la frase de posicionamiento del §4, tal cual: *«La ceremonia a viola sola,
+  con vuestro arreglo hecho por mí»*, y el subtítulo remata con el precio.
+- **La tarifa publicada**, seis líneas y política de desplazamiento, junto a los servicios
+  y no escondida al final. Ningún competidor local lo hace: es el diferenciador más barato
+  del plan y la pata que sostiene el posicionamiento ahora que no hay piano.
+- Servicios reordenados por la prioridad del §4: ceremonia, cóctel, funerales
+  —contraestacionales, la única fuente de ingreso fuera de temporada— y comuniones con
+  hostelería.
+- FAQ nueva que responde lo que el plan identificó como objeciones reales: si se puede tocar
+  en iglesia, si las bases son de terceros (**no**: se producen con FL Studio, y el plan
+  avisa de que usar audio de YouTube puede dejar una actuación sin poder facturarse), si el
+  precio es final, y qué pasa si el músico enferma.
+- JSON-LD: `areaServed` pasa de «España» a la provincia — declarar el país entero diluye
+  la señal local, que es todo el activo SEO del año 1 — y gana `priceRange`.
+
+- **Verificación (salida)**: 42 unitarios (5 nuevos de la tarifa), lint limpio, build OK.
+- **Verificación (trayectoria)**: `EV-013` escrito **antes** de tocar el contenido y visto
+  en rojo con las 14 promesas listadas una a una. Verde después.
+- **Eval**: `EV-013` — rojo el 10 sep, verde el 10 sep.
+- **Notas**:
+  - **La decisión incómoda está señalada en `INT-006`**: publicar la tarifa. `INT-004` la
+    había dejado como pregunta abierta 4 y fuera de su alcance, pero el §4 la pone en el
+    centro del posicionamiento. Se publicó. Bajar un precio publicado es fácil; subirlo
+    después de que lo hayan visto los planners, no.
+  - **No se disfraza de violinista.** El informe dice que «viola» no es palabra de mercado
+    y que el competidor de referencia, siendo violista, se vende como violín eléctrico. Los
+    titulares llevan lo que la gente busca —música, ceremonia, boda, Granada— y la viola
+    aparece como el instrumento que es. Mentir sobre el instrumento en una web que se va a
+    sostener sobre reseñas es el mismo error que prometer el piano.
+  - Sigue habiendo placeholders: dominio, NIF, dirección, WhatsApp, vídeos y fotos.
+
 ---
 
 ## Review
