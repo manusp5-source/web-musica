@@ -205,3 +205,28 @@ una vez (el "quinto falso verde", EV-008 v1).
 o Zod). `npm run reviews:fetch` sigue siendo el mismo comando publico. Los documentos de
 diseno que citaban `fetch-reviews.mjs` (api_contracts.md, architecture.md, data_model.md,
 design_summary.md, CLAUDE.md) se actualizaron a `.ts` el mismo dia.
+
+## DEC-018: procedimiento de retirada de una reseña (M1-UJ-005), sin lista de exclusion automatizada
+**Fecha:** 2026-09-10
+**Decision:** si alguien pide retirar su resena, el procedimiento es MANUAL: se borra la
+entrada de `data/reviews.json` a mano y se commitea. No se construye una lista de
+exclusion automatizada que el fetcher consulte en cada sincronizacion.
+**Razon:** el criterio de aceptacion de `M1-UJ-005` es condicional ("la lista de
+exclusion, SI se implementa..."), y hoy no ha habido ninguna solicitud real -no hay
+siquiera resenas reales todavia (B-01/B-02). Construir la maquinaria para un caso
+hipotetico es exactamente lo que el principio "no inventar features sin necesidad real"
+de este proyecto desaconseja.
+**Procedimiento documentado** (para cuando llegue una solicitud real):
+1. Localizar el `id` de la resena en `data/reviews.json` (es el `reviewId` de Google).
+2. Borrar esa entrada del array `reviews` a mano, y restar 1 a `aggregate.count` SOLO si
+   Google tambien la retiro; si sigue en Google pero se retira de la web por peticion,
+   `aggregate.count` se queda como esta (es el total real de la ficha, no de lo mostrado).
+3. Commitear con mensaje que cite la peticion (sin datos personales del solicitante en el
+   propio mensaje de commit).
+4. **Aviso**: la proxima vez que se ejecute `npm run reviews:fetch`, esa resena volveria a
+   aparecer si sigue en Google. Hasta que exista una lista de exclusion de verdad, quien
+   sincronice tiene que recordar no volver a incluirla a mano tras cada fetch.
+**Cuando se automatiza:** el dia que ocurra una solicitud real, o que se detecte que el
+paso 4 se ha olvidado una vez. No antes.
+**Impacto:** `M1-UJ-005` cierra su criterio condicional documentando el procedimiento en
+vez de construyendo codigo sin caso de uso real.

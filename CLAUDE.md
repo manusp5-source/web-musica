@@ -12,7 +12,8 @@ por Google Business Profile y mete el proyecto bajo el método FactorIA.
 
 Next.js 15.5 · React 19.0.0 (exacta) · Tailwind 3.4 · TypeScript 5.7 · three 0.184 +
 @react-three/fiber 9.6. En `devDependencies`: Zod, Vitest, Testing Library, jsdom,
-Playwright. **Cero dependencias nuevas en runtime.**
+Playwright, `tsx` (ejecuta el CLI de reseñas bajo Node 20, ver `DEC-016`).
+**Cero dependencias nuevas en runtime.**
 
 ## Versión del harness
 
@@ -77,8 +78,10 @@ M0-ITs → M1-ITs → M1-UJs → M2-ITs → M2-UJs
 Los IDs llevan el milestone dentro (`M0-IT-001`, `M1-UJ-001`) y la numeración reinicia en
 `001` en cada uno. Estados: `TODO` · `WIP` · `REVIEW` · `DONE` · `BLOCKED` · `SKIP`.
 
-**M2 (publicación) está en `SKIP`.** Deploy, dominio, datos legales reales, rendimiento y
-SEO local quedaron fuera del alcance del 3 sep 2026. Reabrirlo exige un intent nuevo.
+**M0 y M1 completos** (`M0-IT-002` en `SKIP` temporal; los 5 UJs de M1 en `REVIEW`,
+pendientes de `/review` de frontera). **M2 (publicación) reabierto** el 3 sep 2026
+(`DEC-010`, `planning/intent-003.md`): dominio comprado (`violagranada.es`), datos legales
+reales aplicados; falta la cuenta de Cloudflare para el DNS y el deploy.
 
 ## Comandos de verificación
 
@@ -103,7 +106,13 @@ propio** y no debe tenerlo: taparía al global y divergiría en silencio.
 
 ## Estado de los bloqueantes
 
-- **B-01**: no existe ficha de Google Business. Ver `docs/google-business-setup.md`.
-- **B-02**: cuota de Business Profile API sin solicitar.
+- **B-01 / B-02**: no existe ficha de Google Business ni cuota de la API solicitada. No
+  bloquean el código (`M1-UJ-004` se prueba con fixtures y con el CLI real sin
+  credenciales); bloquean ver reseñas reales en la página.
+- **B-03**: `gh` instalado, sin autenticar. `M0-IT-002` en `SKIP` temporal (`DEC-012`).
+- **B-04**: el QR de la web ya no está bloqueado (hay dominio); el QR de reseñas sigue
+  esperando la ficha de Google.
+- **B-05**: resuelto — dominio, nombre, NIF, dirección y teléfono, todos dados.
+- **B-06**: resuelto — navegación legible (`M2-IT-007`, `EV-014`/`EV-015`).
 
-Ninguno bloquea el código; bloquean ver reseñas reales en la página.
+Ver `implementation/task_tracker.md` § Blockers Log para el detalle completo.

@@ -367,6 +367,80 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
     tabla de aprobación de `intent-005.md`: se hizo porque los tres puntos son medibles sin
     ambigüedad de negocio (contraste WCAG), no porque el gate deje de aplicar.
 
+### 2026-09-10 — Dominio y email reales — DONE
+- **Trabajo hecho**: Manuel dio el dominio comprado (`violagranada.es` — coincide con la
+  recomendación del 10 sep) y un email nuevo (`violagranada31@gmail.com`). Aplicados a
+  `site.domain`, `site.email`, `site.legal.privacyEmail`.
+- **Verificación (salida)**: build real → `sitemap.xml` con `violagranada.es/` y
+  `violagranada.es/en`; JSON-LD con `url: "https://violagranada.es"` y el email nuevo.
+  44 unitarios siguen en verde.
+- **Notas**: `M2-IT-001` pasa a `BLOCKED (parcial)`: el dominio ya está, falta la cuenta de
+  Cloudflare para la parte DNS.
+
+### 2026-09-10 — M1-UJ-004: sincronización OAuth con Google — REVIEW
+- **Trabajo hecho**: `src/lib/reviews/google.ts` (OAuth + paginación v4 + mapeo, exactamente
+  según `design/api_contracts.md`) y `src/lib/reviews/sync.ts` (orquestación: valida el
+  entorno antes de tocar la red, renueva el token una vez si la lectura devuelve 401,
+  valida con Zod antes de devolver el resultado). `scripts/fetch-reviews.ts` es la única
+  pieza que escribe `data/reviews.json`.
+- **Modelo usado / Skill cargada**: `sonnet` (previsto `opus`; `DEC-017` explica por qué
+  no hacía falta: el contrato entero ya estaba cerrado por `opus` desde el 3 de
+  septiembre). Skill: `ninguna` cargada — `auth-implementation-patterns` seguía anotada
+  pero es la misma parcial de siempre (playbook útil, recursos fantasma) y el contrato ya
+  cubría el diseño de seguridad.
+- **Ficheros creados**: `google.ts`, `sync.ts`, `scripts/fetch-reviews.ts`, `.env.example`,
+  2 fixtures de la API v4, 2 suites de test (24 casos), `checks/reviews-cli-sin-env.mjs`.
+- **Verificación (salida)**: 24 unitarios en verde; **el CLI real ejecutado como proceso
+  hijo** sin credenciales → exit 1, `data/reviews.json` con el mismo hash SHA-256 antes y
+  después, mensaje nombrando las 5 variables que faltan.
+- **Verificación (trayectoria)**:
+  - `google.ts`/`mapToSchema` rojo primero (`Failed to resolve import`).
+  - `sync.ts` se escribió **antes** que su test — declarado así, sin maquillarlo: es
+    orquestación fina sobre primitivas ya probadas en rojo, no lógica nueva.
+  - Decisión de implementación no prevista en el diseño original: `scripts/fetch-reviews.mjs`
+    pasó a `.ts` porque Node 20 no importa TypeScript de forma nativa, y duplicar el mapeo
+    ya probado en JS plano habría arriesgado la misma clase de bug que el quinto falso
+    verde (`EV-008` v1: lo probado y lo que corre de verdad, divergiendo). `tsx` entra como
+    devDependency (`DEC-016`); cuatro documentos de diseño y `CLAUDE.md` actualizados el
+    mismo día.
+- **Eval**: `EV-005`, rojo→verde, con la mitad de red de seguridad (mock) y la mitad de
+  proceso real (CLI sin credenciales).
+- **Comprobación de seguridad**: `client_secret`/`refresh_token` nunca aparecen en un
+  mensaje de error (tests explícitos); `EV-006` reejecutado tras añadir estos ficheros,
+  sigue en 0 resultados; ni `google.ts` ni `sync.ts` los importa ningún componente.
+- **Notas**: **queda un hueco declarado, no escondido**: «`--dry` no modifica el fichero
+  en un éxito real» no se ha ejercitado de verdad — necesita credenciales de Google que
+  no existen (B-01/B-02). El código lo garantiza por estructura (`return` antes de
+  `writeFileSync`) y `runSync` lo prueba a nivel de resultado, pero no es lo mismo que
+  verlo pasar de verdad. Marcado `[~]` en `user_journeys.md`, no `[x]`.
+
+### 2026-09-10 — M1-UJ-005: Omnibus y RGPD en privacidad — REVIEW
+- **Trabajo hecho**: apartado nuevo «Reseñas de Google» en `/privacidad` y `/en/privacy`:
+  origen del dato, qué se publica (nombre y texto, nunca foto ni contacto), base legal
+  —**interés legítimo, art. 6.1.f RGPD**, distinta y separada del consentimiento que
+  ampara los datos del formulario de contacto, que antes compartían un único apartado
+  «Legitimación»— y cómo pedir la retirada, con plazo de 30 días.
+- **Modelo usado / Skill cargada**: `sonnet` (previsto `opus`, mismo motivo que `UJ-004`:
+  la base legal ya estaba decidida en `design/architecture.md` desde el 3 de septiembre;
+  aquí solo había que escribirla en las dos páginas). Skill: `gdpr-data-handling`, cargada.
+- **Verificación (salida)**: 6 tests nuevos en verde; 68 unitarios en total.
+- **Verificación (trayectoria)**: rojo primero (5/6 por ausencia del apartado). Tras
+  escribir el contenido, **2 fallos que eran del test, no del contenido**: el título del
+  apartado y una referencia cruzada deliberada en la sección de legitimación repiten a
+  propósito «Reseñas de Google» / «interés legítimo», y `getByText` (que exige un único
+  resultado) los contaba como error. Corregido a `getAllByText`.
+- **Eval**: `EV-007`, rojo→verde.
+- **Comprobación de seguridad**: solo se publican datos ya públicos en Google (nombre,
+  texto); ni foto ni contacto del reseñador, en línea con `DEC-011`. Vía de ejercicio de
+  derechos = `site.legal.privacyEmail`, ya real desde el commit de dominio/email.
+- **Notas**: **la lista de exclusión automatizada no se construyó** (`DEC-018`). El
+  criterio de aceptación era condicional («si se implementa…») y no hay ninguna solicitud
+  real ni reseñas reales todavía. Se documentó el procedimiento manual en su lugar —
+  construir la máquina para un caso hipotético es justo lo que este proyecto ha evitado
+  hacer en cada decisión de alcance desde `intent-001`.
+- **M1 completo**: los 5 UJs (`M1-UJ-001` a `005`) están en `REVIEW`. Falta `/review` de
+  frontera de milestone sobre este bloque — no se ha lanzado en esta tanda.
+
 ---
 
 ## Review
