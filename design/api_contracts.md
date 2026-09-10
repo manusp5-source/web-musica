@@ -141,7 +141,7 @@ mapToSchema(raw, meta): ReviewsFile
 Sin efectos de escritura: quien escribe el fichero es el CLI, para que los tests puedan
 ejercitar el mapeo sin tocar el disco.
 
-### `scripts/fetch-reviews.mjs`
+### `scripts/fetch-reviews.ts`
 
 ```bash
 npm run reviews:fetch            # sincroniza y sobrescribe data/reviews.json

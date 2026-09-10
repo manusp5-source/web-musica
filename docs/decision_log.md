@@ -165,3 +165,43 @@ restriccion que el propio intent-005 se puso).
 **Impacto:** `EV-014` (navegacion) y `EV-015` (barrido generalizado del resto del arbol)
 nuevos. `B-06` resuelto. `M2-IT-007` DONE. El punto 4 de intent-005 sigue abierto y
 declarado como hueco, no como "aprobado sin comprobar".
+
+## DEC-017: `M1-UJ-004` (OAuth) se implementa en `sonnet`, no `opus`
+**Fecha:** 2026-09-10
+**Decision:** el fetcher OAuth de Google (`google.ts`, `sync.ts`) se construye con el
+modelo de la sesion, `sonnet`, aunque el tracker preveia `opus` para tareas de
+autenticacion.
+**Razon:** el contrato entero -endpoints exactos, codigos de error, reintentos,
+paginacion, mapeo campo a campo- ya estaba escrito por `opus` en `design/api_contracts.md`
+desde el 3 de septiembre. Implementar segun un contrato ya cerrado es el trabajo
+"sonnet: implementacion normal" del propio enrutado del proyecto, no una decision de
+arquitectura de seguridad nueva. El precedente es `DEC-013`: alli se bajo el modelo del
+critico de `/review`, que si es un rol adversarial que se beneficia de mas capacidad; aqui
+no hay ese papel.
+**Mitigacion:** ningun secreto se imprime nunca (probado con tests que buscan literalmente
+el valor de `client_secret`/`refresh_token` en cualquier mensaje de error), y `EV-006`
+sigue verificando que `google.ts`/`sync.ts` no llegan al bundle del navegador.
+**Impacto:** ninguno detectado hasta ahora -68 tests en verde, incluida toda la
+clasificacion de codigos HTTP del contrato- pero queda escrito para que una revision
+futura sepa que este modulo no paso por `opus` en su implementacion, solo en su diseno.
+
+## DEC-016: `tsx` como devDependency para ejecutar el CLI de reseñas
+**Fecha:** 2026-09-10
+**Decision:** `scripts/fetch-reviews.ts` (no `.mjs`, como decian los documentos de diseno
+originales) se ejecuta con `tsx`, anadido como devDependency.
+**Razon:** Node 20 -la version fijada del proyecto, la del CI- no puede importar `.ts` de
+forma nativa. `google.ts` y `schema.ts` ya existian como TypeScript, con el esquema Zod y
+sus tipos inferidos ya escritos y probados por M1-UJ-001/002/003. Reescribirlos en JS
+plano para que el CLI los pudiera importar sin compilador habria duplicado esa logica ya
+probada, con el riesgo real de que el mapeo probado y el mapeo que de verdad se ejecuta
+divergieran con el tiempo -exactamente el tipo de cosa que este proyecto ya se ha comido
+una vez (el "quinto falso verde", EV-008 v1).
+**Alternativas descartadas:**
+- Duplicar la logica en JS plano dentro de `fetch-reviews.mjs`: viola DRY y arriesga
+  divergencia entre lo probado y lo que corre de verdad.
+- Un paso de compilacion propio con esbuild: mas piezas moviles que anadir una
+  devDependency ya estandar para exactamente este problema.
+**Impacto:** `tsx` nunca llega al bundle del navegador (mismo nivel que Vitest, Playwright
+o Zod). `npm run reviews:fetch` sigue siendo el mismo comando publico. Los documentos de
+diseno que citaban `fetch-reviews.mjs` (api_contracts.md, architecture.md, data_model.md,
+design_summary.md, CLAUDE.md) se actualizaron a `.ts` el mismo dia.

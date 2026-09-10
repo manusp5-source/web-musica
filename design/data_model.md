@@ -45,7 +45,7 @@ es **el contrato entre la integración con Google y toda la web**.
 
 Plano y sin relaciones: un fichero contiene un agregado y una lista. No hay identidad de
 usuario, ni sesiones, ni escritura desde la web. La única escritura la hace
-`scripts/fetch-reviews.mjs` desde la línea de comandos.
+`scripts/fetch-reviews.ts` desde la línea de comandos.
 
 ## Invariantes que el esquema hace cumplir
 

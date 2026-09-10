@@ -59,7 +59,7 @@ volver al intent.
 | M1-UJ-001 | Visitante ve las reseñas en la home ES | M1 | **REVIEW** | `react-best-practices` | `opus` (previsto `sonnet`) | ✓ | ✓ | ✓ | 17 tests nuevos (23 en total). Probado en build real **en las dos direcciones**: con datos sale `id="opiniones"`, sin datos no. `EV-001` rojo→verde |
 | M1-UJ-002 | Visitante ve las reseñas en `/en`, idioma original | M1 | **REVIEW** | `ninguna` (ver Notas) | `opus` | ✓ | ✓ | ✓ | **Sin código nuevo**: el diseño de UJ-001 (un componente con `locale`, un solo fichero) ya lo cubría. 6 tests verdes a la primera. No se cargó `nextjs-best-practices` porque no había nada que implementar |
 | M1-UJ-003 | Google puede mostrar estrellas: JSON-LD | M1 | **REVIEW** | `seo-fundamentals` | `opus` (previsto `sonnet`) | ✓ | ✓ | ✓ | `jsonld.ts` + 7 tests. `EV-004` rojo→verde. Verificado en HTML real: con datos `reviewCount: 23`, sin datos ninguna clave |
-| M1-UJ-004 | Manuel sincroniza con `npm run reviews:fetch` | M1 | TODO | `auth-implementation-patterns` | `opus` | [ ] | [ ] | [ ] | OAuth, paginación, reintentos, fallback. **Nunca rompe el build** |
+| M1-UJ-004 | Manuel sincroniza con `npm run reviews:fetch` | M1 | **REVIEW** | `auth-implementation-patterns` | `sonnet` (previsto `opus`; sesión en `sonnet`, ver Notas) | ✓ | ✓ `EV-005` | [ ] | `google.ts` (17 tests) + `sync.ts` (7 tests) + CLI real ejecutado sin credenciales. Añadido `tsx` como devDependency (`DEC-016`, Node 20 no importa `.ts`). Probado **contra la API real: imposible hoy** (B-01/B-02) |
 | M1-UJ-005 | La sección cumple Omnibus y RGPD (ES/EN) | M1 | TODO | `gdpr-data-handling` | `opus` | [ ] | [ ] | [ ] | Nota de verificación + atribución + párrafo en privacidad |
 
 ## M2 — Publicación (reabierto el 3 sep 2026, `planning/intent-003.md`)

@@ -26,7 +26,7 @@ Playwright. **Cero dependencias nuevas en runtime.**
 - `docs/` — memoria, decisiones, NFR, work log, mantenimiento, guía de Google Business
 - `data/reviews.json` — **el contrato**: única fuente de datos de las reseñas
 - `src/lib/reviews/` — esquema, carga, integración con Google, JSON-LD
-- `scripts/` — `check-legal.mjs`, `fetch-reviews.mjs`, `make-demo-audio.mjs`
+- `scripts/` — `check-legal.mjs`, `fetch-reviews.ts`, `make-demo-audio.mjs`
 
 ## Reglas de este proyecto
 

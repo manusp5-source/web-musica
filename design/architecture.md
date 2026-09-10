@@ -49,7 +49,7 @@ data/
 
 scripts/
   check-legal.mjs      existente, ampliado con más placeholders
-  fetch-reviews.mjs    NUEVO — CLI: npm run reviews:fetch
+  fetch-reviews.ts    NUEVO — CLI: npm run reviews:fetch
   make-demo-audio.mjs  existente
 
 tests/

@@ -18,7 +18,7 @@ Tailwind 3.4 + TS 5.7 | Fase: planning-complete, ejecución no empezada
 - `src/lib/reviews/load.ts` — lee y valida en build, nunca lanza, devuelve vacío si falla
 - `src/lib/reviews/google.ts` — OAuth + v4 + mapper, solo Node
 - `src/lib/reviews/jsonld.ts` — aggregateRating + review para el JSON-LD
-- `scripts/fetch-reviews.mjs` — CLI `npm run reviews:fetch`
+- `scripts/fetch-reviews.ts` — CLI `npm run reviews:fetch`
 - `data/reviews.json` — el contrato, versionado
 - `tests/unit` `tests/e2e` `tests/fixtures` — Vitest + Playwright
 - `implementation/evals/` — runner + un eval por criterio de éxito

@@ -47,7 +47,7 @@ evals de trayectoria: comprueban el camino, no la pantalla.
 | ~~`EV-002`~~ | salida | spec | Fichero vacío o corrupto → sección ausente | Degradación limpia | **ABSORBIDO por EV-001** | 2026-09-05 |
 | `EV-003.eval.md` | salida | spec | `/en` con rótulos traducidos y reseñas sin traducir | Render ES/EN | **PASA** | 2026-09-05 |
 | `EV-004.eval.md` | salida | spec | JSON-LD con `aggregateRating` coherente; ausente si `count` es 0 | JSON-LD válido | **PASA** | 2026-09-05 |
-| `EV-005.eval.md` | salida | spec | Mapper v4 → esquema con fixtures: enums, anónimos, paginación | Fetcher con y sin credenciales | PENDIENTE (M1-UJ-004) | — |
+| `EV-005.eval.md` | salida | spec | Mapper v4 → esquema con fixtures: enums, anónimos, paginación; CLI real sin credenciales | Fetcher con y sin credenciales | **PASA** | 2026-09-10 |
 | `EV-006.eval.md` | **trayectoria** | spec | Recorre el `.next` de producción buscando nombres y valores de credencial | Cero secretos en cliente | **PASA** | 2026-09-04 |
 | `EV-007.eval.md` | salida | spec | `reviews.disclosure` presente en `/` y `/en`; apartado de reseñas en ambas privacidades | Cumplimiento Omnibus | PENDIENTE (M1-UJ-005) | — |
 | `EV-008.eval.md` | **trayectoria** | constitución + review | Ninguna comparación sobre `rating` en la ruta de render | Cumplimiento Omnibus | **PASA** | 2026-09-06 |

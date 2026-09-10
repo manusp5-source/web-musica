@@ -126,22 +126,26 @@
 - `--dry` → imprime lo que escribiría y no toca el disco.
 
 ### Criterios de aceptación
-- [ ] Con fixtures, el mapper produce un `ReviewsFile` que valida contra el esquema.
-- [ ] `STAR_RATING_UNSPECIFIED` se descarta y no cuenta en la lista.
-- [ ] `isAnonymous: true` produce `author: "Anónimo"`.
-- [ ] Un fixture de dos páginas produce las reseñas de ambas, sin duplicados.
-- [ ] Sin variables de entorno, exit ≠ 0 y `data/reviews.json` no cambia (comprobado por
-      hash antes y después).
-- [ ] `--dry` no modifica el fichero.
-- [ ] `npm run build` funciona **sin ninguna credencial presente**.
+- [x] Con fixtures, el mapper produce un `ReviewsFile` que valida contra el esquema.
+- [x] `STAR_RATING_UNSPECIFIED` se descarta y no cuenta en la lista.
+- [x] `isAnonymous: true` produce `author: "Anónimo"`.
+- [x] Un fixture de dos páginas produce las reseñas de ambas, sin duplicados.
+- [x] Sin variables de entorno, exit ≠ 0 y `data/reviews.json` no cambia (comprobado por
+      hash antes y después) — verificado contra el **binario real** (proceso hijo), no un mock.
+- [~] `--dry` no modifica el fichero. **Parcial**: `runSync` confirma `dry: true` en el
+      resultado (test unitario) y el CLI tiene el `return` antes de `writeFileSync` a la
+      vista del código, pero no se ha ejecutado un `--dry` de éxito real — necesitaría
+      credenciales de Google, bloqueadas por B-01/B-02. Se ejecutará el día que existan.
+- [x] `npm run build` funciona **sin ninguna credencial presente** (`EV-009`, reconfirmado
+      tras añadir `google.ts`/`sync.ts`).
 
 ### Checklist de seguridad
-- [ ] `client_secret` y `refresh_token` no aparecen en ninguna salida por consola, ni
-      siquiera en los mensajes de error.
-- [ ] `grep -r "refresh_token\|client_secret" .next/` tras un build de producción: 0
-      resultados (eval `EV-006`).
-- [ ] `google.ts` no se importa desde ningún componente ni desde `app/`.
-- [ ] `.env` sigue en `.gitignore`; se añade `.env.example` sin valores.
+- [x] `client_secret` y `refresh_token` no aparecen en ninguna salida por consola, ni
+      siquiera en los mensajes de error (comprobado con tests que buscan el valor literal).
+- [x] `grep` del `.next/` de producción tras el build: 0 resultados (`EV-006`, reejecutado
+      tras añadir estos módulos).
+- [x] `google.ts` y `sync.ts` no se importan desde ningún componente ni desde `app/`.
+- [x] `.env` sigue en `.gitignore`; `.env.example` añadido sin valores.
 
 ---
 
