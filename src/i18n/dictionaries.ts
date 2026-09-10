@@ -65,7 +65,7 @@ export const dictionaries: Record<Locale, Dict> = {
       eyebrow: "Música en directo · Granada",
       title: "La ceremonia a viola sola, con vuestro arreglo hecho por mí",
       subtitle:
-        "Y el precio, ya en la web. Desde 390 € la ceremonia, con equipo de sonido incluido y una pieza arreglada a medida para vuestro momento.",
+        "Soy Manuel, violista en Granada. Toco vuestra ceremonia yo solo, y la pieza que elegáis la arreglo yo para vosotros. Desde 390 €, con equipo incluido y precio cerrado.",
       ctaPrimary: "Ver tarifa y reservar",
       ctaSecondary: "Escuchar",
       location: "Granada y provincia",
@@ -73,9 +73,9 @@ export const dictionaries: Record<Locale, Dict> = {
     trust: ["Bodas religiosas", "Ceremonias civiles", "Funerales", "Comuniones"],
     services: {
       eyebrow: "Servicios",
-      title: "Una sola contratación, dos momentos distintos",
+      title: "La ceremonia y el cóctel, con una sola llamada",
       intro:
-        "La ceremonia se toca a viola sola: el timbre desnudo, sin nada detrás. En el cóctel la viola va sobre bases que produzco yo, para que el repertorio moderno suene lleno.",
+        "La viola es como un violín un poco más grande, con un sonido más grave y más cálido — el más parecido a la voz humana. En la ceremonia la toco sola, sin nada detrás. En el cóctel la acompaño con bases que produzco yo, para que lo moderno suene lleno.",
       items: [
         { title: "Ceremonia", desc: "Viola sola, sin bases. 45 minutos: entrada, momentos clave y salida. Es donde el instrumento se sostiene solo." },
         { title: "Cóctel", desc: "Una hora de viola sobre bases propias. Repertorio moderno con cuerpo, sin necesidad de más músicos." },
@@ -85,9 +85,9 @@ export const dictionaries: Record<Locale, Dict> = {
     },
     pricing: {
       eyebrow: "Tarifa",
-      title: "El precio, aquí. Sin pedir presupuesto para saberlo",
+      title: "Lo que cuesta, sin tener que preguntar",
       intro:
-        "Precio cerrado, equipo de sonido incluido y un arreglo propio de vuestra pieza. Lo que veéis es lo que cuesta.",
+        "Sé lo incómodo que es pedir presupuesto sin saber si te vas a salir del budget, así que aquí están mis precios. Incluyen el equipo de sonido y el arreglo de vuestra pieza. Lo que veéis es lo que cuesta.",
       note: "Desplazamiento gratis hasta 50 km de Granada; a partir de ahí, 0,40 €/km. Sin extras ocultos.",
       cta: "Reservar fecha",
       items: [
@@ -101,28 +101,29 @@ export const dictionaries: Record<Locale, Dict> = {
     },
     media: {
       eyebrow: "Escuchar",
-      title: "Mira y escucha",
-      intro: "Una muestra del directo y de los arreglos. La mejor forma de imaginar vuestra ceremonia es escucharla.",
+      title: "Escuchadme antes de decidir",
+      intro: "Ninguna descripción sustituye a oírlo. Aquí tenéis grabaciones del directo y alguno de los arreglos que he preparado para otras parejas.",
       placeholder: "Vídeos próximamente — material en producción",
       videoTitle: "Vídeo",
     },
     about: {
       eyebrow: "Sobre mí",
-      title: "Violista, y el arreglo lo hago yo",
+      title: "Hola, soy Manuel",
       photoSoon: "Foto próximamente",
       body: [
-        "Soy violista. La viola tiene el registro más cercano a la voz humana, y en una ceremonia eso se nota: no acompaña el momento, lo sostiene.",
-        "Vuestra canción no la compro hecha: la arreglo yo, la produzco yo y la ensayo antes del día. Por eso puedo tocar lo que os importe de verdad, y no solo lo que está en el repertorio de todos.",
+        "Me llamo Manuel y toco la viola. Si no sabéis muy bien qué es: imaginad un violín algo más grande, con un sonido más grave y más cálido. Es el instrumento de cuerda que más se parece a una voz cantando, y en una ceremonia eso se nota — no acompaña el momento, lo sostiene.",
+        "Trabajo en Granada y en su provincia. Voy solo, con mi viola y mi equipo, y en cada boda toco para una sola pareja: no encadeno dos eventos el mismo día.",
+        "Y vuestra canción no la compro hecha. La arreglo yo, la grabo y os la mando antes del día para que la escuchéis con calma. Si algo no os encaja, lo cambio. Es la parte del trabajo que más me gusta.",
       ],
       highlights: ["Viola en directo", "Arreglo propio de vuestra canción", "Equipo de sonido incluido", "Tarifa publicada, sin sorpresas"],
     },
     process: {
       eyebrow: "Cómo funciona",
-      title: "Reservar es sencillo",
+      title: "Cómo trabajamos",
       steps: [
-        { title: "1. Cuéntame tu evento", desc: "Fecha, lugar y tipo de celebración. Me escribes y te respondo con disponibilidad." },
-        { title: "2. Arreglo vuestra pieza", desc: "Elegimos los momentos clave y preparo el arreglo de vuestra canción. Lo escucháis grabado antes del día." },
-        { title: "3. El día, resuelto", desc: "Llego con antelación, monto mi propio equipo y me encargo de que suene. Vosotros no gestionáis nada." },
+        { title: "1. Me escribís", desc: "Con la fecha y el sitio me basta para deciros si estoy libre. Contesto el mismo día, y si no puedo ir os lo digo a la primera." },
+        { title: "2. Hablamos de la música", desc: "Qué queréis en la entrada, en las firmas y en la salida. Preparo el arreglo de vuestra pieza y os lo mando grabado para que lo aprobéis." },
+        { title: "3. El día no tenéis que pensar en mí", desc: "Llego con antelación, monto mi equipo, hablo con el fotógrafo y con quien oficia, y me coloco donde no estorbe. Vosotros a lo vuestro." },
       ],
     },
     events: {
@@ -164,7 +165,7 @@ export const dictionaries: Record<Locale, Dict> = {
     contact: {
       eyebrow: "Contratar",
       title: "Reserva tu fecha",
-      intro: "Contadme la fecha y el sitio. Respondo en menos de 24 h con disponibilidad y presupuesto cerrado.",
+      intro: "Contadme la fecha y el sitio y os digo enseguida si estoy libre. Respondo siempre, aunque sea para deciros que no puedo.",
       name: "Nombre",
       emailField: "Email",
       phone: "Teléfono",
@@ -207,7 +208,7 @@ export const dictionaries: Record<Locale, Dict> = {
       eyebrow: "Live music · Granada",
       title: "The ceremony on solo viola, with your song arranged by me",
       subtitle:
-        "And the price already here. From €390 for the ceremony, PA included and one piece arranged specifically for your moment.",
+        "I'm Manuel, a violist based in Granada. I play your ceremony on my own, and I arrange the piece you choose myself. From €390, PA included and a fixed price.",
       ctaPrimary: "See prices and book",
       ctaSecondary: "Listen",
       location: "Granada and province",
@@ -215,9 +216,9 @@ export const dictionaries: Record<Locale, Dict> = {
     trust: ["Church weddings", "Civil ceremonies", "Funerals", "Communions"],
     services: {
       eyebrow: "Services",
-      title: "One booking, two very different moments",
+      title: "Ceremony and cocktail, with a single call",
       intro:
-        "The ceremony is played on solo viola: the bare timbre, nothing behind it. At the cocktail the viola sits on backing tracks I produce myself, so modern repertoire sounds full.",
+        "A viola is like a slightly larger violin with a lower, warmer sound — the string instrument closest to a human voice. For the ceremony I play it alone, with nothing behind it. At the cocktail I add backing tracks I produce myself, so modern repertoire sounds full.",
       items: [
         { title: "Ceremony", desc: "Solo viola, no backing. 45 minutes: entrance, key moments and exit. This is where the instrument carries itself." },
         { title: "Cocktail", desc: "One hour of viola over my own backing tracks. Modern repertoire with body, without hiring more musicians." },
@@ -227,9 +228,9 @@ export const dictionaries: Record<Locale, Dict> = {
     },
     pricing: {
       eyebrow: "Prices",
-      title: "The price, right here. No need to ask for a quote",
+      title: "What it costs, without having to ask",
       intro:
-        "Fixed price, PA system included and one arrangement of your piece written by me. What you see is what it costs.",
+        "I know how awkward it is to request a quote without knowing whether you're about to blow the budget, so here are my prices. They include the PA and the arrangement of your piece. What you see is what it costs.",
       note: "Travel is free within 50 km of Granada; beyond that, €0.40/km. No hidden extras.",
       cta: "Check your date",
       items: [
@@ -244,17 +245,18 @@ export const dictionaries: Record<Locale, Dict> = {
     media: {
       eyebrow: "Listen",
       title: "Watch & listen",
-      intro: "A taste of the playing and of the arrangements. The best way to picture your ceremony is to hear it.",
+      intro: "No description replaces hearing it. Here are live recordings and some of the arrangements I've written for other couples.",
       placeholder: "Videos coming soon — material in production",
       videoTitle: "Video",
     },
     about: {
       eyebrow: "About",
-      title: "A violist — and I write the arrangement myself",
+      title: "Hello, I'm Manuel",
       photoSoon: "Photo coming soon",
       body: [
-        "I'm a violist. The viola sits closest to the human voice, and in a ceremony you can hear it: it doesn't accompany the moment, it holds it up.",
-        "I don't buy your song ready-made. I arrange it, produce it and rehearse it before the day, which is why I can play what actually matters to you rather than only what's in everyone's repertoire.",
+        "My name is Manuel and I play the viola. In case you're not sure what that is: picture a slightly larger violin with a lower, warmer sound. It's the string instrument closest to a singing voice, and in a ceremony you can hear it — it doesn't accompany the moment, it holds it up.",
+        "I work in Granada and its province. I come on my own, with my viola and my PA, and I only play one wedding a day — never two.",
+        "And I don't buy your song ready-made. I arrange it, record it and send it to you before the day so you can listen properly. If something doesn't sit right, I change it. It's the part of the job I enjoy most.",
       ],
       highlights: ["Live viola", "Your song, arranged by me", "PA system included", "Published prices, no surprises"],
     },

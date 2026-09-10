@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { site } from "@/config/site";
 import type { Dict } from "@/i18n/dictionaries";
 import { IconNote } from "./icons";
@@ -76,14 +77,26 @@ export function About({ dict }: { dict: Dict }) {
   return (
     <section id="sobre-mi" className="bg-marfil2">
       <div className="section grid items-center gap-12 md:grid-cols-2">
-        {/* Retrato placeholder — swap por foto profesional */}
+        {/* Retrato. Con foto en site.media.portraitPhoto se pinta; si no, el placeholder. */}
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br from-carbon2 to-burdeos">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <IconNote className="h-20 w-20 text-dorado/40" />
-          </div>
-          <span className="absolute bottom-4 left-4 text-xs uppercase tracking-widest2 text-marfil/60">
-            {dict.about.photoSoon}
-          </span>
+          {site.media.portraitPhoto ? (
+            <Image
+              src={site.media.portraitPhoto}
+              alt={`${site.artistName}, violista`}
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
+            />
+          ) : (
+            <>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <IconNote className="h-20 w-20 text-dorado/40" />
+              </div>
+              <span className="absolute bottom-4 left-4 text-xs uppercase tracking-widest2 text-marfil/60">
+                {dict.about.photoSoon}
+              </span>
+            </>
+          )}
         </div>
 
         <div>

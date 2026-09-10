@@ -46,6 +46,11 @@ export const site = {
     // Audio del hero para el efecto reactivo. Pon un mp3 en /public (ej: "/sample.mp3").
     // Si está vacío, las partículas flotan en modo ambiente (sin botón de play).
     heroAudio: "/demo-tone.wav", //                ←CAMBIAR (ahora un demo; pon tu mp3 real)
+    // Foto principal del hero. Deja "" para volver al gradiente.
+    // Ponla en /public y escribe aqui su ruta, por ejemplo "/manuel-viola.jpg".
+    heroPhoto: "", //                                ←CAMBIAR
+    // Retrato de la seccion "Sobre mi". Puede ser la misma foto u otra distinta.
+    portraitPhoto: "", //                            ←CAMBIAR
   },
 
   // --- Efectos visuales ---
