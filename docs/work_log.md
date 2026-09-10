@@ -480,6 +480,17 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
     decisión de negocio pendiente (el dominio ya estaba dado), así que se ejecutó dentro
     de «sigue con lo que falta» sin necesitar un `APROBADO` nuevo — mismo razonamiento que
     `intent-005` (`DEC-015`).
+- **Cierre posterior, mismo bloque**: el hueco de «`qrcode` no instalado» se cerró de
+  verdad — renombrar `node_modules/qrcode` (reversible, sin desinstalar nada) en vez de
+  quitarlo con `npm uninstall`, confirmar el mensaje y el exit 1, y restaurar. Ya no queda
+  declarado como no probado en `intent-002.md` ni en `EV-016`.
+- **Hallazgo real de esta tanda, no un simulacro**: `scripts/make-qr.ts` rompió
+  `npm run build` de verdad (`qrcode` sin tipos — Next tipa todo `.ts` del `tsconfig`, no
+  solo lo que importa `app/`). Una comprobación manual anterior con
+  `grep -E "Compiled|Error"` (E mayúscula) se había comido el `Type error` en minúscula y
+  dado el build por bueno. Lo detectó `npm run evals` sin filtrar nada. Arreglado con
+  `@types/qrcode`; nota operativa en `decision_log.md` sobre no fiarse de un grep sin
+  pensar en mayúsculas/minúsculas al verificar manualmente.
 
 ---
 

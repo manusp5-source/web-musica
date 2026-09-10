@@ -83,9 +83,10 @@ Se generan **dos** códigos, porque los dos momentos son distintos:
 - [x] Si un destino sigue siendo un placeholder, el script avisa y **no genera ningún
       fichero** para él — probado en rojo devolviendo `site.domain` al placeholder original
       (`https://tunombre.es`): exit 1, cero ficheros.
-- [ ] Fallo claro si `qrcode` no está instalado: no probado (habría exigido desinstalar una
-      dependencia real a mitad de sesión). El código lo contempla (`try/catch` en el
-      `import`), pero no se ha visto fallar de verdad. Hueco declarado.
+- [x] Fallo claro si `qrcode` no está instalado: probado de verdad renombrando
+      `node_modules/qrcode` (reversible, sin desinstalar nada) →
+      `✗ Falta la dependencia "qrcode". Ejecuta: npm install -D qrcode`, exit 1.
+      Restaurado y confirmado que `npm run qr` vuelve a funcionar con normalidad.
 
 ## Alternativas descartadas
 
