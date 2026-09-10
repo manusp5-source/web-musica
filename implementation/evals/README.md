@@ -69,6 +69,7 @@ _Una fila por eval. `/review` actualiza la columna de estado tras cada ejecució
 |---|---|---|
 | Llamada real a la API de Google | No hay ficha ni cuota aprobada. Todo se prueba con fixtures | **Medio** — el mapeo está verificado, la autenticación real no se ha ejercitado nunca |
 | Rendimiento y Core Web Vitals | Fuera del alcance de esta tanda | Bajo por ahora; sube si se publica |
-| Accesibilidad más allá del contraste y las etiquetas de estrellas (axe, teclado, lector de pantalla) | Fuera del alcance. El contraste sí está cubierto por `EV-012` desde el 9 sep | Medio si se publica |
+| Accesibilidad más allá del contraste y las etiquetas de estrellas (axe, teclado, lector de pantalla) | Fuera del alcance. El contraste de la sección de reseñas sí lo cubre `EV-012` | Medio si se publica |
+| **Contraste del resto del sitio.** `EV-012` solo mira `Reviews.tsx` | La pasada 6 midió el resto y encontró la navegación a ≈1:1 y un `carbon/60` latente en `Sections.tsx`. Recogido en `planning/intent-005.md` | **Alto**: el header ilegible lo ve el 100% de las visitas |
 | Regresión visual de la sección | Playwright se usa solo para smoke | Bajo |
 | Publicación real (deploy, dominio, datos legales) | Milestone M2, reabierto el 4 sep. Bloqueado por B-04 y B-05 | **Alto para el negocio**: sin esto la web no existe para nadie |

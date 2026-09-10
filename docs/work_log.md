@@ -440,3 +440,55 @@ cabecera servida.
 **Veredicto de la pasada 5**: los dos bloqueantes están arreglados y cada uno dejó su eval.
 Pendiente la confirmación de que los arreglos son reales — pasada 6.
 
+### Pasada 6 — 10 sep 2026 · confirmación (`sonnet`) — **COMPLETADA**
+
+111 llamadas, 29 minutos, `git status` limpio al empezar y al terminar.
+
+**Confirmó los dos arreglos, y no de palabra:** levantó el servidor de producción y comprobó
+la cabecera con `curl -sI` (no el fichero de configuración); revirtió cada arreglo para ver
+el eval en rojo; **reprodujo a mano la fórmula WCAG** —luminancia relativa sRGB con
+composición alfa— y obtuvo 6,136:1 y 4,420:1, que coinciden con lo que imprime `EV-012`;
+y recorrió las seis rutas con Chromium capturando `console` y `requestfailed` para
+descartar que la CSP acotada bloqueara algo en silencio. Cero incidencias.
+
+**Tres hallazgos nuevos, los tres ciertos:**
+
+1. **`a11y-exento` era una puerta trasera real.** La exención operaba sobre el **bloque de
+   función entero**: bastaba un `<span aria-hidden>` decorativo con ese comentario en
+   cualquier punto de `Reviews` para que el eval diera por exento el párrafo del aviso
+   legal a 4,42:1. Lo demostró plantándolo. **Arreglado**: la v3 mantiene una pila de
+   elementos abiertos y pregunta si **ese nodo** o alguno de sus ancestros está oculto.
+   Verificado reproduciendo su ataque exacto: ahora falla. Las exenciones legítimas —las
+   estrellas a 1,51:1 y 2,11:1 bajo `aria-hidden` con `sr-only`— siguen exentas.
+2. **La navegación es ilegible en el estado inicial.** Header fijo con `bg-transparent`
+   sobre el gradiente oscuro del hero: logo a **≈1,00:1**, enlaces entre 1,1 y 1,3:1,
+   medido con captura real y muestreo de píxel. Es lo primero que ve el 100% de las
+   visitas, en los dos idiomas, y no lo cubría ningún eval. **Fuera del alcance de M1**:
+   es código preexistente. Recogido en `planning/intent-005.md`.
+3. **`Sections.tsx` (`Events`) usa `text-carbon/60`** — el mismo 4,42:1 que se acaba de
+   corregir. Latente: hoy no se ve porque la agenda está vacía. También a `INT-005`, junto
+   con los separadores `text-marfil/20` del footer.
+
+**Y un cuarto fallo, encontrado por el propio runner durante los arreglos:** al reescribir
+`EV-012.eval.md` con otro final de línea, el eval pasó a `PENDIENTE`. Causa:
+`extractCommand` esperaba `
+` pegado al fence ```` ```bash ````, y con CRLF en medio no
+encontraba el comando. **En un clon fresco de Windows, git convierte todos los ficheros a
+CRLF: la suite entera habría salido «pendiente» en silencio — cero fallos y cero
+ejecuciones, el peor resultado posible.** Arreglado normalizando en el runner y verificado
+convirtiendo los nueve `.eval.md` a CRLF: 9 pasan igual.
+
+**Lo que declaró NO MIRADO, honestamente**: que el aviso legal aparezca en el HTML generado
+de las dos raíces no pudo confirmarlo end-to-end, porque `data/reviews.json` está vacío y el
+clasificador de permisos le bloqueó sembrar datos. Lo cubren los tests con jsdom, no un
+build real. Es justo lo que `EV-007` (pendiente, `M1-UJ-005`) todavía no cubre. Y el
+contraste del hero sobre gradientes apilados más el canvas 3D quedó sin medir.
+
+**Veredicto de la review, tras seis pasadas**: **avanzar en M1.** Los tres UJs y los ITs de
+M0 quedan auditados con evidencia ejecutada por un revisor y un crítico distintos del
+constructor. Lo que queda abierto no es de M1:
+
+- `INT-005` (accesibilidad del resto del sitio) **bloquea la publicación**, no M1.
+- B-03: el CI nunca se ha ejecutado. `M0-IT-005` conserva su `Review ✓` sin marcar.
+- `EV-005` y `EV-007` siguen en `FALTA`, ligados a `M1-UJ-004` y `M1-UJ-005`, sin construir.
+

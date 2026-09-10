@@ -19,7 +19,14 @@ const PROJECT_ROOT = join(EVALS_DIR, "..", "..");
 
 const PLACEHOLDER = /^\[comando\]$/m;
 
-function extractCommand(markdown) {
+function extractCommand(texto) {
+  // Normaliza CRLF antes de nada. En Windows git convierte los finales de línea al
+  // clonar, y el regex del bloque ```bash esperaba \n pegado al fence: con \r en medio
+  // no encontraba nada y **toda la suite salía PENDIENTE en silencio** — cero fallos y
+  // cero ejecuciones, que es el peor resultado posible. Lo delató el propio runner el
+  // 10 sep al reescribir un eval con otro final de línea.
+  const markdown = texto.replace(/\r\n/g, "\n");
+
   // El primer bloque ```bash que aparece después del encabezado "## Comando"
   const section = markdown.split(/^##\s+Comando\s*$/m)[1];
   if (!section) return null;

@@ -61,33 +61,53 @@ const comprobados = [];
 const decorativos = [];
 
 /**
- * Se analiza por bloques de función porque el contraste no aplica igual a todo.
+ * La exención se evalúa **por elemento**, no por bloque de función.
  *
- * Un glifo decorativo con `aria-hidden` **y** su equivalente en texto (`sr-only` o
- * `aria-label`) está exento: la información no depende de verlo. Las estrellas son
- * exactamente eso. Pero la exención se gana enseñando el equivalente textual — si un
- * bloque se declara decorativo y no ofrece alternativa, es un hallazgo, no una excusa.
+ * v1 miraba si la función entera contenía `aria-hidden`, y el crítico lo rompió en dos
+ * minutos: metió un `<span aria-hidden>` decorativo cualquiera en otro punto de `Reviews`
+ * y el eval dio por exento el párrafo del aviso legal, que no tiene nada de decorativo.
+ * Una exención con granularidad de función es una puerta trasera con buena letra.
+ *
+ * v2 mantiene una pila de elementos abiertos y pregunta, para cada clase de color, si
+ * **ese** nodo o alguno de sus ancestros está oculto a la accesibilidad.
  */
+function ancestrosOcultos(codigo) {
+  // Devuelve una función: posición → { oculto, apertura } del ancestro aria-hidden.
+  const etiquetas = [...codigo.matchAll(/<\/?([A-Za-z][\w.]*)([^>]*?)(\/?)>/g)];
+  const tramos = [];
+  const pila = [];
+
+  for (const et of etiquetas) {
+    const [completa, , atributos, autocierre] = et;
+    const esCierre = completa.startsWith("</");
+    const ocultaAqui = /aria-hidden/.test(atributos ?? "");
+
+    if (esCierre) {
+      const abierta = pila.pop();
+      if (abierta?.oculta) tramos.push([abierta.desde, et.index + completa.length]);
+      continue;
+    }
+    if (autocierre) {
+      if (ocultaAqui) tramos.push([et.index, et.index + completa.length]);
+      continue;
+    }
+    pila.push({ oculta: ocultaAqui, desde: et.index });
+  }
+  // Lo que quede abierto al final (JSX mal cerrado o fragmentos) se ignora.
+  return (pos) => tramos.some(([desde, hasta]) => pos >= desde && pos <= hasta);
+}
+
+const estaOculto = ancestrosOcultos(codigo);
+
 const bloques = codigo
   .split(/(?=^(?:export default )?function\s+\w+)/m)
   .filter((b) => b.trim().length > 0);
 
+let desplazamiento = 0;
 for (const bloque of bloques) {
+  const inicioBloque = codigo.indexOf(bloque, desplazamiento);
+  desplazamiento = inicioBloque + bloque.length;
   const nombre = bloque.match(/function\s+(\w+)/)?.[1] ?? "(módulo)";
-  const esDecorativo = /aria-hidden/.test(bloque);
-  // La alternativa puede estar en el propio bloque (sr-only, aria-label) o vivir en el
-  // componente padre — el caso de `Avatar`, cuyas iniciales duplican el nombre que ya se
-  // muestra en texto al lado. Ese segundo caso **se declara en el código** con un
-  // comentario `a11y-exento:` explicando por qué. Una exención escrita se puede discutir;
-  // una asumida, no.
-  const tieneAlternativa = /sr-only|aria-label|a11y-exento/.test(bloque);
-
-  if (esDecorativo && !tieneAlternativa) {
-    hallazgos.push(
-      `${nombre}: usa aria-hidden sin sr-only, aria-label ni un comentario "a11y-exento:" que lo justifique`
-    );
-    continue;
-  }
 
   for (const match of bloque.matchAll(/text-([a-zA-Z0-9]+)(?:\/(\d{1,3}))?\b/g)) {
     const [clase, token, opacidad] = match;
@@ -97,9 +117,23 @@ for (const bloque of bloques) {
     const alfa = opacidad ? Number(opacidad) / 100 : 1;
     const r = ratio(hex, FONDO, alfa);
     const entrada = `${nombre}: ${clase} → ${r.toFixed(2)}:1`;
+    const posicionAbsoluta = inicioBloque + match.index;
 
-    if (esDecorativo) {
-      if (!decorativos.includes(entrada)) decorativos.push(`${entrada}  (exento: aria-hidden + texto alternativo)`);
+    // ¿Este nodo concreto, o alguno de sus ancestros, está oculto a la accesibilidad?
+    const oculto = estaOculto(posicionAbsoluta);
+
+    if (oculto) {
+      // La exención se gana con alternativa textual en el mismo bloque (sr-only,
+      // aria-label) o con un comentario `a11y-exento:` que la justifique por escrito
+      // cuando la alternativa vive en el componente padre.
+      const tieneAlternativa = /sr-only|aria-label|a11y-exento/.test(bloque);
+      if (!tieneAlternativa) {
+        hallazgos.push(`${nombre}: ${clase} bajo aria-hidden sin alternativa textual ni "a11y-exento:"`);
+        continue;
+      }
+      if (!decorativos.includes(entrada)) {
+        decorativos.push(`${entrada}  (exento: el nodo está bajo aria-hidden y hay alternativa)`);
+      }
       continue;
     }
 

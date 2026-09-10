@@ -31,8 +31,8 @@ volver al intent.
 
 | Milestone | Nombre | Objetivo | Estado |
 |---|---|---|---|
-| M0 | Fundación | Historial de git, tests, CI, evals y método en su sitio | TODO |
-| M1 | Reseñas | La web muestra reseñas de Google desde `data/reviews.json`, con cumplimiento legal | TODO |
+| M0 | Fundación | Historial de git, tests, CI, evals y método en su sitio | **DONE** (7 de 8; `M0-IT-002` en `SKIP` temporal) |
+| M1 | Reseñas | La web muestra reseñas de Google desde `data/reviews.json`, con cumplimiento legal | **WIP** — UJ-001/002/003 auditados y cerrados; faltan UJ-004 y UJ-005 |
 | M2 | Publicación | Dominio, datos legales reales, deploy en Cloudflare, QR impreso | **TODO** — reabierto el 3 sep 2026 por DEC-010 (`intent-003`) |
 
 **Regla:** nunca se empieza un UJ mientras quede un IT abierto de su milestone o de uno anterior.
@@ -43,22 +43,22 @@ volver al intent.
 
 | ID | Nombre | Milestone | Estado | Skill | Model | Security ✓ | Eval ✓ | Review ✓ | Notas |
 |----|--------|-----------|--------|-------|-------|-----------|--------|---------|-------|
-| M0-IT-001 | Rename a `web-musica`, rama `feat/factoria-reviews`, primer commit | M0 | **DONE** | `ninguna` | `opus` (previsto `haiku`) | — | — | [ ] | `master`→`main`; commit base del sitio en `main`, scaffold en la rama. Árbol limpio. Ejecutado con el modelo de sesión, no se pudo bajar a haiku |
+| M0-IT-001 | Rename a `web-musica`, rama `feat/factoria-reviews`, primer commit | M0 | **DONE** | `ninguna` | `opus` (previsto `haiku`) | — | — | ✓ | `master`→`main`; commit base del sitio en `main`, scaffold en la rama. Árbol limpio. Ejecutado con el modelo de sesión, no se pudo bajar a haiku |
 | M0-IT-002 | Repo privado en GitHub + remoto | M0 | **SKIP (temporal)** | `ninguna` | `haiku` | — | — | [ ] | `gh` instalado (2.99.0) pero sin autenticar tras dos sesiones. Se aparta **conscientemente** para no bloquear M1: el remoto no es prerrequisito técnico de ningún UJ. Vuelve a `TODO` en cuanto haya `gh auth login`. Ver B-03 |
-| M0-IT-003 | Vitest + Testing Library + jsdom | M0 | **DONE** | `javascript-testing-patterns` | `opus` (previsto `sonnet`) | — | — | [ ] | 6 tests en verde en 1,78 s. Supuesto S-05 confirmado: RTL 16 + React 19.0.0 exacto sin conflicto. `esbuild.jsx: automatic` obligatorio por el `jsx: preserve` de Next |
-| M0-IT-004 | Playwright + smoke ES/EN | M0 | **DONE** | `e2e-testing` | `opus` (previsto `sonnet`) | — | — | [ ] | 7 casos, 6 activos + 1 guardado tras `HERO3D_E2E=on`. Riesgo R-06 mitigado. Se cazó un falso verde: el canvas no vale como marcador |
+| M0-IT-003 | Vitest + Testing Library + jsdom | M0 | **DONE** | `javascript-testing-patterns` | `opus` (previsto `sonnet`) | — | — | ✓ | 6 tests en verde en 1,78 s. Supuesto S-05 confirmado: RTL 16 + React 19.0.0 exacto sin conflicto. `esbuild.jsx: automatic` obligatorio por el `jsx: preserve` de Next |
+| M0-IT-004 | Playwright + smoke ES/EN | M0 | **DONE** | `e2e-testing` | `opus` (previsto `sonnet`) | — | — | ✓ | 7 casos, 6 activos + 1 guardado tras `HERO3D_E2E=on`. Riesgo R-06 mitigado. Se cazó un falso verde: el canvas no vale como marcador |
 | M0-IT-005 | GitHub Actions: lint → check-legal → unit → build → e2e → evals | M0 | **DONE (dormido)** | `deployment-procedures` | `opus` (previsto `sonnet`) | — | — | [ ] | Workflow escrito y su cadena verificada **en local, paso a paso**. No se ha ejecutado nunca en GitHub: sin remoto (B-03). `deployment-procedures` es doctrina de despliegue, no plantillas de CI |
-| M0-IT-006 | **Eval harness** — runner de `implementation/evals/` + `npm run evals` | M0 | **DONE** | `evaluation` (no encaja) | `opus` (previsto `sonnet`) | — | ✓ | [ ] | Runner + EV-006 y EV-009 reales. **Probado en rojo** plantando un secreto en `.next`: exit 1 con ruta exacta. Después, 2/2 en verde |
-| M0-IT-007 | Estructura FactorIA + `CLAUDE.md` de proyecto | M0 | **DONE** | `plan-writing` | `opus` (previsto `haiku`) | — | — | [ ] | 24 ficheros, commiteados el 3 sep |
-| M0-IT-008 | Guardia de placeholders en `check-legal.mjs` | M0 | **DONE** | `ninguna` | `opus` (previsto `haiku`) | — | ✓ `EV-010` | [ ] | Dos niveles: LEGAL bloquea con `--strict`, PENDIENTE solo avisa. **La review tumbó el `Eval ✓` anterior**: estaba marcado con una frase del work_log por toda prueba. Ahora lo respalda `EV-010`, que además cazó un segundo defecto en la regla de `social` |
+| M0-IT-006 | **Eval harness** — runner de `implementation/evals/` + `npm run evals` | M0 | **DONE** | `evaluation` (no encaja) | `opus` (previsto `sonnet`) | — | ✓ | ✓ | Runner + EV-006 y EV-009 reales. **Probado en rojo** plantando un secreto en `.next`: exit 1 con ruta exacta. Después, 2/2 en verde |
+| M0-IT-007 | Estructura FactorIA + `CLAUDE.md` de proyecto | M0 | **DONE** | `plan-writing` | `opus` (previsto `haiku`) | — | — | ✓ | 24 ficheros, commiteados el 3 sep |
+| M0-IT-008 | Guardia de placeholders en `check-legal.mjs` | M0 | **DONE** | `ninguna` | `opus` (previsto `haiku`) | — | ✓ `EV-010` | ✓ | Dos niveles: LEGAL bloquea con `--strict`, PENDIENTE solo avisa. **La review tumbó el `Eval ✓` anterior**: estaba marcado con una frase del work_log por toda prueba. Ahora lo respalda `EV-010`, que además cazó un segundo defecto en la regla de `social` |
 
 ## User Journeys (UJs)
 
 | ID | Nombre | Milestone | Estado | Skill | Model | Security ✓ | Eval ✓ | Review ✓ | Notas |
 |----|--------|-----------|--------|-------|-------|-----------|--------|---------|-------|
-| M1-UJ-001 | Visitante ve las reseñas en la home ES | M1 | **REVIEW** | `react-best-practices` | `opus` (previsto `sonnet`) | ✓ | ✓ | [ ] | 17 tests nuevos (23 en total). Probado en build real **en las dos direcciones**: con datos sale `id="opiniones"`, sin datos no. `EV-001` rojo→verde |
-| M1-UJ-002 | Visitante ve las reseñas en `/en`, idioma original | M1 | **REVIEW** | `ninguna` (ver Notas) | `opus` | ✓ | ✓ | [ ] | **Sin código nuevo**: el diseño de UJ-001 (un componente con `locale`, un solo fichero) ya lo cubría. 6 tests verdes a la primera. No se cargó `nextjs-best-practices` porque no había nada que implementar |
-| M1-UJ-003 | Google puede mostrar estrellas: JSON-LD | M1 | **REVIEW** | `seo-fundamentals` | `opus` (previsto `sonnet`) | ✓ | ✓ | [ ] | `jsonld.ts` + 7 tests. `EV-004` rojo→verde. Verificado en HTML real: con datos `reviewCount: 23`, sin datos ninguna clave |
+| M1-UJ-001 | Visitante ve las reseñas en la home ES | M1 | **REVIEW** | `react-best-practices` | `opus` (previsto `sonnet`) | ✓ | ✓ | ✓ | 17 tests nuevos (23 en total). Probado en build real **en las dos direcciones**: con datos sale `id="opiniones"`, sin datos no. `EV-001` rojo→verde |
+| M1-UJ-002 | Visitante ve las reseñas en `/en`, idioma original | M1 | **REVIEW** | `ninguna` (ver Notas) | `opus` | ✓ | ✓ | ✓ | **Sin código nuevo**: el diseño de UJ-001 (un componente con `locale`, un solo fichero) ya lo cubría. 6 tests verdes a la primera. No se cargó `nextjs-best-practices` porque no había nada que implementar |
+| M1-UJ-003 | Google puede mostrar estrellas: JSON-LD | M1 | **REVIEW** | `seo-fundamentals` | `opus` (previsto `sonnet`) | ✓ | ✓ | ✓ | `jsonld.ts` + 7 tests. `EV-004` rojo→verde. Verificado en HTML real: con datos `reviewCount: 23`, sin datos ninguna clave |
 | M1-UJ-004 | Manuel sincroniza con `npm run reviews:fetch` | M1 | TODO | `auth-implementation-patterns` | `opus` | [ ] | [ ] | [ ] | OAuth, paginación, reintentos, fallback. **Nunca rompe el build** |
 | M1-UJ-005 | La sección cumple Omnibus y RGPD (ES/EN) | M1 | TODO | `gdpr-data-handling` | `opus` | [ ] | [ ] | [ ] | Nota de verificación + atribución + párrafo en privacidad |
 
@@ -82,6 +82,7 @@ volver al intent.
 | B-02 | Conexión real de `M1-UJ-004` | Cuota de Business Profile API sin solicitar a Google | 2026-09-03 | — |
 | B-03 | `M0-IT-002` y la ejecución real de `M0-IT-005` | `gh` instalado el 3 sep (2.99.0). Sigue bloqueado en **`gh auth login`**: exige navegador | 2026-09-03 | Parcial: instalación resuelta |
 | B-04 | `M2-UJ-002` (QR) | **No hay dominio ni sitio publicado.** Un QR impreso necesita una URL definitiva | 2026-09-03 | En curso: M2 reabierto |
+| B-06 | Publicación (M2) | **La navegación es ilegible sin scroll** (logo ≈1,00:1). Hallazgo de la review, pasada 6. Ver `planning/intent-005.md` | 2026-09-10 | — |
 | B-05 | `M2-IT-001` y `M2-IT-002` | **Solo Manuel tiene los datos**: dominio elegido, nombre completo, NIF, dirección postal y teléfono real | 2026-09-03 | — |
 
 > Ninguno de los dos bloquea el código: `M1-UJ-004` se implementa y se prueba con fixtures.
