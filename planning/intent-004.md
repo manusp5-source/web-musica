@@ -52,7 +52,7 @@ sesión: CEO, COO, CMO, CFO, CHRO y CDO, con crítico en rol distinto.
 | `docs/` | Dos documentos nuevos. No tocan código |
 | **INT-001** (reseñas de Google) | **Deja de ser una mejora y pasa a ser el cuello de botella comercial.** El plan hace depender de la ficha de Google el único canal de coste cero |
 | **INT-003** (publicar la web) | Igual: sin dominio ni datos legales reales, la captación orgánica no existe y todo cuelga del portal de pago |
-| `dictionaries.ts` | La tarifa de §4 del plan tendría que publicarse en la web. **Cambio de contenido, no incluido en este intent** |
+| `dictionaries.ts` | Dos cambios de contenido, **ninguno incluido en este intent**: publicar la tarifa de §4, y **quitar el piano en vivo** (`:59`, `:71`, `:135` y sus equivalentes en inglés) si se confirma la instrumentación de viola sola. Lo segundo **bloquea la publicación de la web** |
 | Dashboard del negocio | Los KPIs del §10 del plan son su especificación. **Proyecto aparte**, con su propio `/init-project` y su propio gate |
 
 ## Restricciones
@@ -107,10 +107,14 @@ Las tres de coste cero que pueden tumbar el plan, y que van antes que nada:
 3. **¿Cuáles son las tarifas reales de Viola Tempestad?** Define el techo de precio local.
    Solo se sabe pidiendo presupuesto.
 
-Y una cuarta, de producto, que no bloquea:
+Y dos de producto:
 
 4. ¿Se publica la tarifa en la web? Es el diferenciador más barato del plan y el más
-   incómodo de deshacer.
+   incómodo de deshacer. No bloquea.
+5. **¿Se toca el piano en vivo o no?** Resuelta en §2 del plan a favor de **viola sola en
+   ceremonia y viola con base propia en cóctel**, con el coste estratégico anotado: sin
+   piano en vivo el posicionamiento cae en la casilla del competidor de referencia.
+   **Esta sí bloquea**, porque la web promete hoy piano en vivo en tres sitios.
 
 ## Aprobación
 

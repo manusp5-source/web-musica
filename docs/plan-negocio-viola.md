@@ -48,18 +48,49 @@ De ahí sale la consecuencia que gobierna todo el plan y que el CFO desarrolla e
 
 > **La palanca no es hacer más bodas. Es cobrar más por cada sábado.**
 
-### Aviso del COO sobre la promesa comercial
+### Decisión de instrumentación — viola sola, con base propia, y por segmento
 
-La web vende *"viola para la ceremonia, piano para el cóctel"*
-([`src/i18n/dictionaries.ts:71`](../src/i18n/dictionaries.ts#L71)). Es el diferenciador —
-y crea un problema operativo que el plan tiene que pagar:
+La web vende hoy *"viola para la ceremonia, piano para el cóctel"*
+([`src/i18n/dictionaries.ts:71`](../src/i18n/dictionaries.ts#L71)), con piano **en vivo**.
+Manuel plantea la alternativa que tenía pensada: **viola sola sobre base pregrabada**.
 
-**Casi ninguna finca tiene piano.** Vender el pack completo obliga a llevar un piano digital
-de 88 teclas con soporte y amplificación: 1.200 € de inversión, 20 kg más de carga y unos
-25 minutos extra de montaje. O eso, o el pack completo solo se ofrece en espacios con piano
-propio —cármenes, hoteles, paradores— que son minoría.
+Las dos opciones tienen razón en sitios distintos, así que la decisión es por segmento:
 
-**Está contemplado en la inversión de §5.** No se vende el pack sin haberlo comprado.
+| Momento | Formato | Por qué |
+|---|---|---|
+| **Ceremonia** (religiosa o civil solemne) | **Viola sola, sin base** | Es donde el timbre desnudo gana. Y es donde la base estorba: en iglesia muchos párrocos no la admiten, y el segmento núcleo del plan son las 736 ceremonias religiosas de Granada |
+| **Cóctel, fiesta, hostelería, redes** | **Viola + base propia** | El repertorio pop con viola sola suena escueto. Con base, no |
+| Piano en vivo | **Solo si se toca de verdad** | Ver el aviso de abajo |
+
+**Lo que esto ahorra:** los 1.200 € del piano digital, 20 kg de carga y ~25 min de montaje
+por evento. La inversión de §5 baja de 4.700 € a 3.500 €.
+
+**Lo que esto cuesta, y hay que verlo:** el pack de dos instrumentos en vivo era el único
+hueco del mapa perceptual que Viola Tempestad no ocupa. Viola + base + equipo propio **es
+exactamente su modelo**, y él tiene 119 reseñas. Sin el piano en vivo, la diferenciación
+tiene que recaer entera sobre las otras dos patas: **precio publicado y arreglo propio**.
+
+### Aviso duro sobre las bases
+
+**Las bases no pueden salir de YouTube.** Usar audio de la plataforma en una actuación
+comercial infringe el copyright de la grabación y las propias condiciones del servicio. No
+es un matiz: es lo que puede dejar una actuación sin poder facturarse.
+
+**La solución ya está en la máquina.** Manuel tiene FL Studio y una carpeta de proyectos
+propios. Producir las bases resuelve tres cosas de una vez:
+
+1. El problema de licencia desaparece: la base es obra propia.
+2. *"Arreglo personalizado de vuestra canción"* pasa de frase de web a producto real.
+3. Abre el vídeo-concierto grabado de §6 sin coste marginal de licencia.
+
+### Corrección pendiente en la web
+
+`dictionaries.ts` promete piano en vivo en tres sitios: el hero (`:59`), la descripción de
+servicios (`:71`) y una FAQ dedicada (`:135`), más sus equivalentes en inglés.
+
+**Si no se va a tocar el piano en vivo, eso sale de la web.** Un negocio que se construye
+sobre reseñas no puede arrancar prometiendo lo que no entrega. La corrección es de
+contenido y va en su propio intent, pero **bloquea la publicación**.
 
 ### Modos de fallo y plan B
 
@@ -91,7 +122,7 @@ Un sector duro. La única defensa real es no estar en la misma comparación que 
 
 | | |
 |---|---|
-| **Fortalezas** | Doble instrumento (viola + piano) en una sola contratación · formación clásica · web ya construida en dos idiomas · timbre que nadie ha oído en una boda |
+| **Fortalezas** | **Arreglos propios producidos por él mismo** (FL Studio), no bases compradas · formación clásica · web ya construida en dos idiomas · timbre que casi nadie ha oído en una ceremonia |
 | **Debilidades** | **Cero reseñas frente a las 119 de Viola Tempestad** · sin ficha de Google · sin cartera ni recomendación · un solo par de manos |
 | **Oportunidades** | Granada tiene 22,9% de bodas religiosas (vs 16,4% nacional), que es donde más se contrata música en vivo · nadie publica precios · funerales sin temporada y sin competencia fina · el mercado local (340 €) está por debajo del nacional (450–550 €) |
 | **Amenazas** | Saturación · el cliente compara por precio · si el incumbente publica tarifas, se cierra la grieta principal |
@@ -184,7 +215,7 @@ timbres distintos, y sabes el precio antes de escribir"*.
 
 ### Posicionamiento, en una frase
 
-> **La ceremonia con viola, el cóctel con piano, y el precio en la web.**
+> **La ceremonia a viola sola, con vuestro arreglo hecho por mí, y el precio ya en la web.**
 
 Una frase que un cliente repetiría a su pareja. Ese es el listón.
 
@@ -195,9 +226,9 @@ local lo hace.
 
 | Paquete | Contenido | Precio |
 |---|---|---|
-| **Ceremonia** | Viola, 45 min, equipo de sonido incluido, 1 arreglo personalizado | **390 €** |
-| **Ceremonia + cóctel** | Lo anterior + 1 h de piano o viola en cóctel | **690 €** |
-| **Jornada** | Ceremonia + cóctel + entrada al banquete, dos instrumentos | **990 €** |
+| **Ceremonia** | **Viola sola, sin base.** 45 min, equipo de sonido incluido, 1 arreglo propio | **390 €** |
+| **Ceremonia + cóctel** | Lo anterior + 1 h de cóctel con **viola y bases propias** | **690 €** |
+| **Jornada** | Ceremonia + cóctel + entrada al banquete | **990 €** |
 | Comunión o funeral | 45 min, un instrumento | **250 €** |
 | Hostelería (set de 1 h) | Repertorio de ambiente, precio por recurrencia | **200 €** |
 | Vídeo-concierto grabado | Pieza a medida, calidad de estudio | **150 €** |
@@ -209,8 +240,8 @@ local lo hace.
 - **Competencia:** 390 € queda por encima de la media local de clásica (340 €) y por debajo
   de la ceremonia española (450–550 €). Se entra caro para Granada y barato para España
   — que es exactamente el hueco que abre el §3.2 del informe.
-- **Valor:** dos instrumentos en una contratación, equipo propio, arreglo a medida y precio
-  cerrado sin tener que pedirlo.
+- **Valor:** arreglo propio producido a medida —no una base comprada—, equipo propio y
+  precio cerrado sin tener que pedirlo.
 
 **Lo que no se hace: descuentos por volumen.** Con 30 sábados, rebajar el sábado es regalar
 el activo escaso.
@@ -256,9 +287,12 @@ para poder compararlas contra lo real desde el primer mes, que es su única func
 |---|---|
 | Viola eléctrica | 1.200 € |
 | Equipo de sonido portátil (PA, pastilla, pedal, cables) | 1.200 € |
-| **Piano digital 88 teclas + soporte** (aviso del COO, §2) | 1.200 € |
 | Fotografía y vídeo profesional | 1.100 € |
-| **Total inversión** | **4.700 €** |
+| Producción de bases propias (FL Studio ya instalado) | **0 €** |
+| **Total inversión** | **3.500 €** |
+
+> El piano digital de 88 teclas (1.200 €) **sale de la inversión** por la decisión de
+> instrumentación de §2. Vuelve a entrar solo si se decide tocar piano en vivo.
 
 **Variable por evento:** desplazamiento medio 40 € + consumibles 10 € = **50 €**.
 
@@ -271,11 +305,11 @@ completas), el **ticket medio ponderado sale a 459 €** y el margen de contribu
 | | |
 |---|---|
 | **Punto de equilibrio operativo** | **9 eventos al año** (3.570 / 409) |
-| Eventos para además recuperar los 4.700 € de inversión en el año 1 | **21 eventos** |
+| Eventos para además recuperar los 3.500 € de inversión en el año 1 | **18 eventos** |
 | **% de la capacidad (40) que consume el equilibrio** | **22,5%** |
 
 **Este es el número que dice que el negocio es viable:** el umbral cabe holgadamente bajo el
-techo del COO. Nueve eventos son tres meses de temporada floja. Veintiuno son un año base.
+techo del COO. Nueve eventos son tres meses de temporada floja. Dieciocho son un año base.
 
 Si el equilibrio hubiera salido en 35 eventos sobre una capacidad de 40, el modelo estaría
 muerto a ese precio y habría que subirlo. No es el caso.
@@ -310,7 +344,7 @@ un autónomo sin deuda.
 
 | | |
 |---|---|
-| Payback simple | 4.700 / 409 = **11,5 eventos** ≈ 5 meses de temporada |
+| Payback simple | 3.500 / 409 = **8,6 eventos** ≈ 4 meses de temporada |
 | VAN a 3 años (flujos 7.064 / 9.500 / 11.000) | **≈ 19.000 €** |
 | TIR | > 150% |
 
@@ -399,7 +433,8 @@ Un acta sin disidencias es un acta que no discutió.
 | Silla | En qué no está de acuerdo | Qué pasaría si tiene razón |
 |---|---|---|
 | **CFO vs CMO** | El CMO quiere bodas.net desde el mes 1. El CFO se opone: **un perfil con cero reseñas convierte mal**, y pagar 1.800 € para competir contra un perfil de 119 opiniones es quemar el presupuesto del año | Se resuelve: **bodas.net entra en el mes 4**, con al menos 5 reseñas de Google encima. Si en el mes 4 no hay 5 reseñas, no entra |
-| **COO vs CMO** | El pack "Jornada" con dos instrumentos suena bien y **casi ninguna finca tiene piano** | Aceptado y pagado: 1.200 € de piano digital en la inversión. Si el pack no se vende ≥4 veces el año 1, esa compra fue un error de 1.200 € |
+| **COO vs CMO** | El pack de dos instrumentos en vivo exigía piano, y **casi ninguna finca tiene uno** | Resuelto por decisión de instrumentación (§2): viola sola en ceremonia, viola con base propia en cóctel. Ahorra 1.200 € **y cuesta el diferenciador** |
+| **CEO vs COO** | El CEO avisa de que, sin piano en vivo, el posicionamiento **cae en la casilla exacta de Viola Tempestad**, que la ocupa con 119 reseñas | Aceptado con los ojos abiertos. La diferenciación pasa a depender enteramente de **precio publicado + arreglo propio**. Si a los 6 meses ninguna de las dos ha traído un cliente atribuible, hay que reabrir la instrumentación |
 | **CDO vs CFO** | El CDO quiere presupuesto de vídeo desde el mes 1; el CFO lo ve como gasto sin retorno demostrado | Se resuelve con el criterio de abandono de §6. El gasto está acotado a 400 € |
 
 ---
@@ -481,7 +516,8 @@ Ninguna de estas las toma la IA.
 | Decisión | Por qué | Coste |
 |---|---|---|
 | Alta de autónomo | Obligación fiscal continuada. Difícil de deshacer sin coste | 80 €/mes año 1, después 205–607 €/mes |
-| Compra del equipo | Desembolso irreversible | 4.700 € |
+| Compra del equipo | Desembolso irreversible | 3.500 € |
+| **Quitar el piano en vivo de la web** | Cambia la promesa pública del negocio | 0 € |
 | Contratar bodas.net | Contrato anual con renovación | 1.200–2.400 €/año `estimado` |
 | Publicar la tarifa | Fija el posicionamiento en público y es incómodo de bajar | 0 € |
 
@@ -499,12 +535,19 @@ Rol distinto del que escribió el análisis. Audita la trayectoria, no repite la
 | El punto de equilibrio se comparó con la capacidad | **Sostenido.** 9 eventos = 22,5% del techo, dicho en §5 |
 | Cada cifra externa con fuente y fecha, o marcada como estimación | **Sostenido con reserva.** Las cifras del INE y de precios están citadas; los leads por canal de §4 y la tarifa de bodas.net son estimaciones propias y aparecen marcadas. **La fila de "leads esperados" es la más débil del documento** y no debe usarse como si fuera un dato |
 | Escenario pesimista con decisión asociada | **Sostenido.** §5 lleva la decisión, no solo el número |
-| Cada silla se quedó en su carril | **Sostenido.** El aviso del piano lo dio el COO y lo pagó el CFO, que es como debe ser |
-| Disidencias registradas | **Sostenido.** Tres, en §8 |
+| Cada silla se quedó en su carril | **Sostenido.** El aviso del piano lo dio el COO, lo pagó el CFO y el CEO puso el coste estratégico encima de la mesa. Así debe funcionar |
+| Disidencias registradas | **Sostenido.** Cuatro, en §8 |
 
 **Veredicto: avanzar con correcciones.**
 
 **Correcciones exigidas:**
+
+0. **La decisión de instrumentación de §2 tiene una consecuencia que el plan no puede
+   maquillar:** al renunciar al piano en vivo, el posicionamiento cae dentro de la casilla
+   que Viola Tempestad ocupa con 119 reseñas. El plan sigue siendo defendible —el precio
+   publicado y el arreglo propio son diferenciadores reales— pero **son más frágiles que
+   una instrumentación que el competidor no puede copiar en una tarde.** Revisar a los 6
+   meses con datos, no con intuición.
 
 1. **La Fase 0 no es opcional.** Las tres comprobaciones cuestan cero euros y cualquiera de
    las tres puede tumbar el plan. Ejecutar el resto sin ellas sería construir sobre
