@@ -66,7 +66,7 @@ volver al intent.
 
 | ID | Nombre | Milestone | Estado | Skill | Model | Security ✓ | Eval ✓ | Review ✓ | Notas |
 |----|--------|-----------|--------|-------|-------|-----------|--------|---------|-------|
-| M2-IT-001 | Dominio registrado y DNS en Cloudflare | M2 | BLOCKED | `ninguna` | `haiku` | — | — | [ ] | **Lo compra Manuel.** Ni la IA compra dominios ni gestiona pagos |
+| M2-IT-001 | Dominio registrado y DNS en Cloudflare | M2 | **BLOCKED (parcial)** | `ninguna` | `haiku` | — | — | [ ] | **Dominio ya comprado: `violagranada.es`** (10 sep, Manuel). Aplicado en `site.ts`, verificado en `sitemap.xml`, JSON-LD y build real. **Falta la parte DNS**: sin cuenta de Cloudflare no hay dónde apuntarlo |
 | M2-IT-002 | Datos legales reales en `site.ts` + `check-legal --strict` en verde | M2 | **DONE** | `gdpr-data-handling` | `sonnet` (previsto `opus`; sesión en `sonnet`) | — | OK `check-legal --strict` | [ ] | Manuel dio los datos reales el 10 sep. `node scripts/check-legal.mjs --strict` → exit 0 por primera vez. Quedan 3 pendientes no bloqueantes: dominio, vídeos, redes |
 | M2-IT-003 | Proyecto en Cloudflare Pages + primer deploy de vista previa | M2 | TODO | `deployment-procedures` | `sonnet` | — | [ ] | [ ] | Se puede hacer contra `*.pages.dev` antes de tener dominio |
 | M2-IT-004 | Dominio propio + HTTPS + cabeceras verificadas en producción | M2 | TODO | `security-scanning-security-hardening` | `opus` | [ ] | [ ] | [ ] | `curl -I` tiene que devolver CSP, HSTS, X-Frame-Options y Referrer-Policy |
@@ -85,7 +85,7 @@ volver al intent.
 | B-03 | `M0-IT-002` y la ejecución real de `M0-IT-005` | `gh` instalado el 3 sep (2.99.0). Sigue bloqueado en **`gh auth login`**: exige navegador | 2026-09-03 | Parcial: instalación resuelta |
 | B-04 | `M2-UJ-002` (QR) | **No hay dominio ni sitio publicado.** Un QR impreso necesita una URL definitiva | 2026-09-03 | En curso: M2 reabierto |
 | B-06 | Publicación (M2) | ~~La navegación es ilegible sin scroll~~ | 2026-09-10 | **10 sep 2026** — `M2-IT-007`, `EV-014`/`EV-015` |
-| B-05 | `M2-IT-001` (dominio) | Nombre, NIF, dirección y teléfono **ya dados** (10 sep) y aplicados en `M2-IT-002`. **Solo falta el dominio elegido** — sigue bloqueando `M2-IT-001` | 2026-09-03 | Parcial: datos personales resueltos |
+| B-05 | — | ~~Solo Manuel tiene los datos~~ | 2026-09-03 | **10 sep 2026** — dominio, nombre, NIF, dirección y teléfono, todos dados |
 
 > Ninguno de los dos bloquea el código: `M1-UJ-004` se implementa y se prueba con fixtures.
 > Lo bloqueado es ver reseñas reales en la página, no entregar la tarea.
