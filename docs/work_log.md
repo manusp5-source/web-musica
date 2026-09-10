@@ -441,6 +441,46 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
 - **M1 completo**: los 5 UJs (`M1-UJ-001` a `005`) están en `REVIEW`. Falta `/review` de
   frontera de milestone sobre este bloque — no se ha lanzado en esta tanda.
 
+### 2026-09-10 — M2-UJ-002: generador de QR — REVIEW (parcial)
+- **Trabajo hecho**: `scripts/make-qr.ts` genera SVG (máster vectorial) + PNG (1800px) en
+  `assets/qr/`, nunca en `public/`. Carbón sobre blanco (el dorado de la paleta no daría
+  contraste suficiente, per `intent-002`), zona de silencio de 4 módulos, corrección M
+  (sin monograma — Q-03 sigue sin resolver, se tomó el valor por defecto). `site.qr` en
+  `site.ts` son solo metadatos (`label`, `filename`); las URLs no se duplican ahí.
+- **Modelo usado / Skill cargada**: `sonnet`. Skill: `ninguna` — es un script utilitario
+  sobre un contrato ya decidido en el propio intent.
+- **Ficheros creados**: `scripts/make-qr.ts`, `implementation/evals/checks/qr-round-trip.mjs`.
+  `qrcode`, `jsqr`, `pngjs` como devDependencies (esta última pareja solo para el eval).
+- **Verificación (salida)**: `npm run qr` ejecutado de verdad → `assets/qr/web.svg` y
+  `.png` generados; `resena-google.*` correctamente omitido con el motivo impreso.
+- **Verificación (trayectoria) — dos pruebas en rojo, las dos contra el sistema real**:
+  1. Con `site.domain` devuelto a mano al placeholder original (`https://tunombre.es`):
+     `npx tsx scripts/make-qr.ts` → exit 1, **cero ficheros** generados. Restaurado,
+     `git status` limpio salvo los cambios reales.
+  2. `EV-016` decodifica el PNG generado con un lector de QR de software (`jsqr` +
+     `pngjs`) y confirma que vuelve exactamente `site.domain` — un round-trip real, no
+     una comparación de bytes contra un valor fijo.
+- **Eval**: `EV-016`, rojo→verde.
+- **Decisión de diseño no anticipada por el intent**: el destino "review" se lee de
+  `data/reviews.json` → `profileUrl` en vez de guardarse por segunda vez en `site.ts`
+  (`DEC-019`). Mismo principio que ya rige todo el proyecto —el fichero es la frontera—
+  aplicado también aquí: el día que exista la ficha de Google, `npm run qr` genera el
+  segundo código sin que nadie tenga que copiar una URL a mano a un sitio nuevo.
+- **Notas — dos huecos declarados, no escondidos**:
+  - **La prueba física real** —«un móvil escanea el PNG impreso a 2 cm de lado desde
+    20 cm»— **no se puede hacer en esta máquina**: no hay impresora ni cámara. El
+    round-trip de software es el proxy más cercano posible, y está dicho así en la propia
+    ficha del eval: un módulo mal impreso o una tinta de bajo contraste real no los
+    detecta un decodificador. Queda para Manuel con el SVG y una impresora de verdad.
+  - **El mensaje de error si `qrcode` no está instalado no se ha visto fallar de verdad**:
+    habría exigido desinstalar una dependencia real a mitad de sesión, con riesgo de dejar
+    `node_modules` inconsistente para el resto del trabajo. El código lo contempla
+    (`try/catch` en el `import`), pero eso no es lo mismo que haberlo visto romperse.
+  - `intent-002` pasa a «aprobado parcialmente»: el QR de la web no dependía de ninguna
+    decisión de negocio pendiente (el dominio ya estaba dado), así que se ejecutó dentro
+    de «sigue con lo que falta» sin necesitar un `APROBADO` nuevo — mismo razonamiento que
+    `intent-005` (`DEC-015`).
+
 ---
 
 ## Review

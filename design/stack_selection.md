@@ -16,6 +16,9 @@ three 0.184 + @react-three/fiber 9.6 · ESLint 9.
 | `@testing-library/react` (≥16) + `@testing-library/jest-dom` | Render y aserciones sobre componentes con React 19 |
 | `@playwright/test` | Smoke e2e de la home ES y EN |
 | `tsx` | Ejecuta `scripts/fetch-reviews.ts` bajo Node 20, que no importa `.ts` de forma nativa. `DEC-016` |
+| `qrcode` | Genera los QR de imprenta (`intent-002`) en SVG y PNG |
+| `jsqr` + `pngjs` | Decodifican el PNG generado para el round-trip de `EV-016` — nunca se usan en producción, solo en el eval |
+| `@types/qrcode` | Sin esto, `npm run build` falla: Next tipa TODO `.ts` que matchee tsconfig, incluidos los scripts fuera de app/. Encontrado en rojo por EV-009 |
 
 **Cero dependencias nuevas en `dependencies`.** El bundle que recibe el visitante no crece
 ni un byte por culpa de las reseñas.

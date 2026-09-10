@@ -13,7 +13,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "evals": "node implementation/evals/run.mjs",
-    "reviews:fetch": "tsx scripts/fetch-reviews.ts"
+    "reviews:fetch": "tsx scripts/fetch-reviews.ts",
+    "qr": "tsx scripts/make-qr.ts"
   },
   "overrides": {
     "postcss": "^8.5.10"
@@ -31,6 +32,7 @@
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@types/node": "^20",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.184.1",
@@ -39,7 +41,10 @@
     "eslint": "^9.39.4",
     "eslint-config-next": "^15.5.19",
     "jsdom": "^29.1.1",
+    "jsqr": "^1.4.0",
+    "pngjs": "^7.0.0",
     "postcss": "^8.5.10",
+    "qrcode": "^1.5.4",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.23.13",
     "typescript": "^5.7.3",

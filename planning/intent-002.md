@@ -4,7 +4,7 @@
 ID      : INT-002
 Fecha   : 2026-09-03
 Autor   : Manuel
-Estado  : borrador
+Estado  : aprobado parcialmente (QR de la web; el de reseñas sigue bloqueado por B-01/B-02)
 Origen  : manual (petición durante la ejecución de M0)
 ```
 
@@ -43,9 +43,9 @@ Se generan **dos** códigos, porque los dos momentos son distintos:
 
 | Qué | Cómo se toca |
 |---|---|
-| `scripts/make-qr.mjs` | Nuevo. Genera los SVG y PNG |
-| `src/config/site.ts` | Gana `qr: { targets }` — sin duplicar el dominio, que ya está |
-| `package.json` | Script `qr` + dependencia `qrcode` en `devDependencies` |
+| `scripts/make-qr.ts` | Nuevo. Genera los SVG y PNG. `.ts`, no `.mjs`: mismo motivo que `fetch-reviews.ts` (`DEC-016`) |
+| `src/config/site.ts` | Gana `qr: { web, review }` — solo metadatos; la URL de "web" es `site.domain` y la de "review" se lee de `data/reviews.json` → `profileUrl`, sin duplicar ninguna de las dos |
+| `package.json` | Script `qr` + `qrcode`, `jsqr`, `pngjs` en `devDependencies` |
 | `assets/qr/` | Salida. **Fuera de `public/`**: son piezas de imprenta, no recursos de la web |
 | `.gitignore` | Los PNG generados no se versionan; los SVG sí (son el máster) |
 
@@ -72,13 +72,20 @@ Se generan **dos** códigos, porque los dos momentos son distintos:
 
 ## Criterio de éxito
 
-- [ ] `npm run qr` genera un SVG y un PNG por destino, sin tocar el disco fuera de `assets/qr/`.
-- [ ] El SVG abre en Illustrator o Inkscape y escala sin pixelar.
-- [ ] El PNG tiene resolución suficiente para 5 cm a 300 ppp (≈ 600 px de lado).
-- [ ] Un móvil escanea el PNG impreso a 2 cm de lado desde 20 cm.
-- [ ] Si un destino de `site.qr` sigue siendo un placeholder, el script **avisa y no
-      genera** ese código. No se imprime un QR a `tunombre.es` por accidente.
-- [ ] El script falla con mensaje claro si `qrcode` no está instalado.
+- [x] `npm run qr` genera un SVG y un PNG por destino, sin tocar el disco fuera de `assets/qr/`.
+- [x] El SVG es vectorial de verdad (`EV-016` comprueba `<svg>`+`<path>`, no una imagen
+      incrustada). No verificado a mano en Illustrator/Inkscape — Manuel puede confirmarlo.
+- [x] El PNG mide 1800px de lado, muy por encima del mínimo de 600px.
+- [ ] Un móvil escanea el PNG impreso a 2 cm de lado desde 20 cm. **No verificable en esta
+      máquina** (sin impresora ni cámara). El proxy más cercano: `EV-016` decodifica el PNG
+      con un lector de QR de software (`jsqr`) y confirma que vuelve la URL exacta — un
+      round-trip real, pero no la prueba física que pide este criterio.
+- [x] Si un destino sigue siendo un placeholder, el script avisa y **no genera ningún
+      fichero** para él — probado en rojo devolviendo `site.domain` al placeholder original
+      (`https://tunombre.es`): exit 1, cero ficheros.
+- [ ] Fallo claro si `qrcode` no está instalado: no probado (habría exigido desinstalar una
+      dependencia real a mitad de sesión). El código lo contempla (`try/catch` en el
+      `import`), pero no se ha visto fallar de verdad. Hueco declarado.
 
 ## Alternativas descartadas
 
@@ -93,9 +100,11 @@ Se generan **dos** códigos, porque los dos momentos son distintos:
 
 ## Preguntas abiertas
 
-1. [?] **¿A qué URL apunta el QR de la web?** No hay dominio. Ver bloqueante B-04.
-2. [?] **¿Y el de reseñas?** Necesita la ficha de Google, que tampoco existe (B-01).
-3. [?] ¿Monograma en el centro del código? Requiere corrección H y una prueba de escaneo real.
+1. [x] **¿A qué URL apunta el QR de la web?** **Resuelta 10 sep**: `https://violagranada.es`.
+2. [?] **¿Y el de reseñas?** Sigue sin resolver: necesita la ficha de Google (B-01/B-02).
+3. [?] ¿Monograma en el centro del código? Sin resolver — se generó sin monograma (nivel
+   de corrección M, no H) por ser la opción por defecto, no por una decisión explícita de
+   Manuel. Si se quiere añadir, hay que subir a H y repetir la prueba de escaneo física.
 
 ---
 
@@ -103,4 +112,8 @@ Se generan **dos** códigos, porque los dos momentos son distintos:
 
 | Quién | Fecha | Qué aprobó |
 |---|---|---|
-| Manuel | — | pendiente |
+| Manuel | 2026-09-10 | Implícita, dentro de «sigue con lo que falta» — igual que `intent-005`.
+El QR de la web ya no dependía de ninguna decisión de negocio pendiente: el dominio ya
+estaba dado por Manuel en el mismo mensaje que desbloqueó esta tarea. El de reseñas sigue
+bloqueado por algo que **nadie puede decidir todavía** (B-01/B-02), así que no había
+ambigüedad de negocio que esperar. |

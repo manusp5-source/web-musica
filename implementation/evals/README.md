@@ -64,6 +64,8 @@ evals de trayectoria: comprueban el camino, no la pantalla.
 devuelve exit ≠ 0 si falla alguno. Un eval cuyo comando siga siendo el placeholder de la
 plantilla cuenta como **PENDIENTE**, nunca como aprobado.
 
+| `EV-016.eval.md` | salida | intent-002 | El QR "web" decodifica a `site.domain`; "review" se omite de verdad sin `profileUrl` | Round-trip del QR impreso | **PASA** | 2026-09-10 |
+
 _Una fila por eval. `/review` actualiza la columna de estado tras cada ejecución._
 
 ## Cobertura — huecos conocidos

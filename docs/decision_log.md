@@ -230,3 +230,42 @@ de este proyecto desaconseja.
 paso 4 se ha olvidado una vez. No antes.
 **Impacto:** `M1-UJ-005` cierra su criterio condicional documentando el procedimiento en
 vez de construyendo codigo sin caso de uso real.
+
+## DEC-019: el QR "web" ya tiene destino real; el destino de "review" se lee de data/reviews.json, no se duplica en site.ts
+**Fecha:** 2026-09-10
+**Decision:** `scripts/make-qr.ts` resuelve el destino "web" desde `site.domain`
+(ya existente) y el destino "review" leyendo `profileUrl` de `data/reviews.json` en vez
+de guardar una segunda URL en `site.ts`.
+**Razon:** `data/reviews.json` ya es la frontera del sistema (principio 1 de la
+constitucion) y `profileUrl` ya lo puebla el fetcher de M1-UJ-004. Guardar la misma URL
+por segunda vez en `site.ts` crearia dos fuentes de verdad que podrian desincronizarse
+-exactamente el problema que "el fichero es la frontera" existe para evitar en el resto
+del proyecto.
+**Efecto colateral favorable:** el dia que exista la ficha de Google y se ejecute
+`npm run reviews:fetch`, el QR de reseñas se puede generar con `npm run qr` sin tocar
+ninguna configuracion -el dato ya esta donde el generador lo busca.
+**Alternativas descartadas:** un campo `site.qr.review.url` separado (duplicacion),
+una variable de entorno nueva (duplicaria `GBP_PROFILE_URL`, que ya cumple ese papel para
+el fetcher).
+**Impacto:** `site.qr` queda como metadatos puros (label, filename), nunca URLs.
+
+## Nota operativa (no numerada): un grep con case-sensitivity equivocada ocultó una regresion real
+**Fecha:** 2026-09-10
+**Que paso:** tras anadir `scripts/make-qr.ts`, `npm run build` se rompio de verdad
+(`Type error: Could not find a declaration file for module 'qrcode'`). Una comprobacion
+manual anterior en esta misma tanda uso `npm run build 2>&1 | grep -E "Compiled|Error"` -con
+E mayuscula- y el mensaje real es "Type error" con e minuscula: el grep no lo vio, y el
+build "parecia" verde.
+**Como se detecto:** `npm run evals` ejecutado sin ningun filtro (via `npm run evals 2>&1 |
+tail -22`, donde el filtro es solo de cuantas LINEAS finales mostrar, no de contenido) si
+lo capturo, porque `EV-009` reconstruye de verdad y su check no usa grep alguno.
+**Leccion:** un `grep` que filtra por palabras clave para "resumir" la salida de un build
+es exactamente el mismo patron que ya ha fallado varias veces este proyecto -mirar el
+sitio equivocado-, aplicado esta vez a mis propias comprobaciones manuales de sesion, no a
+un eval. Los evals wrapped en `run.mjs` no tienen este problema porque no dependen de que
+yo elija bien un patron de grep cada vez; una comprobacion manual con grep si.
+**Arreglo:** `@types/qrcode` como devDependency. `npm run build` limpio, confirmado sin
+ningun filtro de por medio.
+**No es una decision de arquitectura**, es una nota operativa para no repetir el mismo
+error: al verificar un build o test manualmente, o se lee la salida completa, o el grep
+usa `-i` / cubre mayúsculas y minúsculas a proposito.

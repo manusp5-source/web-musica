@@ -74,7 +74,7 @@ volver al intent.
 | M2-UJ-001 | Un visitante llega por el dominio real y ve la web | M2 | TODO | `ninguna` | `sonnet` | [ ] | [ ] | [ ] | Smoke contra producción, ES y EN |
 | M2-IT-006 | Contenido segun el posicionamiento del CMO + quitar el piano en vivo | M2 | **DONE** | `copywriting` (no cargada: la decision ya estaba tomada en el plan) | `opus` | - | OK `EV-013` | [ ] | `INT-006`. 14 promesas de piano fuera, Granada en lugar de Madrid, tarifa publicada, servicios reordenados por el segmento del §4. 42 tests |
 | M2-IT-007 | Accesibilidad: navegación legible + tonos ya medidos como insuficientes, generalizado | M2 | **DONE** | `frontend-security-coder` (no cargada: fix mecánico de contraste, no de seguridad) | `sonnet` | — | OK `EV-014` `EV-015` | [ ] | `INT-005` puntos 1-3: header (bug real: `bg-transparent`+`text-carbon` fijo ≈ 1:1), `Sections.tsx` (`Events`, mismo `carbon/60`), footer (separadores `marfil/20` → `aria-hidden`). Punto 4 (contraste del hero) queda declarado como hueco, no calculable a mano con fiabilidad |
-| M2-UJ-002 | Un asistente escanea el QR impreso y llega a la web | M2 | TODO | `ninguna` | `sonnet` | [ ] | [ ] | [ ] | `planning/intent-002.md`. Incluye `npm run qr` y **prueba de escaneo en papel**, no en pantalla |
+| M2-UJ-002 | Un asistente escanea el QR impreso y llega a la web | M2 | **REVIEW (parcial)** | `ninguna` | `sonnet` | ✓ | ✓ `EV-016` | [ ] | QR "web" generado y verificado por round-trip de software (decodifica a `violagranada.es`). **La prueba física en papel la falta hacer Manuel** — sin impresora ni cámara en esta máquina. QR "review" sigue bloqueado (B-01/B-02) |
 
 ## Blockers Log
 

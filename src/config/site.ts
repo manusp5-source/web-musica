@@ -80,6 +80,17 @@ export const site = {
     // Si es false: no se usan cookies de seguimiento → no hace falta banner.
     analyticsEnabled: false,
   },
+
+  // --- Códigos QR para imprenta (planning/intent-002.md) ---
+  // Solo metadatos: el destino de "web" es site.domain, de arriba (no se duplica aquí).
+  // El destino de "review" lo resuelve scripts/make-qr.ts leyendo data/reviews.json →
+  // profileUrl, que puebla el fetcher de M1-UJ-004 el día que exista la ficha de Google
+  // (B-01/B-02). Hasta entonces el script avisa y no lo genera — nunca un QR a un
+  // placeholder, por diseño.
+  qr: {
+    web: { label: "Web", filename: "web" },
+    review: { label: "Reseña en Google", filename: "resena-google" },
+  },
 } as const;
 
 export type Site = typeof site;
