@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { site } from "../../src/config/site";
 
 /**
  * Smoke, no suite de regresión. Tres cosas: que las dos raíces de idioma sirvan,
@@ -12,7 +13,11 @@ test.describe("home ES", () => {
     expect(response?.status()).toBe(200);
 
     await expect(page.locator("h1")).toBeVisible();
-    await expect(page).toHaveTitle(/Piano/i);
+    // Contra la configuración, no contra la copy. La versión anterior exigía "Piano" en
+    // el título y se puso roja cuando INT-006 quitó el piano — un test atado a un texto
+    // concreto se rompe cada vez que alguien mejora una frase, y acaba borrándose.
+    await expect(page).toHaveTitle(new RegExp(site.city, "i"));
+    await expect(page).toHaveTitle(new RegExp(site.artistName, "i"));
   });
 
   test("publica JSON-LD parseable", async ({ page }) => {
