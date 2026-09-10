@@ -67,12 +67,13 @@ volver al intent.
 | ID | Nombre | Milestone | Estado | Skill | Model | Security ✓ | Eval ✓ | Review ✓ | Notas |
 |----|--------|-----------|--------|-------|-------|-----------|--------|---------|-------|
 | M2-IT-001 | Dominio registrado y DNS en Cloudflare | M2 | BLOCKED | `ninguna` | `haiku` | — | — | [ ] | **Lo compra Manuel.** Ni la IA compra dominios ni gestiona pagos |
-| M2-IT-002 | Datos legales reales en `site.ts` + `check-legal --strict` en verde | M2 | BLOCKED | `gdpr-data-handling` | `opus` | [ ] | [ ] | [ ] | Faltan nombre, NIF, dirección y WhatsApp real. Ver B-05 |
+| M2-IT-002 | Datos legales reales en `site.ts` + `check-legal --strict` en verde | M2 | **DONE** | `gdpr-data-handling` | `sonnet` (previsto `opus`; sesión en `sonnet`) | — | OK `check-legal --strict` | [ ] | Manuel dio los datos reales el 10 sep. `node scripts/check-legal.mjs --strict` → exit 0 por primera vez. Quedan 3 pendientes no bloqueantes: dominio, vídeos, redes |
 | M2-IT-003 | Proyecto en Cloudflare Pages + primer deploy de vista previa | M2 | TODO | `deployment-procedures` | `sonnet` | — | [ ] | [ ] | Se puede hacer contra `*.pages.dev` antes de tener dominio |
 | M2-IT-004 | Dominio propio + HTTPS + cabeceras verificadas en producción | M2 | TODO | `security-scanning-security-hardening` | `opus` | [ ] | [ ] | [ ] | `curl -I` tiene que devolver CSP, HSTS, X-Frame-Options y Referrer-Policy |
 | M2-IT-005 | Deploy Hook + Cron Trigger para refrescar reseñas | M2 | TODO | `deployment-procedures` | `sonnet` | — | [ ] | [ ] | Cierra el bucle de M1: una reseña nueva aparece sola en <24 h |
 | M2-UJ-001 | Un visitante llega por el dominio real y ve la web | M2 | TODO | `ninguna` | `sonnet` | [ ] | [ ] | [ ] | Smoke contra producción, ES y EN |
 | M2-IT-006 | Contenido segun el posicionamiento del CMO + quitar el piano en vivo | M2 | **DONE** | `copywriting` (no cargada: la decision ya estaba tomada en el plan) | `opus` | - | OK `EV-013` | [ ] | `INT-006`. 14 promesas de piano fuera, Granada en lugar de Madrid, tarifa publicada, servicios reordenados por el segmento del §4. 42 tests |
+| M2-IT-007 | Accesibilidad: navegación legible + tonos ya medidos como insuficientes, generalizado | M2 | **DONE** | `frontend-security-coder` (no cargada: fix mecánico de contraste, no de seguridad) | `sonnet` | — | OK `EV-014` `EV-015` | [ ] | `INT-005` puntos 1-3: header (bug real: `bg-transparent`+`text-carbon` fijo ≈ 1:1), `Sections.tsx` (`Events`, mismo `carbon/60`), footer (separadores `marfil/20` → `aria-hidden`). Punto 4 (contraste del hero) queda declarado como hueco, no calculable a mano con fiabilidad |
 | M2-UJ-002 | Un asistente escanea el QR impreso y llega a la web | M2 | TODO | `ninguna` | `sonnet` | [ ] | [ ] | [ ] | `planning/intent-002.md`. Incluye `npm run qr` y **prueba de escaneo en papel**, no en pantalla |
 
 ## Blockers Log
@@ -83,8 +84,8 @@ volver al intent.
 | B-02 | Conexión real de `M1-UJ-004` | Cuota de Business Profile API sin solicitar a Google | 2026-09-03 | — |
 | B-03 | `M0-IT-002` y la ejecución real de `M0-IT-005` | `gh` instalado el 3 sep (2.99.0). Sigue bloqueado en **`gh auth login`**: exige navegador | 2026-09-03 | Parcial: instalación resuelta |
 | B-04 | `M2-UJ-002` (QR) | **No hay dominio ni sitio publicado.** Un QR impreso necesita una URL definitiva | 2026-09-03 | En curso: M2 reabierto |
-| B-06 | Publicación (M2) | **La navegación es ilegible sin scroll** (logo ≈1,00:1). Hallazgo de la review, pasada 6. Ver `planning/intent-005.md` | 2026-09-10 | — |
-| B-05 | `M2-IT-001` y `M2-IT-002` | **Solo Manuel tiene los datos**: dominio elegido, nombre completo, NIF, dirección postal y teléfono real | 2026-09-03 | — |
+| B-06 | Publicación (M2) | ~~La navegación es ilegible sin scroll~~ | 2026-09-10 | **10 sep 2026** — `M2-IT-007`, `EV-014`/`EV-015` |
+| B-05 | `M2-IT-001` (dominio) | Nombre, NIF, dirección y teléfono **ya dados** (10 sep) y aplicados en `M2-IT-002`. **Solo falta el dominio elegido** — sigue bloqueando `M2-IT-001` | 2026-09-03 | Parcial: datos personales resueltos |
 
 > Ninguno de los dos bloquea el código: `M1-UJ-004` se implementa y se prueba con fixtures.
 > Lo bloqueado es ver reseñas reales en la página, no entregar la tarea.

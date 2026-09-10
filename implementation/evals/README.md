@@ -56,6 +56,8 @@ evals de trayectoria: comprueban el camino, no la pantalla.
 | `EV-011.eval.md` | **trayectoria** | review, pasada 5 | CSP y `remotePatterns` sin comodines de esquema ni de host | Seguridad de cabeceras | **PASA** | 2026-09-09 |
 | `EV-012.eval.md` | salida | review, pasada 5 | Contraste AA real de la seccion de resenas, con exenciones declaradas | Accesibilidad del aviso legal | **PASA** | 2026-09-09 |
 | `EV-013.eval.md` | **trayectoria** | INT-006 | La web no promete piano en vivo en ninguno de los 5 ficheros de contenido | Honestidad de la copy | **PASA** | 2026-09-10 |
+| `EV-014.eval.md` | **trayectoria** | INT-005, review pasada 6 | La navegación fija es legible en cualquier estado, sin bg-transparent | Accesibilidad de la navegación | **PASA** | 2026-09-10 |
+| `EV-015.eval.md` | **trayectoria** | INT-005 | Ningún tono ya medido como insuficiente reaparece en src/components/ | Accesibilidad general | **PASA** | 2026-09-10 |
 
 **Runner:** `npm run evals` → `implementation/evals/run.mjs`. Extrae el comando del bloque
 ` ```bash ` que hay bajo `## Comando` en cada `*.eval.md`, lo ejecuta desde la raíz y
@@ -71,6 +73,6 @@ _Una fila por eval. `/review` actualiza la columna de estado tras cada ejecució
 | Llamada real a la API de Google | No hay ficha ni cuota aprobada. Todo se prueba con fixtures | **Medio** — el mapeo está verificado, la autenticación real no se ha ejercitado nunca |
 | Rendimiento y Core Web Vitals | Fuera del alcance de esta tanda | Bajo por ahora; sube si se publica |
 | Accesibilidad más allá del contraste y las etiquetas de estrellas (axe, teclado, lector de pantalla) | Fuera del alcance. El contraste de la sección de reseñas sí lo cubre `EV-012` | Medio si se publica |
-| **Contraste del resto del sitio.** `EV-012` solo mira `Reviews.tsx` | La pasada 6 midió el resto y encontró la navegación a ≈1:1 y un `carbon/60` latente en `Sections.tsx`. Recogido en `planning/intent-005.md` | **Alto**: el header ilegible lo ve el 100% de las visitas |
+| Contraste del hero sobre gradientes/foto apilados + canvas 3D | Demasiado complejo para calcular a mano con fiabilidad (crítico, pasada 6). `EV-014`/`EV-015` ya cubren nav, footer y `Sections.tsx` | Bajo: el hero ya lleva velos dedicados a la legibilidad, sin incidencias reportadas |
 | Regresión visual de la sección | Playwright se usa solo para smoke | Bajo |
 | Publicación real (deploy, dominio, datos legales) | Milestone M2, reabierto el 4 sep. Bloqueado por B-04 y B-05 | **Alto para el negocio**: sin esto la web no existe para nadie |

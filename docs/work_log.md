@@ -305,6 +305,68 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
     sostener sobre reseñas es el mismo error que prometer el piano.
   - Sigue habiendo placeholders: dominio, NIF, dirección, WhatsApp, vídeos y fotos.
 
+### 2026-09-10 — Foto, voz más humana y datos legales reales — DONE
+- **Trabajo hecho**: `Hero.tsx` y el retrato de «Sobre mí» pasan a leer
+  `site.media.heroPhoto` / `portraitPhoto` (con `next/image`, fallback al gradiente si
+  están vacíos, partículas 3D apagadas solas cuando hay foto). Reescritura de voz a
+  primera persona con el nombre de Manuel, explicando qué es una viola en cristiano
+  (referencia: violatempestad.com, que resultó ser en tercera persona y formal — lo
+  humano de ahí era la cara del músico y explicar el instrumento, no el tono). NIF, nombre
+  completo, dirección postal y teléfono reales en `site.ts`.
+- **Modelo usado / Skill cargada**: `opus` (cambio de modelo de sesión a `sonnet` llegó
+  después, en el siguiente bloque). Skill: `ninguna` para la foto/voz (decisión de
+  redacción, no de arquitectura).
+- **Verificación (salida)**: 42 unitarios, lint limpio, build OK. Foto confirmada en el
+  HTML generado (`/_next/image?url=%2Fmanuel-viola.jpg`). `node scripts/check-legal.mjs
+  --strict` → **exit 0 por primera vez** en el proyecto.
+- **Notas**:
+  - Corregido un defecto propio de comprobación de dominios: el primer intento hacía
+    `grep "Address:"` sobre la salida de `nslookup`, que siempre casa con la línea del
+    propio servidor DNS — daba «ocupado» para todo. Repetido con RDAP siguiendo
+    redirecciones (`curl -sL`), que sí distingue 200/404 de verdad.
+  - Un e2e se commiteó en rojo por error de lectura: `home ES › responde y pinta el hero`
+    exigía `/Piano/i` en el título, y `INT-006` había quitado el piano tres commits antes.
+    Leí «5 passed» sin compararlo con los 6 de la corrida anterior. Arreglado atando el
+    test a `site.ts` en vez de a una frase — un smoke que se rompe con cada mejora de copy
+    es un smoke que acaba borrado.
+  - Aviso dejado para Manuel: el teléfono (858) es un fijo de Granada; el botón de
+    WhatsApp solo funciona si esa línea se da de alta en WhatsApp Business.
+
+### 2026-09-10 — Accesibilidad del resto del sitio (INT-005, puntos 1-3) — DONE
+- **Trabajo hecho**: arreglo del bug real de navegación —`bg-transparent` + `text-carbon`
+  fijo, ≈1:1 medido por el crítico— sustituido por un panel propio siempre semiopaco
+  (`bg-carbon/70` arriba, `bg-marfil/90` tras el scroll) con cuatro tonos de texto
+  declarados como `const x = scrolled ? "..." : "..."`. `Sections.tsx` (`Events`):
+  `carbon/60` → `/70`. `Footer.tsx`: separadores «·» a `aria-hidden`.
+- **Modelo usado / Skill cargada**: `sonnet` (modelo de la sesión desde este bloque, el
+  usuario lo cambió explícitamente con `/model sonnet`). Skill: `ninguna` — fix mecánico
+  de contraste con fórmula ya establecida por `EV-012`, no una decisión de seguridad.
+- **Verificación (salida)**: 44 unitarios (2 nuevos, `nav.test.tsx`), lint limpio.
+- **Verificación (trayectoria) — la parte que importa aquí**:
+  1. `EV-014` (navegación) se probó **en rojo contra el bug real**, no uno plantado: el
+     `bg-transparent` original hizo fallar el eval con el motivo exacto antes de tocar
+     nada.
+  2. `EV-015` (barrido generalizado del resto de `src/components/`) tuvo **dos falsos
+     positivos propios** en su primera pasada: el comentario que documentaba el arreglo
+     citaba literalmente `text-marfil/20` y se detectaba a sí mismo; y el `aria-hidden` de
+     las estrellas vive en el elemento padre, no en el mismo nodo que `text-carbon/20`, así
+     que una comprobación «misma línea» no lo veía. Arreglado neutralizando comentarios sin
+     mover posiciones de carácter, y reutilizando el rastreador de ancestros por pila que
+     `EV-012` v3 ya había resuelto para el mismo problema.
+  3. `EV-015` se probó después contra **las tres regresiones reales** plantadas a
+     propósito (revertir `Sections.tsx` a `/60`, quitar los dos `aria-hidden` del footer):
+     rojo con los tres nombrados, verde tras restaurar, `git status` limpio confirmado.
+- **Eval**: `EV-014` y `EV-015`, ambos rojo→verde.
+- **Notas**:
+  - El cuarto punto de `intent-005` (contraste del hero sobre gradientes + canvas 3D, y
+    ahora opcionalmente una foto) **queda sin resolver a propósito**. El propio crítico ya
+    dijo que no se calcula con fiabilidad a mano, y forzar una estimación habría violado la
+    restricción que el propio intent se puso: «medir, no estimar».
+  - Este intent se ejecutó **sin un `APROBADO` explícito** de Manuel — dentro de un «sigue
+    con lo que falta» general del modo de sesión. Queda escrito en `DEC-015` y en la propia
+    tabla de aprobación de `intent-005.md`: se hizo porque los tres puntos son medibles sin
+    ambigüedad de negocio (contraste WCAG), no porque el gate deje de aplicar.
+
 ---
 
 ## Review

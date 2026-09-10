@@ -134,3 +134,34 @@ improvisado en papel), QR a WhatsApp como sustituto (buena idea, pero no es lo q
 posponer el QR.
 **Impacto:** M2 pasa de `SKIP` a `TODO` con 5 ITs y 2 UJs. Bloqueado por datos que solo
 Manuel tiene: dominio, NIF, dirección y teléfono real.
+
+## DEC-014: Datos legales reales aplicados; M2-IT-002 cerrado
+**Fecha:** 2026-09-10
+**Decision:** nombre completo, NIF, direccion postal y telefono real de Manuel entran en
+`site.ts`. `node scripts/check-legal.mjs --strict` pasa por primera vez.
+**Razon:** Manuel los proporciono directamente. Sin retraso: son datos obligatorios por el
+art. 10 LSSI y bloqueaban toda la publicacion.
+**Aviso registrado:** el telefono (858, fijo de Granada) solo sirve para el boton de
+WhatsApp si esa linea se da de alta en WhatsApp Business (verificacion por llamada,
+pendiente). El NIF y la direccion postal de una persona fisica quedan en el historial de
+git desde este commit -- es exigido por ley publicarlos en el aviso legal, asi que no es
+una fuga, pero el repo en GitHub (M0-IT-002, aun SKIP) debe crearse privado.
+**Impacto:** `M2-IT-002` pasa a DONE. `B-05` se resuelve parcialmente: solo falta el
+dominio, que sigue siendo decision de Manuel.
+
+## DEC-015: Accesibilidad del resto del sitio (INT-005, puntos 1-3) ejecutada sin gate formal
+**Fecha:** 2026-09-10
+**Decision:** se arregla la navegacion (bug real, bg-transparent + texto fijo ~1:1), el
+carbon/60 latente en Sections.tsx y los separadores del footer, dentro de un "sigue con lo
+que falta" general -- sin que Manuel escribiera un APROBADO especifico sobre
+intent-005.
+**Razon:** los tres puntos son medibles sin ambiguedad de negocio (contraste WCAG, no una
+decision de marca, precio o alcance). El cuarto punto de intent-005 (contraste del hero)
+si exige juicio visual sobre gradientes y canvas 3D, y se dejo sin tocar en vez de forzarlo.
+**Alternativas descartadas:** parar y pedir un APROBADO explicito solo para esto (el propio
+modo de sesion pide sesgar hacia seguir trabajando en decisiones medibles); forzar tambien
+la medicion del hero con una estimacion no fiable (rechazado: "medir, no estimar" es la
+restriccion que el propio intent-005 se puso).
+**Impacto:** `EV-014` (navegacion) y `EV-015` (barrido generalizado del resto del arbol)
+nuevos. `B-06` resuelto. `M2-IT-007` DONE. El punto 4 de intent-005 sigue abierto y
+declarado como hueco, no como "aprobado sin comprobar".

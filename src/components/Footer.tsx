@@ -34,9 +34,12 @@ export default function Footer({ dict }: { dict: Dict }) {
         )}
         <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-marfil/60">
           <Link href={dict.legal.paths.notice} className="hover:text-dorado">{dict.legal.notice}</Link>
-          <span className="text-marfil/20">·</span>
+          {/* Puntuación decorativa entre enlaces, no texto informativo: aria-hidden para
+              que no se anuncie en lector de pantalla, y sin obligación de contraste
+              (hallazgo de la review — antes era texto real a text-marfil/20, ≈1,3:1). */}
+          <span aria-hidden className="text-marfil/20">·</span>
           <Link href={dict.legal.paths.privacy} className="hover:text-dorado">{dict.legal.privacy}</Link>
-          <span className="text-marfil/20">·</span>
+          <span aria-hidden className="text-marfil/20">·</span>
           <Link href={dict.legal.paths.cookies} className="hover:text-dorado">{dict.legal.cookies}</Link>
         </nav>
 

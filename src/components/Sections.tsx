@@ -162,7 +162,10 @@ export function Events({ dict }: { dict: Dict }) {
                 <li key={i} className="flex flex-wrap items-baseline gap-x-6 gap-y-1 py-5">
                   <span className="w-28 font-medium text-dorado">{e.date}</span>
                   <span className="font-serif text-xl text-carbon">{e.title}</span>
-                  <span className="text-sm text-carbon/60">{e.place}</span>
+                  {/* carbon/70, no /60: sobre marfil, /60 da 4.42:1 y AA exige 4.5:1.
+                      Mismo defecto que el aviso de reseñas (EV-012), latente aquí porque
+                      la agenda está vacía a propósito — hallazgo de la review. */}
+                  <span className="text-sm text-carbon/70">{e.place}</span>
                 </li>
               ))}
             </ul>

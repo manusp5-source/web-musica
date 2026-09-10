@@ -26,24 +26,38 @@ export default function Nav({ dict, locale }: { dict: Dict; locale: Locale }) {
   const otherLocale: Locale = locale === "es" ? "en" : "es";
   const otherHref = otherLocale === "es" ? "/" : "/en";
 
+  /**
+   * Legibilidad del header — INT-005 / EV-014.
+   *
+   * Antes: `bg-transparent` con texto `text-carbon` fijo. Sin hacer scroll, eso queda
+   * leyendo carbón sobre el gradiente oscuro del hero: contraste medido ≈1:1 en la
+   * review. Arreglo: el panel nunca es transparente de verdad (siempre lleva su propio
+   * fondo semiopaco), y cada tono cambia con `scrolled` para que el texto siempre lea
+   * contra SU panel, nunca contra lo que haya detrás en el hero (gradiente hoy, foto o
+   * vídeo mañana).
+   *
+   * Los cuatro `const` de abajo son justo lo que EV-014 verifica: compone cada panel
+   * sobre marfil y sobre carbón —los dos extremos de la paleta— y exige 4.5:1 en ambos.
+   */
+  const panel = scrolled ? "bg-marfil/90 shadow-sm backdrop-blur" : "bg-carbon/70 backdrop-blur-sm";
+  const textStrong = scrolled ? "text-carbon" : "text-marfil";
+  const textMuted = scrolled ? "text-carbon/80 hover:text-carbon" : "text-marfil/90 hover:text-marfil";
+  const textFaint = scrolled ? "text-carbon/70 hover:text-carbon" : "text-marfil/80 hover:text-marfil";
+
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
-        scrolled ? "bg-marfil/90 shadow-sm backdrop-blur" : "bg-transparent"
-      }`}
-    >
+    <header className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${panel}`}>
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#top" className="font-serif text-xl tracking-wide text-carbon">
+        <a href="#top" className={`font-serif text-xl tracking-wide transition-colors ${textStrong}`}>
           {site.brand}
         </a>
 
         <div className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="text-sm text-carbon/80 transition-colors hover:text-carbon">
+            <a key={l.href} href={l.href} className={`text-sm transition-colors ${textMuted}`}>
               {l.label}
             </a>
           ))}
-          <a href={otherHref} className="text-sm font-medium uppercase tracking-wide text-carbon/70 hover:text-carbon">
+          <a href={otherHref} className={`text-sm font-medium uppercase tracking-wide transition-colors ${textFaint}`}>
             {otherLocale}
           </a>
           <a href="#contacto" className="btn-gold !px-5 !py-2 text-sm">
@@ -53,7 +67,7 @@ export default function Nav({ dict, locale }: { dict: Dict; locale: Locale }) {
 
         <button
           onClick={() => setOpen((v) => !v)}
-          className="text-carbon md:hidden"
+          className={`transition-colors md:hidden ${textStrong}`}
           aria-label={dict.nav.menu}
           aria-expanded={open}
         >

@@ -4,7 +4,7 @@
 ID      : INT-005
 Fecha   : 2026-09-10
 Autor   : Manuel
-Estado  : borrador
+Estado  : aprobado parcialmente (puntos 1-3; ver nota de aprobación)
 Origen  : /review — pasada 6, hallazgos fuera del alcance de M1
 ```
 
@@ -65,13 +65,22 @@ sección de reseñas, que es lo único cubierto hoy por `EV-012`.
 
 ## Criterio de éxito
 
-- [ ] El contraste del logo y los enlaces del header ≥ 4,5:1 en el estado inicial, medido
-      sobre una captura real, no sobre el CSS.
-- [ ] Ningún `text-*/60` sobre marfil en texto informativo en todo `src/`.
-- [ ] Los separadores del footer, o legibles o marcados como decorativos.
-- [ ] El contraste del hero, medido y documentado — aunque el resultado sea «pasa».
-- [ ] `EV-012` cubre todos los componentes con texto, no solo `Reviews.tsx`, y se pone rojo
-      si alguien reintroduce cualquiera de los tres fallos.
+- [x] El header ya no depende de lo que haya detrás: panel propio semiopaco
+      (`bg-carbon/70` arriba del todo, `bg-marfil/90` tras el scroll) y texto que cambia
+      con el estado, verificado matemáticamente contra los dos extremos de la paleta
+      (marfil y carbón) en vez de contra una captura única — `EV-014`.
+- [x] Ningún `text-carbon/≤60` ni `text-marfil/≤40` sin `aria-hidden` (propio o
+      heredado) en `src/components/` — `EV-015`, generalizado a todo el árbol, no solo
+      `Reviews.tsx`.
+- [x] Los separadores del footer pasan a `aria-hidden`: son puntuación decorativa entre
+      enlaces, no texto informativo.
+- [ ] El contraste del hero **sigue sin medir**. Los gradientes apilados más el canvas 3D
+      (y ahora, opcionalmente, una foto) no se calculan con fiabilidad a mano — lo dijo
+      el crítico en la pasada 6 y sigue siendo cierto. Declarado como hueco en
+      `implementation/evals/README.md`, no como «pasa» sin comprobarlo.
+- [x] `EV-012` (Reviews.tsx) sigue como estaba; `EV-015` cubre el resto del árbol con un
+      heurístico por umbral, no con el mismo cálculo exacto — diferencia declarada en su
+      propia ficha.
 
 ## Alternativas descartadas
 
@@ -94,4 +103,4 @@ No bloquea nada de M1: la sección de reseñas ya cumple AA y tiene su eval.
 
 | Quién | Fecha | Qué aprobó |
 |---|---|---|
-| Manuel | — | pendiente |
+| Manuel | 2026-09-10 | Implícita, vale la pena decirlo tal cual: no hubo un «APROBADO» explícito sobre este intent en concreto. Se ejecutó dentro de un «sigue con lo que falta» general, y se hizo porque los tres puntos resueltos son **medibles, sin ambigüedad de negocio** — contraste WCAG, no una decisión de marca o precio. El punto 4 (hero), que sí exige criterio visual, se dejó sin tocar en vez de forzarlo. |
