@@ -496,6 +496,94 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
 
 ## Review
 
+### Pasada 7 — 11 sep 2026 · M1-UJ-004/005, dominio real, contenido, accesibilidad, QR
+
+**REVISOR** (`sonnet`) — **3 intentos antes de completar.** 1º: muerte por límite de
+sesión (llegó hasta lint/tests/build, sin dejar nada a medias). 2º: atasco de 600s en un
+comando lento (probablemente Playwright), matado por el watchdog. Entre cada intento,
+`git status --short` confirmado limpio antes de relanzar — la disciplina de las pasadas
+2 y 3 de la review anterior, aplicada de nuevo. 3º intento, con instrucción explícita de
+no bloquearse en comandos lentos: **completó — 80 llamadas, 17 min.**
+
+Confirmó con comando real: lint limpio, 74/74 tests (antes de esta pasada), build leído
+completo (sin el error de grep de la nota operativa anterior), 15/15 evals, `check-legal
+--strict` en verde por primera vez, el CLI de reseñas sin credenciales, el QR con
+round-trip. Hizo su propio experimento adversarial: plantó un filtro por rating en un
+fichero **nuevo** no listado en ningún eval, confirmó que `EV-008` lo caza por
+descubrimiento, revirtió. `npx playwright test` no lo pudo verificar — se atascó otra vez
+y lo mató a los 95s, anotado como «no verificado» sin bloquear el resto.
+
+**Hallazgo real, no en el radar de nadie**: `app/(es)/aviso-legal/page.tsx` y
+`app/(en)/en/legal-notice/page.tsx` seguían con «piano y viola» / «piano and viola»
+literal — fuera del alcance de `EV-013`, que solo miraba 5 ficheros fijos. `M2-IT-006` no
+estaba cerrado de verdad.
+
+**CRÍTICO** (`opus`) — completó a la primera, 42 llamadas, 11,5 min. Confirmó el
+bloqueante del piano **contra el HTML publicado** (`grep -i "piano" .next/server/app/*.html`),
+comprobó que no había un tercer fichero, y encontró **tres hallazgos propios**:
+
+1. **`EV-013` es un falso verde por alcance enumerado** — mismo patrón que ya rompió
+   `EV-008` v1. El proyecto ya conocía el arreglo (descubrimiento en vez de lista) y no se
+   había aplicado aquí.
+2. **Octavo falso verde, real**: plantó un componente que recibe las reseñas **por prop**,
+   sin un solo `import` de `lib/reviews`, con `.filter(rating >= 4)` dentro. La condición
+   de entrada de `EV-008` v2 (`TOCA_RESENAS`, exige esa referencia) lo dejó pasar — la
+   suite entera siguió verde, **incluido el eval escrito específicamente para esto**.
+3. **JSON-LD de `/en` publicaba la URL de la home ES**: `url: site.domain` no dependía de
+   `locale`. Ningún test lo cubría — `EV-004` solo mira `aggregateRating`/`review`.
+4. **El CTA principal del hero prometía la tarifa y no enlazaba a ella**: «Ver tarifa y
+   reservar» iba a `#contacto`; `#tarifa` no tenía **ningún** enlace entrante en toda la
+   página. Es una de las tres patas del posicionamiento (§4 del plan de negocio),
+   inalcanzable salvo haciendo scroll a ciegas.
+
+También marcó **INFUNDADO** el atasco de Playwright del revisor: con 600s de margen,
+`npx playwright test` corrió limpio, 6/6 en 54,9s — artefacto del sandbox del revisor, no
+del proyecto. Y matizó que la conclusión «`EV-008` funciona de verdad» del revisor era un
+razonamiento débil: su experimento probaba que el descubrimiento funciona **dentro de su
+condición de entrada**, no que no tuviera condición de entrada — que es justo lo que el
+propio crítico tumbó un párrafo después.
+
+**VEREDICTO del crítico**: arreglar primero, 4 bloqueantes.
+
+**Arreglos, los 4 con rojo→verde probado contra el ataque exacto reportado**:
+
+1. Contenido corregido en las dos páginas legales. `EV-013` reescrito (v2): sin lista
+   fija, recorre `app/`+`src/` enteros (34 ficheros). Probado devolviendo la promesa a
+   un fichero legal a propósito → rojo; restaurado → verde.
+2. `EV-008` pierde `TOCA_RESENAS` (v3): sin condición de entrada, escanea `app/`+`src/`
+   enteros, igual que `EV-013`/`EV-015`. Reproducido el plantado exacto del crítico →
+   rojo; borrado → verde.
+3. `HomePage.tsx`: `url` del JSON-LD depende de `locale`. Test nuevo
+   `jsonld-locale.test.tsx`, rojo con `url` fijo → verde tras el arreglo, confirmado
+   también contra el `.next/server/app/*.html` real.
+4. `Hero.tsx` (CTA → `#tarifa`) y `Nav.tsx` (enlace nuevo, mismo orden que las secciones).
+   Test nuevo `anclas-vivas.test.tsx`, generalizado a cualquier `<section id>` sin enlace
+   entrante — no solo el caso de tarifa. Su primera versión contaba los `id` de los
+   campos del formulario de contacto como huérfanos (falso positivo propio, corregido
+   acotando a `<section id>`).
+
+**Reverificación** (`sonnet`, paso 4 del protocolo) — completó en 1 intento, 49 llamadas,
+11,5 min. Repitió los 4 experimentos con sus propias manos (nombres de fichero plantado
+distintos a los del crítico, para no depender de que quedara algo suyo en el entorno) y
+sostuvo los cuatro. Encontró **un hueco de cobertura real, no bloqueante**: el test 3 de
+`anclas-vivas.test.tsx` comprobaba que *algún* `href="#tarifa"` existiera en la página, no
+que viniera del propio botón del hero — con `Nav.tsx` ya proveyendo el enlace, un regreso
+aislado del CTA del hero no se habría detectado. Corregido renderizando `Hero` en
+aislamiento y comprobando su `href` directamente; probado revirtiendo solo el CTA del
+hero (dejando `Nav.tsx` intacto) → antes de la corrección la suite se quedaba en verde,
+después se pone roja. Confirmó además que el enlace del menú móvil también funciona
+(mismo array `links`) y que la traducción inglesa de la nueva etiqueta de navegación es
+coherente con el resto del diccionario EN.
+
+**Estado final**: 80 unitarios · 6+1 e2e (confirmado por el crítico, no atascado) · 16
+evals, 0 fallan. `git status` limpio confirmado por los tres subagentes, al empezar y al
+terminar cada uno.
+
+**Veredicto**: **avanzar.** `Review ✓` marcado en `M1-UJ-004`, `M1-UJ-005`, `M2-IT-006`,
+`M2-IT-007` (los cuatro pasan a `DONE`) y `M2-UJ-002` (parcial — sigue sin la prueba
+física en papel y sin el QR de reseñas, ambos fuera del alcance de lo que se podía
+arreglar aquí).
+
 ### Pasada 1 — 5-6 sep 2026 · frontera M0 + M1-UJ-001/002/003
 
 **REVISOR** (subagente, contexto limpio, `sonnet`) — **pasada inválida por error del

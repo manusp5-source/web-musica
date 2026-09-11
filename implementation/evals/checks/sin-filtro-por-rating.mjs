@@ -14,9 +14,18 @@
  * 37/37 tests, 7 evals PASA incluido este. Quinto falso verde del proyecto, y dentro
  * del eval que existía para impedirlo.
  *
- * v2 no añade HomePage.tsx a la lista: **descubre** la ruta de render. Cualquier fichero
- * de src/ o app/ que toque el módulo de reseñas entra automáticamente. Añadir un consumidor
- * nuevo no vuelve a abrir el agujero.
+ * v2 no añade HomePage.tsx a la lista: **descubre** la ruta de render exigiendo que el
+ * fichero referencie el módulo de reseñas (`lib/reviews`, `loadReviews`...). Añadir un
+ * consumidor nuevo no vuelve a abrir el agujero — **mientras siga referenciando el
+ * módulo**.
+ *
+ * v3: el crítico de /review plantó un componente que recibe las reseñas **por prop**,
+ * sin un solo import de `lib/reviews`, con `items.filter((r) => r.rating >= 4)` dentro —
+ * y la condición de entrada de v2 lo dejó pasar: la suite entera siguió verde, incluido
+ * este eval. Octavo falso verde, y otra vez el mismo patrón: una condición de entrada es
+ * una lista con otro nombre. v3 no exige ninguna condición de entrada: escanea `app/` y
+ * `src/` enteros, sin excepción, igual que ya hacen `EV-013` y `EV-015`. `NUCLEO` se
+ * conserva solo como comprobación de que esos tres ficheros siguen existiendo.
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { extname, join } from "node:path";
@@ -30,9 +39,6 @@ const NUCLEO = [
   "src/lib/reviews/load.ts",
   "src/lib/reviews/jsonld.ts",
 ];
-
-// Señales de que un fichero participa en decidir qué reseñas se muestran.
-const TOCA_RESENAS = /lib\/reviews|loadReviews|visibleReviews|buildRatingJsonLd/;
 
 const PATRONES = [
   { re: /\brating\w*\s*(?:>=|<=|>|<)\s*[\w.]+/g, que: "comparación sobre rating" },
@@ -64,12 +70,9 @@ function sinComentarios(codigo) {
 }
 
 const candidatos = RAICES.flatMap((raiz) => ficheros(raiz));
-const rutaDeRender = new Set(NUCLEO);
-
-for (const fichero of candidatos) {
-  const contenido = readFileSync(fichero, "utf8");
-  if (TOCA_RESENAS.test(sinComentarios(contenido))) rutaDeRender.add(fichero);
-}
+// Sin condición de entrada: TODO app/ y src/ se escanea, exista o no una referencia al
+// módulo de reseñas. Un componente que filtra por prop nunca la tendría.
+const rutaDeRender = new Set([...NUCLEO, ...candidatos]);
 
 const hallazgos = [];
 

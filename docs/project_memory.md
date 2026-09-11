@@ -1,82 +1,84 @@
 # Project Memory — web-musica
-Última actualización: 2026-09-10 (noche)
+Última actualización: 2026-09-11
 
 ## Fase actual
-**M0 y M1 completos.** M2 en marcha: dominio, email, datos legales, contenido de negocio,
-accesibilidad del resto del sitio y el generador de QR de la web, todos resueltos. Falta
-`/review` de frontera sobre M1 (no lanzado en esta tanda) y todo lo que exige una cuenta
-de Cloudflare. Modelo de la sesión: **`sonnet`**.
+**`/review` de frontera completada** sobre M1-UJ-004/005, dominio real, contenido de
+negocio (`M2-IT-006`), accesibilidad (`M2-IT-007`) y QR (`M2-UJ-002` parcial). Veredicto:
+**avanzar**, tras un ciclo revisor→crítico→arreglo→reverificación. Modelo de la sesión:
+**`sonnet`**.
 
 ## Versión del harness
 2026.09-1 (ver `~/.claude/docs/harness.md`)
 
 ## Rama
-`feat/factoria-reviews`. `main` solo tiene el commit base del sitio importado. Árbol
-limpio tras cada commit — `git status --short` antes de dar nada por bueno.
+`docs/plan-negocio-eventos` (el nombre ya no describe el contenido — arrastra M1-UJ-004/005,
+QR, accesibilidad y M2-IT-006, no solo el plan de eventos; anotado, no renombrado). `main`
+solo tiene el commit base del sitio importado. Árbol limpio tras cada commit.
 
 ## Último completado
-- **M0 entero** salvo `M0-IT-002` (`SKIP` temporal, DEC-012).
-- **M1 entero**: los 5 UJs en `REVIEW`. Reseñas ES/EN + JSON-LD, fetcher OAuth de Google
-  (con `tsx` como devDependency nueva, `DEC-016`), Omnibus/RGPD en las dos privacidades.
-- **Dominio y email reales**: `violagranada.es`, `violagranada31@gmail.com`.
-- **`M2-IT-006`** (`INT-006`): contenido según el plan de negocio, sin piano, tarifa
-  publicada.
-- **`M2-IT-007`** (`INT-005`, puntos 1-3): navegación legible, CSP sin comodines.
-- **`M2-UJ-002` parcial** (`intent-002`): QR de la web generado y con round-trip de
-  software verificado (`EV-016`). Falta la prueba física en papel — sin impresora ni
-  cámara en esta máquina. QR de reseñas sigue bloqueado (B-01/B-02), pero el generador ya
-  sabe leerlo de `data/reviews.json` en cuanto exista, sin tocar configuración (`DEC-019`).
-- **80 unitarios · 6+1 e2e · 15 evals**, todos verificados en verde en esta tanda.
+- **M0 y M1 enteros.** Los 5 UJs de M1 en `DONE`, auditados por dos rondas de `/review`
+  (13 pasadas de subagente en total entre las dos).
+- **`M2-IT-002/006/007` en `DONE`**, auditados en esta ronda.
+- **`M2-UJ-002` REVIEW (parcial)**: QR de la web generado y auditado; falta la prueba
+  física en papel (Manuel) y el QR de reseñas (B-01/B-02).
+- **16 evals, 0 fallan, 0 pendientes** — la suite entera en verde por primera vez.
+- **80 unitarios · 6+1 e2e**, confirmados por tres subagentes distintos en esta ronda.
+
+## Lo que encontró esta ronda de review, resumido
+1. `M2-IT-006` no estaba cerrado: 2 promesas de piano en las páginas legales, fuera del
+   alcance de `EV-013` (lista fija de 5 ficheros).
+2. **Octavo falso verde**: `EV-008` v2 no veía un filtro por rating pasado por prop, sin
+   import de `lib/reviews`. La condición de entrada era el agujero.
+3. JSON-LD de `/en` publicaba la URL de la home ES (`url: site.domain` fijo).
+4. El CTA del hero prometía la tarifa y no enlazaba a ella; `#tarifa` no tenía ningún
+   enlace entrante en toda la página.
+
+Los 4, arreglados con rojo→verde probado, y reverificados por un cuarto subagente.
 
 ## Siguiente paso
-1. `/review` de frontera de M1 (revisor + crítico, subagentes distintos) — no lanzado.
-2. Cuenta de Cloudflare, que nadie ha dado todavía: desbloquea `M2-IT-003/004/005`.
-3. Manuel: imprimir `assets/qr/web.svg` y hacer la prueba de escaneo física real.
-4. Cuando exista la ficha de Google (B-01/B-02): `npm run reviews:fetch` y después
-   `npm run qr` generan solos el segundo código, sin tocar nada más.
+1. Cuenta de Cloudflare, que nadie ha dado todavía: desbloquea `M2-IT-003/004/005`.
+2. Manuel: imprimir `assets/qr/web.svg`, prueba de escaneo física real.
+3. Cuando exista la ficha de Google (B-01/B-02): `npm run reviews:fetch` y `npm run qr`
+   generan solos el segundo código, sin tocar nada más.
+4. Considerar renombrar la rama a algo que describa todo lo que ya lleva dentro.
 
 ## Bloqueadores
 - **B-01 / B-02**: sin ficha de Google Business ni cuota de API. No bloquean código.
 - **B-03**: `gh` instalado, sin autenticar. `M0-IT-002` en `SKIP`.
-- **B-04**: QR de la web YA NO bloqueado. QR de reseñas sigue esperando.
-- **B-05 / B-06**: resueltos.
+- **B-04 / B-05 / B-06**: resueltos.
 - **Sin registrar como B-0X formal**: `M2-IT-003/004/005` necesitan una cuenta de
   Cloudflare que nadie ha dado todavía.
 
 ## Contexto clave para retomar en frío
 
-Web de un músico —**violista, ya no pianista**— para bodas y eventos en Granada,
-Next.js 15, dos raíces de idioma. Dominio real: `violagranada.es`. FactorIA + sección de
-reseñas alimentada por `data/reviews.json`, con un fetcher OAuth ya construido y probado
-(con fixtures — sin ficha de Google real todavía), y un generador de QR que ya sabe leer
-esa misma frontera cuando llegue el momento.
-
-**El 9-10 sep 2026 cambió el negocio, no solo el código**: un comité `c-suite-*` decidió
-**viola sola en ceremonia, viola con base propia en cóctel** — nada de piano. `INT-006`
-reescribió toda la web para reflejarlo, con tarifa publicada.
+Web de un músico —violista, ya no pianista— para bodas y eventos en Granada, Next.js 15,
+dos raíces de idioma. Dominio real: `violagranada.es`. Reseñas alimentadas por
+`data/reviews.json`, con fetcher OAuth construido y probado (fixtures — sin ficha real
+todavía), y un generador de QR que ya sabe leer esa misma frontera cuando llegue.
 
 Lo que no hay que olvidar:
-- **El fichero es la frontera**, y ahora aplica dos veces: `data/reviews.json` para las
-  reseñas, y también como fuente del destino del QR de reseñas (`DEC-019`) — nunca una
-  URL duplicada en `site.ts`.
-- **No se filtran reseñas por estrellas** — Directiva Omnibus, RDL 24/2021. `EV-008`
-  descubre la ruta de render en vez de enumerarla (v2, tras el quinto falso verde).
-- **La tarifa está publicada.** `EV-013` vigila que no reaparezca ninguna promesa de piano.
-- **Seis falsos verdes documentados**, todos en aserciones negativas. **Toda aserción
-  negativa se prueba en rojo antes de creérsela** — contra el bug real cuando se puede
-  (`EV-014` contra el nav real; el QR contra el placeholder real de `site.domain`), y dos
-  evals (`EV-005`, `EV-007`) se cazaron a sí mismos con falsos positivos y se corrigieron.
-- **Un subagente que muere a mitad de `/review` puede dejar una regresión plantada.**
-  Pasó dos veces. Tras cualquier revisión abortada: `git status` y `git diff` primero.
+- **El fichero es la frontera**, dos veces: `data/reviews.json` para las reseñas, y como
+  fuente del destino del QR de reseñas (`DEC-019`) — nunca una URL duplicada en `site.ts`.
+- **No se filtran reseñas por estrellas.** `EV-008` v3 escanea `app/`+`src/` enteros sin
+  ninguna condición de entrada — la v2 tenía una (requería referenciar `lib/reviews`) y un
+  filtro pasado por prop la esquivaba. Es el octavo falso verde documentado.
+- **La tarifa está publicada, y ahora es alcanzable por enlace** desde el CTA del hero y
+  desde `Nav.tsx` — antes de la review del 11 sep, no lo era.
+- **Ocho falsos verdes documentados en total**, todos en aserciones negativas. El patrón
+  que más se repite: una condición de entrada o una lista enumerada es una lista de
+  sospechosos habituales — lo que la rompe es, por definición, lo que no estaba en la
+  lista. `EV-008`, `EV-013`, `EV-015` ya no enumeran nada: escanean todo `app/`+`src/`.
+- **Un subagente que muere a mitad de tarea puede dejar una regresión plantada, o puede
+  no dejar nada** — las dos veces que murió el revisor en esta ronda (cuota, atasco de
+  600s) el árbol quedó limpio. Comprobar siempre con `git status`, no asumir ninguno de
+  los dos casos.
 - **DEC-013/017**: el modelo baja de `opus` a `sonnet`, documentado las dos veces, con
-  razón distinta cada vez. No es la norma, es la excepción con fecha.
-- **DEC-016**: `scripts/fetch-reviews.ts` y `scripts/make-qr.ts`, no `.mjs` — Node 20 no
-  importa TypeScript nativo. `tsx` como devDependency, aplicado dos veces con el mismo
-  razonamiento.
+  razón distinta. No es la norma, es la excepción con fecha.
+- **DEC-016**: `scripts/fetch-reviews.ts` y `scripts/make-qr.ts` — Node 20 no importa
+  TypeScript nativo. `tsx` como devDependency.
 - **Límites físicos declarados, no escondidos**: la prueba de escaneo del QR en papel real
-  y el mensaje de error sin `qrcode` instalado no se pudieron verificar en esta máquina
-  (sin impresora, sin cámara, riesgo de romper `node_modules` a mitad de sesión). Escrito
-  así en `EV-016` y en `intent-002.md`, no maquillado como hecho.
+  no se pudo verificar en esta máquina (sin impresora, sin cámara). El mensaje de error
+  sin `qrcode` instalado sí se probó (renombrando el paquete, reversible).
 - Skills: `github-actions-templates` rota; `evaluation` va de agentes, no encaja aquí;
   `e2e-testing` es un router sin contenido; `deployment-procedures` es doctrina, útil en
   M2; `auth-implementation-patterns` parcial (5 recursos fantasma, playbook sí sirve).

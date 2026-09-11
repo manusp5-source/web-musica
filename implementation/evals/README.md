@@ -65,6 +65,7 @@ devuelve exit ≠ 0 si falla alguno. Un eval cuyo comando siga siendo el placeho
 plantilla cuenta como **PENDIENTE**, nunca como aprobado.
 
 | `EV-016.eval.md` | salida | intent-002 | El QR "web" decodifica a `site.domain`; "review" se omite de verdad sin `profileUrl` | Round-trip del QR impreso | **PASA** | 2026-09-10 |
+| `EV-017.eval.md` | **trayectoria** | review, 11 sep | Ninguna sección con `id` queda sin enlace entrante en la página | UX/contenido del posicionamiento | **PASA** | 2026-09-11 |
 
 _Una fila por eval. `/review` actualiza la columna de estado tras cada ejecución._
 

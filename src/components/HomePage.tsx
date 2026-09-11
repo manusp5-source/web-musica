@@ -21,7 +21,10 @@ export default function HomePage({ locale }: { locale: Locale }) {
     "@type": ["MusicGroup", "LocalBusiness"],
     name: site.brand,
     description: dict.seo.description,
-    url: site.domain,
+    // Coherente con canonical/hreflang, que ya distinguen "/" de "/en" — esta clave se
+    // quedó fija en la raíz española. La review adversarial lo encontró en el HTML real
+    // de /en, publicando la URL de la home ES. `locale` ya está disponible aquí.
+    url: locale === "es" ? site.domain : `${site.domain}/en`,
     email: site.email,
     telephone: "+" + site.whatsapp,
     address: {

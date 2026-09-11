@@ -26,8 +26,8 @@ export default function Page() {
 
       <h2>2. Purpose</h2>
       <p>
-        This website provides information about the live music services (piano and
-        viola) for events offered by the owner, and enables contact for quote requests.
+        This website provides information about the live viola services for events
+        offered by the owner, and enables contact for quote requests.
       </p>
 
       <h2>3. Terms of use</h2>

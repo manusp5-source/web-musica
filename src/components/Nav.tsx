@@ -16,8 +16,13 @@ export default function Nav({ dict, locale }: { dict: Dict; locale: Locale }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Mismo orden que las secciones en HomePage.tsx. "Tarifa" faltaba: la review
+  // adversarial encontró que #tarifa no tenía ni un solo enlace entrante en toda la
+  // página — el precio publicado es una de las tres patas del posicionamiento (§4 del
+  // plan de negocio) y era inalcanzable salvo haciendo scroll a ciegas.
   const links = [
     { href: "#servicios", label: dict.nav.services },
+    { href: "#tarifa", label: dict.nav.pricing },
     { href: "#media", label: dict.nav.media },
     { href: "#sobre-mi", label: dict.nav.about },
     { href: "#eventos", label: dict.nav.events },

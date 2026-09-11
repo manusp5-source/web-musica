@@ -269,3 +269,33 @@ ningun filtro de por medio.
 **No es una decision de arquitectura**, es una nota operativa para no repetir el mismo
 error: al verificar un build o test manualmente, o se lee la salida completa, o el grep
 usa `-i` / cubre mayúsculas y minúsculas a proposito.
+
+## Nota operativa (no numerada): pasada de /review sobre M1-UJ-004/005, contenido y QR
+**Fecha:** 2026-09-11
+**Revisor:** 3 intentos antes de completar (1 muerte por cuota de sesion, 1 atasco de
+600s). Tercer intento: 80 llamadas, 17 min, arbol limpio confirmado al empezar y al
+terminar.
+**Critico (opus):** 42 llamadas, 11.5 min. Confirmo el bloqueante del revisor (piano en
+paginas legales, verificado contra el HTML publicado) y encontro tres mas por su cuenta:
+EV-013 con alcance enumerado (mismo patron que el quinto falso verde), un OCTAVO falso
+verde real en EV-008 (ciego a un filtro pasado por prop, sin referenciar el modulo de
+resenas), el JSON-LD de /en publicando la URL de la home ES, y el CTA principal del hero
+sin enlazar a la seccion de tarifa que el mismo boton promete -- ademas confirmo que
+`npx playwright test` SI funciona con margen (el atasco del revisor fue de su sandbox, no
+del proyecto), marcandolo INFUNDADO.
+**VEREDICTO del critico:** arreglar primero, 4 bloqueantes.
+**Arreglos aplicados, los 4 con rojo->verde probado contra el ataque exacto reportado:**
+1. Contenido de las dos paginas legales corregido; EV-013 generalizado a recorrer
+   app/+src/ enteros (34 ficheros) en vez de una lista de 5.
+2. EV-008 pierde su condicion de entrada (TOCA_RESENAS): pasa de vigilar solo ficheros
+   que referencian el modulo de resenas a escanear todo el arbol sin excepcion,
+   reproduciendo el plantado exacto del critico antes de arreglarlo.
+3. `HomePage.tsx`: `url` del JSON-LD pasa a depender de `locale`. Test nuevo
+   `jsonld-locale.test.tsx`.
+4. `Hero.tsx` (CTA a #tarifa) y `Nav.tsx` (enlace nuevo en el menu). Test nuevo y
+   generalizado `anclas-vivas.test.tsx`: cualquier `<section id>` sin enlace entrante se
+   pone rojo solo, no solo el caso de tarifa.
+**Evals nuevos:** EV-017 (anclas vivas). EV-004, EV-008 y EV-013 ampliados con su propio
+historial de falso verde -> arreglo.
+**Pendiente:** pasada de reverificacion focalizada (revisor, alcance solo los 4 arreglos)
+antes de marcar `Review OK` en el task_tracker -- paso 4 del protocolo de /review.

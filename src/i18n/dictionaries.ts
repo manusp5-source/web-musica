@@ -17,7 +17,7 @@ type Price = { name: string; detail: string; price: string; featured?: boolean }
 
 export type Dict = {
   seo: { description: string };
-  nav: { services: string; media: string; about: string; events: string; contact: string; cta: string; menu: string };
+  nav: { services: string; pricing: string; media: string; about: string; events: string; contact: string; cta: string; menu: string };
   hero: { eyebrow: string; title: string; subtitle: string; ctaPrimary: string; ctaSecondary: string; location: string };
   trust: string[];
   services: { eyebrow: string; title: string; intro: string; items: Service[] };
@@ -60,7 +60,7 @@ export const dictionaries: Record<Locale, Dict> = {
       description:
         "Viola en directo para ceremonias de boda en Granada. Arreglo propio de vuestra canción, equipo de sonido incluido y tarifa publicada desde 390 €.",
     },
-    nav: { services: "Servicios", media: "Escuchar", about: "Sobre mí", events: "Eventos", contact: "Contratar", cta: "Reservar fecha", menu: "Menú" },
+    nav: { services: "Servicios", pricing: "Tarifa", media: "Escuchar", about: "Sobre mí", events: "Eventos", contact: "Contratar", cta: "Reservar fecha", menu: "Menú" },
     hero: {
       eyebrow: "Música en directo · Granada",
       title: "La ceremonia a viola sola, con vuestro arreglo hecho por mí",
@@ -203,7 +203,7 @@ export const dictionaries: Record<Locale, Dict> = {
       description:
         "Live viola for wedding ceremonies in Granada. Your song arranged by me, PA included, and the price already on the site — from €390.",
     },
-    nav: { services: "Services", media: "Listen", about: "About", events: "Events", contact: "Book", cta: "Check date", menu: "Menu" },
+    nav: { services: "Services", pricing: "Prices", media: "Listen", about: "About", events: "Events", contact: "Book", cta: "Check date", menu: "Menu" },
     hero: {
       eyebrow: "Live music · Granada",
       title: "The ceremony on solo viola, with your song arranged by me",

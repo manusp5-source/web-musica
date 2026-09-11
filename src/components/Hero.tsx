@@ -64,7 +64,9 @@ export default function Hero({ dict }: { dict: Dict }) {
           </p>
 
           <div className="mt-9 flex flex-wrap gap-4">
-            <a href="#contacto" className="btn-gold group">
+            {/* El botón promete la tarifa ("Ver tarifa y reservar") pero enlazaba a
+                #contacto — hallazgo de la review: nada en la página llevaba a #tarifa. */}
+            <a href="#tarifa" className="btn-gold group">
               {dict.hero.ctaPrimary}
               <IconArrow className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
