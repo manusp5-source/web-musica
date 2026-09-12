@@ -32,7 +32,7 @@ volver al intent.
 | Milestone | Nombre | Objetivo | Estado |
 |---|---|---|---|
 | M0 | Fundación | Historial de git, tests, CI, evals y método en su sitio | **DONE** (7 de 8; `M0-IT-002` en `SKIP` temporal) |
-| M1 | Reseñas | La web muestra reseñas de Google desde `data/reviews.json`, con cumplimiento legal | **WIP** — UJ-001/002/003 auditados y cerrados; faltan UJ-004 y UJ-005 |
+| M1 | Reseñas | La web muestra reseñas de Google desde `data/reviews.json`, con cumplimiento legal | **DONE** — los 5 UJs auditados y cerrados (review del 11 sep) |
 | M2 | Publicación | Dominio, datos legales reales, deploy en Cloudflare, QR impreso | **TODO** — reabierto el 3 sep 2026 por DEC-010 (`intent-003`) |
 
 **Regla:** nunca se empieza un UJ mientras quede un IT abierto de su milestone o de uno anterior.
