@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Manuel — Viola en directo">
+  <title>Manuel — Viola en directo</title>
+  <rect width="200" height="200" fill="#1C1B19"/>
+  <circle cx="100" cy="100" r="88" fill="none" stroke="#C9A86A" stroke-width="2"/>
+  <g transform="translate(56,8) scale(0.88)">
+    <path d="M50,78 C66,78 79,84 77,98 C75,110 67,119 67,136 C67,153 80,156 82,170 C84,188 68,200 50,203 C32,200 16,188 18,170 C20,156 33,153 33,136 C33,119 25,110 23,98 C21,84 34,78 50,78 Z"
+      fill="#FAF7F2" stroke="none"/>
+    <path d="M42,30 L42,80 M58,30 L58,80" stroke="#FAF7F2" stroke-width="9" stroke-linecap="round"/>
+    <path d="M38,24 C38,10 52,8 52,18 C52,26 43,26 44,19" fill="none" stroke="#FAF7F2" stroke-width="7" stroke-linecap="round"/>
+  </g>
+</svg>

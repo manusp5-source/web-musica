@@ -1,11 +1,16 @@
 # Project Memory — web-musica
-Última actualización: 2026-09-11
+Última actualización: 2026-09-16
 
 ## Fase actual
-**`/review` de frontera completada** sobre M1-UJ-004/005, dominio real, contenido de
-negocio (`M2-IT-006`), accesibilidad (`M2-IT-007`) y QR (`M2-UJ-002` parcial). Veredicto:
-**avanzar**, tras un ciclo revisor→crítico→arreglo→reverificación. Modelo de la sesión:
-**`sonnet`**.
+Publicación en marcha. `gh auth login` resuelto (15 sep): remoto en
+`github.com/manusp5-source/web-musica`, `main` y `docs/plan-negocio-eventos` empujados,
+PR de merge armado (bloqueado por el clasificador de permisos, comando entregado a Manuel).
+`M2-IT-003` reencaminado a Cloudflare Workers + `@opennextjs/cloudflare` (`DEC-020`) —
+Cloudflare Pages "clásico" habría servido la web sin las cabeceras de seguridad reales.
+Verificado en local con `wrangler dev`: las 6 cabeceras sobreviven. Falta solo la cuenta de
+Cloudflare de Manuel. Identidad visual nueva: logo con silueta de viola, cartel A4 y tarjeta
+de visita (`M2-IT-008`, `DEC-021`), verificados con capturas reales, pendientes del
+Instagram real. Modelo de la sesión: **`sonnet`**.
 
 ## Versión del harness
 2026.09-1 (ver `~/.claude/docs/harness.md`)
@@ -36,18 +41,25 @@ solo tiene el commit base del sitio importado. Árbol limpio tras cada commit.
 Los 4, arreglados con rojo→verde probado, y reverificados por un cuarto subagente.
 
 ## Siguiente paso
-1. Cuenta de Cloudflare, que nadie ha dado todavía: desbloquea `M2-IT-003/004/005`.
-2. Manuel: imprimir `assets/qr/web.svg`, prueba de escaneo física real.
-3. Cuando exista la ficha de Google (B-01/B-02): `npm run reviews:fetch` y `npm run qr`
+1. Manuel: fusionar el PR (`gh pr create` armado, comando entregado — bloqueado por
+   permisos de esta sesión) y decidir si el repo se queda público o pasa a privado.
+2. Cuenta de Cloudflare + `wrangler login`: desbloquea el primer `npm run cf:deploy` real
+   y, tras eso, `M2-IT-001/004/005`.
+3. Manuel: usuario real de Instagram (`site.social.instagram` en `site.ts` sigue vacío) —
+   el cartel y la tarjeta llevan `tu_instagram` marcado en rojo a propósito hasta entonces.
+4. Manuel: imprimir `assets/cartel/cartel-boda.html`, `assets/tarjeta/tarjeta.html` y
+   `assets/qr/web.svg` — ninguna prueba física se pudo hacer en esta máquina.
+5. Cuando exista la ficha de Google (B-01/B-02): `npm run reviews:fetch` y `npm run qr`
    generan solos el segundo código, sin tocar nada más.
-4. Considerar renombrar la rama a algo que describa todo lo que ya lleva dentro.
+6. Considerar renombrar la rama a algo que describa todo lo que ya lleva dentro.
 
 ## Bloqueadores
 - **B-01 / B-02**: sin ficha de Google Business ni cuota de API. No bloquean código.
-- **B-03**: `gh` instalado, sin autenticar. `M0-IT-002` en `SKIP`.
+- **B-03**: resuelto el 15 sep (`gh auth login`). Queda solo la decisión de visibilidad
+  del repo (público hoy, `M0-IT-002` pide privado) — de Manuel, no técnica.
 - **B-04 / B-05 / B-06**: resueltos.
-- **Sin registrar como B-0X formal**: `M2-IT-003/004/005` necesitan una cuenta de
-  Cloudflare que nadie ha dado todavía.
+- **Sin registrar como B-0X formal**: `M2-IT-001/003/004/005` necesitan la cuenta de
+  Cloudflare de Manuel — el código y la config ya están listos y verificados en local.
 
 ## Contexto clave para retomar en frío
 

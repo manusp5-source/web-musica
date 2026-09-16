@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Cartel — Manuel, viola en directo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --marfil: #FAF7F2;
+    --carbon: #1C1B19;
+    --carbon2: #33312D;
+    --dorado: #C9A86A;
+    --bronce: #7A5F2E;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #888;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .toolbar {
+    max-width: 210mm;
+    margin: 16px auto;
+    padding: 14px 18px;
+    background: var(--marfil);
+    border: 1px solid #ddd6c9;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--carbon);
+    line-height: 1.5;
+  }
+  .toolbar b { color: var(--bronce); }
+  .poster {
+    position: relative;
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto 24px;
+    overflow: hidden;
+    background: var(--carbon);
+    box-shadow: 0 4px 24px rgba(0,0,0,.35);
+  }
+  .foto {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 62%;
+    background-image: url('../../public/manuel-viola.jpg');
+    background-size: cover;
+    background-position: center 30%;
+  }
+  .foto::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(28,27,25,0) 55%, rgba(28,27,25,.75) 88%, var(--carbon) 100%);
+  }
+  .logo-sobre-foto {
+    position: absolute;
+    top: 8mm; left: 10mm;
+    width: 46mm;
+    z-index: 2;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,.5));
+  }
+  .cuerpo {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 46%;
+    padding: 8mm 12mm 9mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .titulares { text-align: center; margin-bottom: 7mm; }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--dorado);
+    margin-bottom: 5mm;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 29px;
+    line-height: 1.2;
+    color: var(--marfil);
+    margin-bottom: 4mm;
+  }
+  .sub {
+    font-size: 12.5px;
+    color: #d8d2c4;
+    max-width: 135mm;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  .servicios {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #a39a86;
+    margin-top: 4mm;
+  }
+  .servicios span { color: var(--dorado); margin: 0 6px; }
+  .pie {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(201,168,106,.35);
+    padding-top: 7mm;
+    margin-top: 6mm;
+  }
+  .contacto {
+    color: var(--marfil);
+  }
+  .contacto .web {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 34px;
+    color: var(--dorado);
+    display: block;
+    margin-bottom: 4mm;
+    line-height: 1;
+  }
+  .contacto .ig {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5mm;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--marfil);
+    border: 1.4px solid var(--dorado);
+    border-radius: 20mm;
+    padding: 2mm 5mm;
+  }
+  .contacto .ig::before {
+    content: "@";
+    color: var(--dorado);
+    font-weight: 700;
+  }
+  .contacto .ig.placeholder {
+    color: #f0a8a8;
+    border-color: #e08a8a;
+    border-style: dashed;
+  }
+  .qr-bloque {
+    text-align: center;
+    color: #d8d2c4;
+    flex-shrink: 0;
+  }
+  .qr-bloque .caja {
+    background: var(--marfil);
+    padding: 3.5mm;
+    border-radius: 3px;
+    width: 42mm;
+    height: 42mm;
+  }
+  .qr-bloque .caja svg { width: 100%; height: 100%; display: block; }
+  .qr-bloque span {
+    display: block;
+    margin-top: 3mm;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    color: var(--marfil);
+  }
+
+  @media print {
+    body { background: none; }
+    .toolbar { display: none; }
+    .poster { box-shadow: none; margin: 0; }
+    @page { size: A4; margin: 0; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <b>Antes de imprimir:</b> sustituye <code>@tu_instagram</code> más abajo por tu usuario real de
+  Instagram (busca <code>ig placeholder</code> en este fichero, o edítalo a mano). El QR ya apunta
+  a <b>violagranada.es</b> — es el mismo <code>assets/qr/web.svg</code> del proyecto, no uno nuevo.
+  La foto es la del hero (1829×1362px, ~96dpi): se ve bien en pantalla y en una A4 a tamaño normal;
+  si quieres un cartel A3 o de imprenta profesional, mejor una foto de mayor resolución.
+  Para imprimir: <b>Ctrl/Cmd+P → Guardar como PDF</b> o directo a impresora, tamaño A4, sin márgenes.
+</div>
+
+<div class="poster">
+  <div class="foto">
+    <img class="logo-sobre-foto" src="../logo/logo-horizontal-dark.svg" alt="Manuel · Viola en directo">
+  </div>
+
+  <div class="cuerpo">
+    <div class="titulares">
+      <div class="eyebrow">Música en directo · Granada</div>
+      <h1>La banda sonora de vuestro &ldquo;sí, quiero&rdquo;</h1>
+      <p class="sub">Viola en directo para ceremonias de boda. Arreglo propio de vuestra
+      canción, equipo de sonido incluido, tarifa publicada desde 390&nbsp;€.</p>
+      <p class="servicios">Ceremonia <span>·</span> Cóctel <span>·</span> Granada y provincia</p>
+    </div>
+
+    <div class="pie">
+      <div class="contacto">
+        <span class="web">violagranada.es</span>
+        <span class="ig placeholder">tu_instagram</span>
+      </div>
+      <div class="qr-bloque">
+        <div class="caja">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" shape-rendering="crispEdges"><path fill="#FFFFFF" d="M0 0h33v33H0z"/><path stroke="#1C1B19" d="M4 4.5h7m5 0h1m3 0h1m1 0h7M4 5.5h1m5 0h1m3 0h1m1 0h1m2 0h1m2 0h1m5 0h1M4 6.5h1m1 0h3m1 0h1m1 0h2m4 0h1m1 0h1m1 0h1m1 0h3m1 0h1M4 7.5h1m1 0h3m1 0h1m1 0h1m1 0h2m1 0h2m3 0h1m1 0h3m1 0h1M4 8.5h1m1 0h3m1 0h1m1 0h2m2 0h1m3 0h1m1 0h1m1 0h3m1 0h1M4 9.5h1m5 0h1m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m5 0h1M4 10.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M12 11.5h1m2 0h2m2 0h1M4 12.5h1m1 0h5m3 0h2m1 0h3m2 0h5M4 13.5h1m6 0h1m4 0h1m3 0h1m2 0h1m3 0h1M6 14.5h2m1 0h3m1 0h3m3 0h1m4 0h2m1 0h2M4 15.5h1m3 0h1m2 0h2m1 0h2m2 0h1m2 0h3m4 0h1M5 16.5h3m2 0h3m3 0h2m1 0h6m1 0h3M4 17.5h6m4 0h1m2 0h1m2 0h1m2 0h1m1 0h1m1 0h1M4 18.5h1m1 0h5m4 0h7m1 0h3m1 0h2M4 19.5h1m2 0h2m3 0h4m4 0h2m1 0h2m3 0h1M4 20.5h1m1 0h3m1 0h1m1 0h2m1 0h1m1 0h8m1 0h1M12 21.5h1m1 0h1m1 0h1m2 0h2m3 0h2M4 22.5h7m7 0h1m1 0h1m1 0h1m1 0h1m1 0h3M4 23.5h1m5 0h1m1 0h1m3 0h1m1 0h1m1 0h1m3 0h2m1 0h1M4 24.5h1m1 0h3m1 0h1m1 0h3m1 0h9m1 0h3M4 25.5h1m1 0h3m1 0h1m1 0h1m5 0h1m2 0h2m1 0h5M4 26.5h1m1 0h3m1 0h1m1 0h1m2 0h3m1 0h1m5 0h2m1 0h1M4 27.5h1m5 0h1m3 0h2m2 0h4m1 0h3m2 0h1M4 28.5h7m1 0h2m1 0h2m5 0h7"/></svg>
+        </div>
+        <span>Escanea y ved fechas</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

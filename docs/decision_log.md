@@ -299,3 +299,47 @@ del proyecto), marcandolo INFUNDADO.
 historial de falso verde -> arreglo.
 **Pendiente:** pasada de reverificacion focalizada (revisor, alcance solo los 4 arreglos)
 antes de marcar `Review OK` en el task_tracker -- paso 4 del protocolo de /review.
+
+## DEC-020: Cloudflare Workers + `@opennextjs/cloudflare`, no Cloudflare Pages "clásico"
+**Fecha:** 2026-09-16
+**Decisión:** el destino real de `M2-IT-003` es un Worker de Cloudflare construido con el
+adaptador `@opennextjs/cloudflare`, no un export estático servido por Cloudflare Pages.
+**Razón:** `next.config.mjs` define `headers()` con las cabeceras de seguridad reales del
+proyecto (CSP, HSTS, X-Frame-Options, Referrer-Policy, Permissions-Policy) — un
+`output: "export"` las ignora por completo, así que un deploy estático publicaría la web
+sin ninguna de ellas. `@cloudflare/next-on-pages` está deprecado oficialmente en favor de
+`@opennextjs/cloudflare`. Se descartó también `vinext` (la opción que Cloudflare recomienda
+ahora por defecto): sigue en beta y su compatibilidad con `headers()` y con
+`images.remotePatterns` no está documentada — dos piezas de seguridad reales de este
+proyecto (CSP/HSTS, protección SSRF en `/_next/image`), no algo que se pueda apostar en
+una web ya en producción.
+**Verificado, no asumido:** `npx opennextjs-cloudflare build` seguido de
+`npx opennextjs-cloudflare preview` levanta el Worker en local (`wrangler dev`, puerto
+8788) sin cuenta de Cloudflare. `curl -I http://127.0.0.1:8788/` devuelve las 6 cabeceras
+de `next.config.mjs` sin recortar; `/en` y `/aviso-legal` responden 200.
+**Alternativas descartadas:** Cloudflare Pages con export estático (pierde las cabeceras),
+`@cloudflare/next-on-pages` (deprecado), `vinext` (beta, compatibilidad no documentada con
+las dos piezas de seguridad que este proyecto sí usa).
+**Impacto:** nuevos ficheros `wrangler.jsonc` y `open-next.config.ts` en la raíz;
+`@opennextjs/cloudflare` en `dependencies` (se ejecuta dentro del Worker desplegado, no
+solo en build) y `wrangler` en `devDependencies` (solo CLI, mismo patrón que `tsx` en
+`DEC-016`). `.open-next/`, `.wrangler/` y `cloudflare-env.d.ts` van a `.gitignore`: se
+regeneran con `npm run cf:preview` / `cf:deploy`. `M2-IT-003` sigue `BLOCKED (parcial)`:
+falta la cuenta de Cloudflare y `wrangler login` de Manuel para el primer deploy real.
+
+## DEC-021: identidad visual (logo, cartel, tarjeta) construida como HTML/SVG verificable, no encargada a Claude Design
+**Fecha:** 2026-09-16
+**Decisión:** el logo (3 lockups), el cartel A4 y la tarjeta de visita se construyeron como
+SVG/HTML de autoría propia dentro del repo (`assets/logo/`, `assets/cartel/`,
+`assets/tarjeta/`), verificados con capturas reales de Playwright, no a través de
+Claude Design (herramienta `DesignSync`).
+**Razón:** `DesignSync` devolvió error explícito — necesita autorización de diseño que solo
+se puede conceder con `/design-login` desde una sesión interactiva, y esta sesión no lo es.
+No había forma de rodear esa barrera sin la acción de Manuel.
+**Alternativas descartadas:** esperar a que Manuel autorice Claude Design antes de entregar
+nada (se descartó por bloquear sin necesidad un encargo que sí se podía resolver con las
+herramientas ya disponibles en la sesión).
+**Impacto:** la marca vive como ficheros de texto plano versionados, editables a mano y sin
+dependencia de una cuenta externa. Si Manuel autoriza Claude Design más adelante
+(`/design-login`), estos mismos ficheros pueden subirse allí como punto de partida — no hay
+que rehacer el trabajo.

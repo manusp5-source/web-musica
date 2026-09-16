@@ -30,6 +30,11 @@ next-env.d.ts
 # vercel
 .vercel
 
+# cloudflare (@opennextjs/cloudflare build output — se regenera con `npm run cf:preview/deploy`)
+/.open-next/
+.wrangler/
+cloudflare-env.d.ts
+
 # playwright
 /test-results/
 /playwright-report/
