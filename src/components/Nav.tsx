@@ -52,8 +52,12 @@ export default function Nav({ dict, locale }: { dict: Dict; locale: Locale }) {
   return (
     <header className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${panel}`}>
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#top" className={`font-serif text-xl tracking-wide transition-colors ${textStrong}`}>
-          {site.brand}
+        <a href="#top" className="shrink-0">
+          <img
+            src={scrolled ? "/logo/logo-horizontal.svg" : "/logo/logo-horizontal-dark.svg"}
+            alt={site.brand}
+            className="h-8 w-auto md:h-9"
+          />
         </a>
 
         <div className="hidden items-center gap-8 md:flex">
