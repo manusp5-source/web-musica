@@ -43,3 +43,7 @@ cloudflare-env.d.ts
 
 # QR generado (los SVG maestros sí se versionan)
 assets/qr/*.png
+
+# export de Claude Design (fichero de trabajo de Manuel, no un entregable del repo —
+# lo que sale de ahí ya está aplicado a mano en assets/logo/)
+assets/*.zip
