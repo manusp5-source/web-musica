@@ -29,3 +29,21 @@ next-env.d.ts
 
 # vercel
 .vercel
+
+# cloudflare (@opennextjs/cloudflare build output — se regenera con `npm run cf:preview/deploy`)
+/.open-next/
+.wrangler/
+cloudflare-env.d.ts
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# QR generado (los SVG maestros sí se versionan)
+assets/qr/*.png
+
+# export de Claude Design (fichero de trabajo de Manuel, no un entregable del repo —
+# lo que sale de ahí ya está aplicado a mano en assets/logo/)
+assets/*.zip

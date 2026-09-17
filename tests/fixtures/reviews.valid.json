@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "source": "google-business-profile",
+  "fetchedAt": "2026-09-05T09:00:00.000Z",
+  "profileUrl": "https://g.page/r/EJEMPLO/review",
+  "aggregate": { "rating": 4.7, "count": 23 },
+  "reviews": [
+    {
+      "id": "rev-antigua",
+      "author": "Javier R.",
+      "avatarUrl": null,
+      "rating": 4,
+      "text": "Puntual y muy profesional. Repetiremos.",
+      "lang": "es",
+      "createdAt": "2026-04-02T18:00:00.000Z",
+      "url": null,
+      "reply": null
+    },
+    {
+      "id": "rev-reciente",
+      "author": "Laura M.",
+      "avatarUrl": "https://lh3.googleusercontent.com/ejemplo",
+      "rating": 5,
+      "text": "Tocó en nuestra boda y fue el momento más recordado del día.",
+      "lang": "es",
+      "createdAt": "2026-06-14T18:22:03.123Z",
+      "url": null,
+      "reply": null
+    },
+    {
+      "id": "rev-sin-texto",
+      "author": "Anónimo",
+      "avatarUrl": null,
+      "rating": 1,
+      "text": "",
+      "lang": null,
+      "createdAt": "2026-05-01T10:00:00.000Z",
+      "url": null,
+      "reply": null
+    }
+  ]
+}

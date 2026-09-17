@@ -8,12 +8,22 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint app src",
-    "check-legal": "node scripts/check-legal.mjs --strict"
+    "check-legal": "node scripts/check-legal.mjs --strict",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "evals": "node implementation/evals/run.mjs",
+    "reviews:fetch": "tsx scripts/fetch-reviews.ts",
+    "qr": "tsx scripts/make-qr.ts",
+    "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "overrides": {
     "postcss": "^8.5.10"
   },
   "dependencies": {
+    "@opennextjs/cloudflare": "^1.20.6",
     "@react-three/fiber": "^9.6.1",
     "next": "^15.5.19",
     "react": "19.0.0",
@@ -22,15 +32,28 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
+    "@playwright/test": "^1.62.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "^20",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.184.1",
+    "@vitejs/plugin-react": "^6.1.1",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.39.4",
     "eslint-config-next": "^15.5.19",
+    "jsdom": "^29.1.1",
+    "jsqr": "^1.4.0",
+    "pngjs": "^7.0.0",
     "postcss": "^8.5.10",
+    "qrcode": "^1.5.4",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.3"
+    "tsx": "^4.23.13",
+    "typescript": "^5.7.3",
+    "vitest": "^3.2.7",
+    "wrangler": "^4.132.0",
+    "zod": "^4.5.4"
   }
 }

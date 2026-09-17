@@ -1,0 +1,46 @@
+{
+  "reviews": [
+    {
+      "reviewId": "rev-google-1",
+      "reviewer": {
+        "displayName": "Laura M.",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ejemplo-1",
+        "isAnonymous": false
+      },
+      "starRating": "FIVE",
+      "comment": "Tocó en nuestra boda y fue el momento más recordado del día.",
+      "createTime": "2026-06-14T18:22:03.123Z",
+      "updateTime": "2026-06-14T18:22:03.123Z",
+      "name": "accounts/1/locations/2/reviews/rev-google-1"
+    },
+    {
+      "reviewId": "rev-google-2",
+      "reviewer": {
+        "displayName": "Usuario de Google",
+        "isAnonymous": true
+      },
+      "starRating": "STAR_RATING_UNSPECIFIED",
+      "comment": "",
+      "createTime": "2026-05-01T10:00:00.000Z",
+      "name": "accounts/1/locations/2/reviews/rev-google-2"
+    },
+    {
+      "reviewId": "rev-google-3",
+      "reviewer": {
+        "displayName": "Javier R.",
+        "isAnonymous": false
+      },
+      "starRating": "FOUR",
+      "comment": "Puntual y muy profesional.",
+      "createTime": "2026-04-02T18:00:00.000Z",
+      "reviewReply": {
+        "comment": "Gracias por confiar en mí, Javier.",
+        "updateTime": "2026-04-03T09:00:00.000Z"
+      },
+      "name": "accounts/1/locations/2/reviews/rev-google-3"
+    }
+  ],
+  "averageRating": 4.7,
+  "totalReviewCount": 23,
+  "nextPageToken": "pagina-2"
+}

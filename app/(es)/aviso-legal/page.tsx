@@ -28,8 +28,8 @@ export default function Page() {
       <h2>2. Objeto</h2>
       <p>
         Este sitio web tiene por finalidad ofrecer información sobre los servicios de
-        música en vivo (piano y viola) para eventos prestados por el titular, así como
-        facilitar el contacto para la solicitud de presupuestos.
+        viola en directo para eventos prestados por el titular, así como facilitar el
+        contacto para la solicitud de presupuestos.
       </p>
 
       <h2>3. Condiciones de uso</h2>

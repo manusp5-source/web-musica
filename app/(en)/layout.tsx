@@ -10,21 +10,22 @@ export const metadata: Metadata = {
     template: `%s · ${site.artistName}`,
   },
   description:
-    "Live piano and viola for weddings, corporate events and celebrations across Spain.",
+    "Live viola for wedding ceremonies in Granada. Your song arranged by me, PA included, from €390.",
   keywords: [
-    "live music weddings Spain",
-    "wedding pianist Spain",
-    "viola player events",
-    "live piano and viola",
-    "ceremony music",
+    "wedding ceremony music Granada",
+    "live music wedding Spain",
+    "string player wedding ceremony",
+    "viola player weddings",
+    "church wedding music Granada",
     site.city,
   ],
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: site.brand,
-    title: `${site.brand} — Live music for events`,
-    description: "Live piano and viola for weddings and events in Spain.",
+    title: `${site.brand} — Ceremony music in ${site.city}`,
+    description:
+      "The ceremony on solo viola, your song arranged by me. Published prices from €390.",
   },
   alternates: {
     canonical: "/en",

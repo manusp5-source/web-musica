@@ -1,0 +1,17 @@
+{
+  "reviews": [
+    {
+      "reviewId": "rev-google-4",
+      "reviewer": {
+        "displayName": "Ana N.",
+        "isAnonymous": false
+      },
+      "starRating": "FIVE",
+      "comment": "El cóctel con la viola fue una pasada, todos preguntando quién tocaba.",
+      "createTime": "2026-02-10T12:00:00.000Z",
+      "name": "accounts/1/locations/2/reviews/rev-google-4"
+    }
+  ],
+  "averageRating": 4.7,
+  "totalReviewCount": 23
+}

@@ -6,26 +6,30 @@ import { serif, sans } from "@/config/fonts";
 export const metadata: Metadata = {
   metadataBase: new URL(site.domain),
   title: {
-    default: `${site.brand} — Música en vivo para eventos`,
+    default: `Música en directo para ceremonias en ${site.city} — ${site.brand}`,
     template: `%s · ${site.artistName}`,
   },
   description:
-    "Piano y viola en directo para bodas, eventos corporativos y celebraciones. Música en vivo a medida en " +
-    site.city + " y toda España.",
+    "Viola en directo para ceremonias de boda en " + site.city +
+    ". Arreglo propio de vuestra canción, equipo de sonido incluido y tarifa publicada desde 390 €.",
+  // "viola" apenas se busca (docs/mercado-viola-eventos.md §3.2): las palabras que
+  // trae la gente son música, ceremonia, boda y la ciudad. La viola es el instrumento,
+  // no el reclamo — pero tampoco se disfraza de violín, que sería mentir.
   keywords: [
-    "música en vivo bodas",
-    "pianista bodas",
-    "violista eventos",
-    "piano y viola directo",
-    "música ceremonia",
+    "música para bodas " + site.city,
+    "música ceremonia boda",
+    "música en directo boda iglesia",
+    "cuerda en directo ceremonia",
+    "violista bodas",
     site.city,
   ],
   openGraph: {
     type: "website",
     locale: "es_ES",
     siteName: site.brand,
-    title: `${site.brand} — Música en vivo para eventos`,
-    description: "Piano y viola en directo para bodas y eventos en España.",
+    title: `${site.brand} — Música para ceremonias en ${site.city}`,
+    description:
+      "La ceremonia a viola sola, con vuestro arreglo hecho a medida. Tarifa publicada desde 390 €.",
   },
   alternates: {
     canonical: "/",

@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+# Un push nuevo cancela la ejecución anterior de la misma rama.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint, tests, build y smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      # Modo aviso, no --strict: hoy site.legal tiene placeholders a propósito y
+      # bloquear aquí dejaría el CI en rojo permanente. M2-IT-002 lo pasa a --strict
+      # el día que se rellenen los datos reales, y entonces sí bloquea el deploy.
+      - name: Comprobar datos legales (aviso)
+        run: node scripts/check-legal.mjs
+
+      - name: Tests unitarios
+        run: npm test
+
+      - name: Build de producción
+        run: npm run build
+
+      - name: Instalar Chromium para Playwright
+        run: npx playwright install --with-deps chromium
+
+      # El webServer de playwright.config.ts reconstruye, pero reutiliza la caché
+      # de .next del paso anterior, así que cuesta segundos.
+      - name: Smoke e2e
+        run: npm run test:e2e
+
+      # Va al final a propósito: EV-006 necesita un .next/ ya construido.
+      - name: Evals
+        run: npm run evals
+
+      - name: Guardar el informe de Playwright si algo falla
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

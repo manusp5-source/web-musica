@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Dict } from "@/i18n/dictionaries";
 import { site } from "@/config/site";
 import { IconArrow, IconPin } from "./icons";
@@ -6,23 +7,41 @@ import Hero3D from "./hero3d/Hero3D";
 export default function Hero({ dict }: { dict: Dict }) {
   return (
     <section id="top" className="relative flex min-h-screen items-center overflow-hidden">
-      {/* Fondo: gradiente elegante (placeholder hasta foto/vídeo real) */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-carbon via-carbon2 to-burdeos" />
-      <div
-        className="absolute inset-0 -z-10 opacity-[0.07]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 30%, #C9A86A 0%, transparent 40%), radial-gradient(circle at 80% 70%, #C9A86A 0%, transparent 35%)",
-        }}
-      />
-      {/*
-        SWAP FOTO/VÍDEO: cuando tengas material, sustituye el bloque de arriba por:
-        <Image src="/hero.jpg" alt="" fill priority className="object-cover -z-10" />
-        o un <video> de fondo.
-      */}
+      {/* Fondo: la foto si existe, y si no el gradiente. Basta con poner el fichero en
+          /public y su ruta en site.media.heroPhoto — no hay que tocar este componente.
+          La cara de un músico vende más que cualquier degradado: es la diferencia entre
+          contratar a alguien y contratar a un servicio. */}
+      {site.media.heroPhoto ? (
+        <>
+          <Image
+            src={site.media.heroPhoto}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="-z-10 object-cover object-[70%_center]"
+          />
+          {/* Sin este velo el texto blanco no se lee sobre una foto clara */}
+          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-carbon/90 via-carbon/60 to-carbon/25" />
+        </>
+      ) : (
+        <>
+          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-carbon via-carbon2 to-burdeos" />
+          <div
+            className="absolute inset-0 -z-10 opacity-[0.07]"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 20% 30%, #C9A86A 0%, transparent 40%), radial-gradient(circle at 80% 70%, #C9A86A 0%, transparent 35%)",
+            }}
+          />
+        </>
+      )}
 
-      {/* Partículas 3D audio-reactivas (se auto-desactivan en móvil/reduce-motion) */}
-      {site.effects.hero3d && <Hero3D label={dict.hero.ctaSecondary} />}
+      {/* Partículas 3D audio-reactivas (se auto-desactivan en móvil/reduce-motion).
+          Con foto de fondo se apagan: compiten con la cara y no aportan. */}
+      {site.effects.hero3d && !site.media.heroPhoto ? (
+        <Hero3D label={dict.hero.ctaSecondary} />
+      ) : null}
 
       {/* Velo para garantizar legibilidad del texto sobre las partículas */}
       <div className="pointer-events-none absolute inset-0 z-[5] bg-gradient-to-r from-carbon/80 via-carbon/35 to-transparent" />
@@ -45,7 +64,9 @@ export default function Hero({ dict }: { dict: Dict }) {
           </p>
 
           <div className="mt-9 flex flex-wrap gap-4">
-            <a href="#contacto" className="btn-gold group">
+            {/* El botón promete la tarifa ("Ver tarifa y reservar") pero enlazaba a
+                #contacto — hallazgo de la review: nada en la página llevaba a #tarifa. */}
+            <a href="#tarifa" className="btn-gold group">
               {dict.hero.ctaPrimary}
               <IconArrow className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
