@@ -30,6 +30,13 @@ correo electrónico. **Hasta que la ficha no esté verificada, la API no devuelv
 Al terminar, anota la URL pública de reseñas de la ficha — es el `GBP_PROFILE_URL` al que
 apuntarán todos los enlaces de atribución de la web.
 
+**El reloj del Paso 4 empieza aquí, no antes.** Google exige la ficha verificada y activa
+**60 días o más** antes de aceptar la solicitud de acceso a la API — confirmado contra la
+documentación oficial (`developers.google.com/my-business/content/prereqs`, 17 sep 2026).
+No es tiempo de revisión, es una espera obligatoria previa. Verifica la ficha cuanto antes,
+aunque el resto de esta guía (Pasos 3, 5 y 6) se pueda avanzar en paralelo mientras corren
+los 60 días.
+
 ## Paso 3 — Proyecto en Google Cloud y APIs
 
 1. **console.cloud.google.com** → proyecto nuevo (por ejemplo `web-musica-reviews`).
@@ -41,23 +48,38 @@ apuntarán todos los enlaces de atribución de la web.
 
 ## Paso 4 — Solicitar la cuota (esto es lo que tarda)
 
-Las API de Business Profile llegan con **cuota cero**. Hay que rellenar el formulario de
-solicitud de acceso de Google indicando el número de proyecto, el sitio web y para qué se
-van a usar los datos.
+Las API de Business Profile llegan con **cuota cero**. Requisito previo, aparte del Paso 2:
+ficha verificada y activa 60+ días, con la información completa y la web ya enlazada en
+la ficha.
 
-- Se encuentra desde la documentación oficial de Business Profile APIs, en el apartado de
-  requisitos previos («Request API access» / «Basic setup»).
-- Respuesta habitual: **de varios días a varias semanas**.
-- Mientras no esté aprobada, cualquier llamada devuelve **403**. Es el fallo esperado y el
-  CLI lo dice con esas palabras, apuntando a este documento.
+1. **Número de proyecto** (no el Project ID): Google Cloud Console → el proyecto → tarjeta
+   *Dashboard*.
+2. **Formulario real**: `support.google.com/business/contact/api_default` — en el
+   desplegable, **"Application for Basic API Access"**. Pide número de proyecto, sitio web
+   y el uso concreto (ej. "sincronizar reseñas verificadas al sitio web del negocio").
+3. **Cuenta correcta**: el email de la solicitud tiene que ser el que figura como
+   propietario/gestor de la ficha — con otra cuenta, riesgo de rechazo sin explicación.
+4. Respuesta por email: **de varios días a varias semanas**, aparte de los 60 días del
+   Paso 2.
+5. **Comprobar el estado sin esperar el email**: Cloud Console → el proyecto → *Cuotas* →
+   las cuotas de las Business Profile APIs. `0 QPM` = todavía no aprobado. `300 QPM` =
+   aprobado, seguir al Paso 5.
+
+Mientras no esté aprobada, cualquier llamada devuelve **403**. Es el fallo esperado y el
+CLI lo dice con esas palabras, apuntando a este documento.
 
 ## Paso 5 — Credenciales OAuth
 
 1. *Pantalla de consentimiento de OAuth*: tipo **Externo**; añade el scope
    `https://www.googleapis.com/auth/business.manage`; añade tu propia cuenta como **usuario
    de prueba** (así no hace falta pasar la verificación de Google para uso propio).
-2. *Credenciales* → **ID de cliente de OAuth** → tipo **Aplicación de escritorio**.
-3. Guarda `client_id` y `client_secret`.
+2. *Credenciales* → **ID de cliente de OAuth** → tipo **Aplicación web** (no "Aplicación de
+   escritorio": ese tipo no admite un redirect URI propio, y el Playground del Paso 6 lo
+   necesita — con "de escritorio" el intercambio falla seguro con `redirect_uri_mismatch`,
+   sin nada que hacer para arreglarlo salvo recrear la credencial con el tipo correcto).
+3. En **URIs de redirección autorizados**, añade ahí mismo:
+   `https://developers.google.com/oauthplayground`
+4. Guarda `client_id` y `client_secret`.
 
 ## Paso 6 — Obtener el refresh token
 
@@ -66,27 +88,35 @@ en una hora, el de refresco dura hasta que se revoque.
 
 Con OAuth 2.0 Playground (`developers.google.com/oauthplayground`):
 
-1. Rueda dentada → *Use your own OAuth credentials* → pega `client_id` y `client_secret`.
-2. En el paso 1, escribe el scope a mano: `https://www.googleapis.com/auth/business.manage`.
-3. Autoriza con la cuenta propietaria de la ficha.
-4. *Exchange authorization code for tokens* → copia el **refresh token**.
-
-> Añade `https://developers.google.com/oauthplayground` como URI de redirección autorizada
-> en tu cliente OAuth, o el intercambio fallará con `redirect_uri_mismatch`.
+1. Rueda dentada (arriba a la derecha) → marca *Use your own OAuth credentials* → pega
+   `client_id` y `client_secret` del Paso 5.
+2. Panel izquierdo, paso 1: el desplegable de APIs no trae Business Profile — escribe el
+   scope a mano en el campo de texto: `https://www.googleapis.com/auth/business.manage` →
+   **Authorize APIs**.
+3. Te lleva a la pantalla de consentimiento de Google normal — entra con la cuenta
+   propietaria/gestora de la ficha (la misma del Paso 4) y acepta.
+4. De vuelta en el Playground, paso 2: **Exchange authorization code for tokens** → en la
+   respuesta, copia el valor de `refresh_token` (empieza por `1//`). El `access_token` de
+   al lado caduca en una hora — no es el que guardamos.
 
 ## Paso 7 — Descubrir los identificadores de la ficha
 
-Con un access token válido:
+`$TOKEN` es el `access_token` que el Playground te dio en el Paso 6 (dura 1 hora, de sobra
+para esto):
 
 ```bash
 curl -s -H "Authorization: Bearer $TOKEN" \
   https://mybusinessaccountmanagement.googleapis.com/v1/accounts
-# → accounts[].name = "accounts/123456789"
+# → accounts[].name = "accounts/123456789"  → GBP_ACCOUNT_ID=123456789
 
 curl -s -H "Authorization: Bearer $TOKEN" \
   "https://mybusinessbusinessinformation.googleapis.com/v1/accounts/123456789/locations?readMask=name,title"
-# → locations[].name = "locations/987654321"
+# → locations[].name = "locations/987654321"  → GBP_LOCATION_ID=987654321
 ```
+
+`GBP_PROFILE_URL` no sale de aquí: es la URL pública de reseñas que anotaste al verificar
+la ficha en el Paso 2 (la que Google Business Profile te enseña para compartir/pedir
+reseñas — normalmente algo como `https://g.page/r/.../review`).
 
 ## Paso 8 — Rellenar `.env`
 
