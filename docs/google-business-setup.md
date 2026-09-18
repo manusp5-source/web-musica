@@ -30,6 +30,13 @@ correo electrónico. **Hasta que la ficha no esté verificada, la API no devuelv
 Al terminar, anota la URL pública de reseñas de la ficha — es el `GBP_PROFILE_URL` al que
 apuntarán todos los enlaces de atribución de la web.
 
+**El reloj del Paso 4 empieza aquí, no antes.** Google exige la ficha verificada y activa
+**60 días o más** antes de aceptar la solicitud de acceso a la API — confirmado contra la
+documentación oficial (`developers.google.com/my-business/content/prereqs`, 17 sep 2026).
+No es tiempo de revisión, es una espera obligatoria previa. Verifica la ficha cuanto antes,
+aunque el resto de esta guía (Pasos 3, 5 y 6) se pueda avanzar en paralelo mientras corren
+los 60 días.
+
 ## Paso 3 — Proyecto en Google Cloud y APIs
 
 1. **console.cloud.google.com** → proyecto nuevo (por ejemplo `web-musica-reviews`).
@@ -41,15 +48,25 @@ apuntarán todos los enlaces de atribución de la web.
 
 ## Paso 4 — Solicitar la cuota (esto es lo que tarda)
 
-Las API de Business Profile llegan con **cuota cero**. Hay que rellenar el formulario de
-solicitud de acceso de Google indicando el número de proyecto, el sitio web y para qué se
-van a usar los datos.
+Las API de Business Profile llegan con **cuota cero**. Requisito previo, aparte del Paso 2:
+ficha verificada y activa 60+ días, con la información completa y la web ya enlazada en
+la ficha.
 
-- Se encuentra desde la documentación oficial de Business Profile APIs, en el apartado de
-  requisitos previos («Request API access» / «Basic setup»).
-- Respuesta habitual: **de varios días a varias semanas**.
-- Mientras no esté aprobada, cualquier llamada devuelve **403**. Es el fallo esperado y el
-  CLI lo dice con esas palabras, apuntando a este documento.
+1. **Número de proyecto** (no el Project ID): Google Cloud Console → el proyecto → tarjeta
+   *Dashboard*.
+2. **Formulario real**: `support.google.com/business/contact/api_default` — en el
+   desplegable, **"Application for Basic API Access"**. Pide número de proyecto, sitio web
+   y el uso concreto (ej. "sincronizar reseñas verificadas al sitio web del negocio").
+3. **Cuenta correcta**: el email de la solicitud tiene que ser el que figura como
+   propietario/gestor de la ficha — con otra cuenta, riesgo de rechazo sin explicación.
+4. Respuesta por email: **de varios días a varias semanas**, aparte de los 60 días del
+   Paso 2.
+5. **Comprobar el estado sin esperar el email**: Cloud Console → el proyecto → *Cuotas* →
+   las cuotas de las Business Profile APIs. `0 QPM` = todavía no aprobado. `300 QPM` =
+   aprobado, seguir al Paso 5.
+
+Mientras no esté aprobada, cualquier llamada devuelve **403**. Es el fallo esperado y el
+CLI lo dice con esas palabras, apuntando a este documento.
 
 ## Paso 5 — Credenciales OAuth
 
