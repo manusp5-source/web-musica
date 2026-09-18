@@ -73,8 +73,13 @@ CLI lo dice con esas palabras, apuntando a este documento.
 1. *Pantalla de consentimiento de OAuth*: tipo **Externo**; añade el scope
    `https://www.googleapis.com/auth/business.manage`; añade tu propia cuenta como **usuario
    de prueba** (así no hace falta pasar la verificación de Google para uso propio).
-2. *Credenciales* → **ID de cliente de OAuth** → tipo **Aplicación de escritorio**.
-3. Guarda `client_id` y `client_secret`.
+2. *Credenciales* → **ID de cliente de OAuth** → tipo **Aplicación web** (no "Aplicación de
+   escritorio": ese tipo no admite un redirect URI propio, y el Playground del Paso 6 lo
+   necesita — con "de escritorio" el intercambio falla seguro con `redirect_uri_mismatch`,
+   sin nada que hacer para arreglarlo salvo recrear la credencial con el tipo correcto).
+3. En **URIs de redirección autorizados**, añade ahí mismo:
+   `https://developers.google.com/oauthplayground`
+4. Guarda `client_id` y `client_secret`.
 
 ## Paso 6 — Obtener el refresh token
 
@@ -83,27 +88,35 @@ en una hora, el de refresco dura hasta que se revoque.
 
 Con OAuth 2.0 Playground (`developers.google.com/oauthplayground`):
 
-1. Rueda dentada → *Use your own OAuth credentials* → pega `client_id` y `client_secret`.
-2. En el paso 1, escribe el scope a mano: `https://www.googleapis.com/auth/business.manage`.
-3. Autoriza con la cuenta propietaria de la ficha.
-4. *Exchange authorization code for tokens* → copia el **refresh token**.
-
-> Añade `https://developers.google.com/oauthplayground` como URI de redirección autorizada
-> en tu cliente OAuth, o el intercambio fallará con `redirect_uri_mismatch`.
+1. Rueda dentada (arriba a la derecha) → marca *Use your own OAuth credentials* → pega
+   `client_id` y `client_secret` del Paso 5.
+2. Panel izquierdo, paso 1: el desplegable de APIs no trae Business Profile — escribe el
+   scope a mano en el campo de texto: `https://www.googleapis.com/auth/business.manage` →
+   **Authorize APIs**.
+3. Te lleva a la pantalla de consentimiento de Google normal — entra con la cuenta
+   propietaria/gestora de la ficha (la misma del Paso 4) y acepta.
+4. De vuelta en el Playground, paso 2: **Exchange authorization code for tokens** → en la
+   respuesta, copia el valor de `refresh_token` (empieza por `1//`). El `access_token` de
+   al lado caduca en una hora — no es el que guardamos.
 
 ## Paso 7 — Descubrir los identificadores de la ficha
 
-Con un access token válido:
+`$TOKEN` es el `access_token` que el Playground te dio en el Paso 6 (dura 1 hora, de sobra
+para esto):
 
 ```bash
 curl -s -H "Authorization: Bearer $TOKEN" \
   https://mybusinessaccountmanagement.googleapis.com/v1/accounts
-# → accounts[].name = "accounts/123456789"
+# → accounts[].name = "accounts/123456789"  → GBP_ACCOUNT_ID=123456789
 
 curl -s -H "Authorization: Bearer $TOKEN" \
   "https://mybusinessbusinessinformation.googleapis.com/v1/accounts/123456789/locations?readMask=name,title"
-# → locations[].name = "locations/987654321"
+# → locations[].name = "locations/987654321"  → GBP_LOCATION_ID=987654321
 ```
+
+`GBP_PROFILE_URL` no sale de aquí: es la URL pública de reseñas que anotaste al verificar
+la ficha en el Paso 2 (la que Google Business Profile te enseña para compartir/pedir
+reseñas — normalmente algo como `https://g.page/r/.../review`).
 
 ## Paso 8 — Rellenar `.env`
 
