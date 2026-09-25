@@ -584,6 +584,87 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
 
 ## Review
 
+### Pasada 8 — 25 sep 2026 · logo cableado, GBP docs, retirada de tarifa, Cloudflare Analytics
+
+Auditó el lote de 4 PR del día (`M2-IT-008` extensión, `docs/google-business-setup.md`,
+`M2-IT-009`, `M2-IT-010`), integrados en una rama local `review/integracion-25sep` solo
+para poder revisar el estado combinado — ninguno de los 4 PR estaba fusionado en `main`
+todavía. Manuel preguntó directamente: "a nivel usabilidad, métricas, legal, ¿está todo
+bien?".
+
+**REVISOR** (`sonnet`, contexto limpio) — completó en un intento, sin muertes. Verificación
+de salida real en los cuatro bloques: build, vitest, evals, lint, más un servidor levantado
+de verdad (`npm run start`) con `curl` contra el HTML servido — no solo contra el código
+fuente — confirmando cero rastros de precio en el HTML real ni en el JSON-LD, CSP servida
+coincidiendo con `next.config.mjs`, y anclas sin roturas tras quitar `#tarifa`. Releyó
+`EV-013` letra por letra contra la biografía nueva en los dos idiomas y confirmó que no
+engancha. Un hallazgo cierto: `M2-IT-010` afirmaba "80/80 tests" en el tracker cuando la
+suite daba 75/75, y `CloudflareAnalytics.tsx` no tenía ningún test — el camino sin token
+estaba verificado a mano con `curl`, el camino con token (el que corre en producción) no
+tenía ninguna red. Veredicto propio: arreglar primero, un bloqueante.
+
+**CRÍTICO** (`opus`, sin el contexto del revisor, solo su informe) — re-ejecutó de forma
+independiente los comandos clave del revisor (no se fió de las cifras citadas) y sostuvo
+su hallazgo. Encontró además cuatro cosas que el revisor no miró, dos de ellas más pesadas:
+
+1. **Noveno falso verde, esta vez cazado antes de llegar a producción**: ejecutó los 6
+   regex de `EV-013` contra 8 frases-promesa adversarias construidas a mano (no las que ya
+   existían en el proyecto) y encontró que 4 escapaban — un artículo entre la conjunción y
+   "viola", "two instruments" que nunca podía enganchar (el patrón mezclaba `dos|two` con
+   el sustantivo *español* "instrumentos" únicamente), y una lista con coma sin cubrir por
+   ningún patrón. El eval pasaba con el contenido real por razón correcta — no había hueco
+   hoy — pero seguía enumerando *frases* después de que v2 dejara de enumerar *ficheros*:
+   mismo antipatrón, una dimensión más abajo, y más peligroso justo en el lote que
+   reintroduce la palabra "piano" al copy después de purgarla de 16 sitios.
+2. **Manifiesto C2PA embebido en los tres SVG publicados**: nadie había abierto los
+   ficheros binarios del lote. 7.774 B por fichero (68-70% del peso), una credencial de
+   procedencia de IA de Anthropic ("Claude provided this file...") publicada en la web
+   comercial de un músico — en el mismo lote que la hacía sonar más humana.
+3. **Riesgo de doble conteo en Cloudflare Analytics**: si Manuel elige "Automatic setup" en
+   el dashboard, Cloudflare inyecta un segundo beacon en el borde para cualquier zona
+   proxiada — y un Worker de Cloudflare siempre lo es. Nadie lo había comprobado antes de
+   que Manuel tocara el dashboard.
+4. Trayectoria del tracker: `M2-IT-009` en `DONE` con `Review ✓` vacío (la propia leyenda
+   del `CLAUDE.md` del paraguas dice que `Review ✓` es el veredicto de `/review`, que
+   todavía no existía cuando se marcó); `Model` = `claude` en dos filas, que no es ningún
+   tier de la convención.
+
+También marcó `INFUNDADO` una afirmación del revisor ("hosts CSP verificados contra la
+documentación oficial") — no porque fuera falsa, sino porque el revisor no tenía acceso
+web para comprobarlo él mismo y la presentó como verificación propia. La verificación real
+sí había ocurrido (con `WebSearch`, en otra parte de esta sesión), pero sin cita no se
+puede distinguir de conocimiento recitado — lección aplicada añadiendo las fuentes
+explícitas a `DEC-023`.
+
+**Arreglos aplicados, todos verificados antes de darlos por cerrados**:
+- `EV-013` v3: los 3 huecos de regex corregidos (artículo opcional, bilingüe correcto,
+  coma-lista en las dos direcciones). Probado contra las 8 frases adversarias del crítico
+  (las 8 atrapan) y contra la biografía real en los dos idiomas (sigue limpia) antes de
+  tocar nada, y después con `npm run evals` real.
+- `tests/unit/cloudflare-analytics.test.tsx` nuevo: cubre el camino sin token (nada se
+  renderiza) y con token (`src`, `defer` y `data-cf-beacon` exactos) — primer precedente
+  de este proyecto para mockear `@/config/site` en un test.
+- C2PA retirado de los 6 ficheros (3 fuentes en `assets/logo/`, 3 servidos en
+  `app/`/`public/`) — verificado con capturas Playwright antes/después que el dibujo no
+  cambia. `DEC-024`.
+- Aviso de doble conteo documentado en el comentario de `site.analytics` en `site.ts` y en
+  `DEC-023`, para que Manuel lo vea justo antes de pegar el token.
+- `task_tracker.md`: `M2-IT-009`/`M2-IT-010` con la cifra de tests real (77/77, tras sumar
+  los 2 tests nuevos), `Model` corregido a `sonnet`, `Review ✓` marcado con el veredicto de
+  esta pasada.
+- `docs/project_memory.md` reescrito entero (llevaba desde el 16 sep, afirmaba que la
+  tarifa seguía publicada).
+
+**Reverificación final**: `npm run build` limpio (14 rutas), `npx vitest run` → 77/77,
+`npm run evals` → 16/16 incluidos `EV-013` y `EV-011`, `npm run lint` → 2 warnings
+preexistentes de `<img>` (aceptados a propósito en el logo, no nuevos). Nadie corrió
+Playwright e2e ni abrió un navegador real en esta pasada — límite declarado por el
+revisor, no cerrado.
+
+**Veredicto: avanzar.** Los dos hallazgos reales (tracker + test faltante,
+más los cuatro adicionales del crítico) quedan cerrados con evidencia ejecutada antes de
+este veredicto, no después de dar la ronda por buena de oídas.
+
 ### Pasada 7 — 11 sep 2026 · M1-UJ-004/005, dominio real, contenido, accesibilidad, QR
 
 **REVISOR** (`sonnet`) — **3 intentos antes de completar.** 1º: muerte por límite de

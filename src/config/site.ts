@@ -86,6 +86,12 @@ export const site = {
   // Pega aquí el token del beacon cuando lo tengas (dashboard de Cloudflare → Analytics →
   // Web Analytics → Add a site → copia el token, no el snippet entero). Vacío = el
   // <script> del beacon no se renderiza, cero cambio de comportamiento.
+  //
+  // OJO al dar de alta el sitio (hallazgo del crítico, review 25 sep): elige "Manual
+  // setup", NO "Automatic setup". El sitio corre en un Worker de Cloudflare, así que
+  // TODA su respuesta ya pasa por el borde de Cloudflare — "Automatic" inyectaría un
+  // segundo beacon ahí, duplicando cada visita en el panel de métricas junto con el que
+  // ya renderiza CloudflareAnalytics.tsx. Un solo beacon por página, siempre.
   analytics: {
     cloudflareToken: "", //                          ←CAMBIAR (opcional)
   },
