@@ -13,20 +13,13 @@ type Service = { title: string; desc: string };
 type Faq = { q: string; a: string };
 type Testimonial = { quote: string; author: string; role: string };
 type Step = { title: string; desc: string };
-type Price = { name: string; detail: string; price: string; featured?: boolean };
 
 export type Dict = {
   seo: { description: string };
-  nav: { services: string; pricing: string; media: string; about: string; events: string; contact: string; cta: string; menu: string };
+  nav: { services: string; media: string; about: string; events: string; contact: string; cta: string; menu: string };
   hero: { eyebrow: string; title: string; subtitle: string; ctaPrimary: string; ctaSecondary: string; location: string };
   trust: string[];
   services: { eyebrow: string; title: string; intro: string; items: Service[] };
-  // Tarifa publicada. Es el diferenciador central del plan de negocio (§4): ningún
-  // competidor local publica precio. Cambiarla aquí la cambia en toda la web.
-  pricing: {
-    eyebrow: string; title: string; intro: string; note: string; cta: string;
-    items: Price[];
-  };
   media: { eyebrow: string; title: string; intro: string; placeholder: string; videoTitle: string };
   about: { eyebrow: string; title: string; body: string[]; highlights: string[]; photoSoon: string };
   process: { eyebrow: string; title: string; steps: Step[] };
@@ -58,15 +51,15 @@ export const dictionaries: Record<Locale, Dict> = {
   es: {
     seo: {
       description:
-        "Viola en directo para ceremonias de boda en Granada. Arreglo propio de vuestra canción, equipo de sonido incluido y tarifa publicada desde 390 €.",
+        "Viola en directo para ceremonias de boda en Granada, con más de 20 años de experiencia. Arreglo propio de vuestra canción y equipo de sonido incluido.",
     },
-    nav: { services: "Servicios", pricing: "Tarifa", media: "Escuchar", about: "Sobre mí", events: "Eventos", contact: "Contratar", cta: "Reservar fecha", menu: "Menú" },
+    nav: { services: "Servicios", media: "Escuchar", about: "Sobre mí", events: "Eventos", contact: "Contratar", cta: "Reservar fecha", menu: "Menú" },
     hero: {
       eyebrow: "Música en directo · Granada",
       title: "La ceremonia a viola sola, con vuestro arreglo hecho por mí",
       subtitle:
-        "Soy Manuel, violista en Granada. Toco vuestra ceremonia yo solo, y la pieza que elegáis la arreglo yo para vosotros. Desde 390 €, con equipo incluido y precio cerrado.",
-      ctaPrimary: "Ver tarifa y reservar",
+        "Soy Manuel, violista granadino con más de veinte años sobre el escenario. Toco vuestra ceremonia yo solo, y la pieza que elegáis la arreglo yo para vosotros.",
+      ctaPrimary: "Consultar disponibilidad",
       ctaSecondary: "Escuchar",
       location: "Granada y provincia",
     },
@@ -83,22 +76,6 @@ export const dictionaries: Record<Locale, Dict> = {
         { title: "Comuniones y hostelería", desc: "Ceremonias breves y música de ambiente recurrente para hoteles y restaurantes." },
       ],
     },
-    pricing: {
-      eyebrow: "Tarifa",
-      title: "Lo que cuesta, sin tener que preguntar",
-      intro:
-        "Sé lo incómodo que es pedir presupuesto sin saber si te vas a salir del budget, así que aquí están mis precios. Incluyen el equipo de sonido y el arreglo de vuestra pieza. Lo que veéis es lo que cuesta.",
-      note: "Desplazamiento gratis hasta 50 km de Granada; a partir de ahí, 0,40 €/km. Sin extras ocultos.",
-      cta: "Reservar fecha",
-      items: [
-        { name: "Ceremonia", detail: "Viola sola, sin bases. 45 min, equipo incluido y 1 arreglo propio.", price: "390 €" },
-        { name: "Ceremonia + cóctel", detail: "Lo anterior más 1 h de cóctel con viola y bases propias.", price: "690 €", featured: true },
-        { name: "Jornada completa", detail: "Ceremonia, cóctel y entrada al banquete.", price: "990 €" },
-        { name: "Comunión o funeral", detail: "45 minutos, viola sola.", price: "250 €" },
-        { name: "Hostelería · set de 1 h", detail: "Repertorio de ambiente. Precio por recurrencia.", price: "200 €" },
-        { name: "Vídeo-concierto grabado", detail: "Pieza a medida, grabada con calidad de estudio.", price: "150 €" },
-      ],
-    },
     media: {
       eyebrow: "Escuchar",
       title: "Escuchadme antes de decidir",
@@ -111,11 +88,11 @@ export const dictionaries: Record<Locale, Dict> = {
       title: "Hola, soy Manuel",
       photoSoon: "Foto próximamente",
       body: [
-        "Me llamo Manuel y toco la viola. Si no sabéis muy bien qué es: imaginad un violín algo más grande, con un sonido más grave y más cálido. Es el instrumento de cuerda que más se parece a una voz cantando, y en una ceremonia eso se nota — no acompaña el momento, lo sostiene.",
-        "Trabajo en Granada y en su provincia. Voy solo, con mi viola y mi equipo, y en cada boda toco para una sola pareja: no encadeno dos eventos el mismo día.",
-        "Y vuestra canción no la compro hecha. La arreglo yo, la grabo y os la mando antes del día para que la escuchéis con calma. Si algo no os encaja, lo cambio. Es la parte del trabajo que más me gusta.",
+        "Me llamo Manuel, soy de Granada y llevo más de veinte años sobre un escenario. Empecé en el conservatorio, donde antes de la viola pasé por el piano y la guitarra, y desde entonces he tocado en orquestas y en todo tipo de eventos por la ciudad y la provincia — hasta que la viola se quedó con la parte de mí que más me gusta compartir en una boda.",
+        "Si no sabéis muy bien qué es la viola: imaginad un violín algo más grande, con un sonido más grave y más cálido. Es el instrumento de cuerda que más se parece a una voz cantando, y en una ceremonia eso se nota — no acompaña el momento, lo sostiene.",
+        "Hoy trabajo solo, con mi viola y mi equipo, y en cada boda toco para una sola pareja: no encadeno dos citas el mismo día. Y vuestra canción no la compro hecha — la arreglo yo, la grabo y os la mando antes del día para que la escuchéis con calma. Si algo no os encaja, lo cambio. Es la parte del trabajo que más me gusta.",
       ],
-      highlights: ["Viola en directo", "Arreglo propio de vuestra canción", "Equipo de sonido incluido", "Tarifa publicada, sin sorpresas"],
+      highlights: ["Viola en directo", "Arreglo propio de vuestra canción", "Equipo de sonido incluido", "Más de 20 años de experiencia"],
     },
     process: {
       eyebrow: "Cómo funciona",
@@ -157,7 +134,6 @@ export const dictionaries: Record<Locale, Dict> = {
         { q: "¿Se puede tocar en iglesia?", a: "Sí, y es donde mejor funciona. La ceremonia se toca a viola sola, sin pistas ni altavoces, así que no hay nada que negociar con el párroco." },
         { q: "¿Las bases son grabaciones de otros?", a: "No. Las produzco yo, con mis propios arreglos. Ni descargo pistas ni uso audio de terceros: además de ser ilegal en una actuación comercial, sonaría a genérico." },
         { q: "¿Puedo elegir la canción?", a: "Sí, y es la parte que más disfruto. Me decís la pieza, la arreglo para viola y os la mando grabada antes del día para que la aprobéis." },
-        { q: "¿El precio de la web es el precio final?", a: "Sí. Incluye equipo de sonido y desplazamiento hasta 50 km de Granada. Más lejos, 0,40 €/km. Sin extras ocultos." },
         { q: "¿Y si te pones enfermo?", a: "Tengo acuerdo previo con dos músicos de confianza para cubrir la fecha. Una boda no se aplaza." },
         { q: "¿Cuánto dura cada parte?", a: "La ceremonia son unos 45 minutos: entrada, momentos clave y salida. El cóctel, una hora." },
       ],
@@ -181,7 +157,7 @@ export const dictionaries: Record<Locale, Dict> = {
       mailtoHint: "Se ha abierto tu programa de correo con la consulta preparada. Si no se abrió, escríbeme directamente al email de arriba.",
       prefill: "Hola, me gustaría consultar disponibilidad para un evento.",
     },
-    footer: { rights: "Todos los derechos reservados.", built: "Música en vivo para eventos en España." },
+    footer: { rights: "Todos los derechos reservados.", built: "Música en directo para bodas y eventos en Granada." },
     legal: {
       notice: "Aviso legal",
       privacy: "Política de privacidad",
@@ -201,15 +177,15 @@ export const dictionaries: Record<Locale, Dict> = {
   en: {
     seo: {
       description:
-        "Live viola for wedding ceremonies in Granada. Your song arranged by me, PA included, and the price already on the site — from €390.",
+        "Live viola for wedding ceremonies in Granada, with more than 20 years of experience. Your song arranged by me, PA included.",
     },
-    nav: { services: "Services", pricing: "Prices", media: "Listen", about: "About", events: "Events", contact: "Book", cta: "Check date", menu: "Menu" },
+    nav: { services: "Services", media: "Listen", about: "About", events: "Events", contact: "Book", cta: "Check date", menu: "Menu" },
     hero: {
       eyebrow: "Live music · Granada",
       title: "The ceremony on solo viola, with your song arranged by me",
       subtitle:
-        "I'm Manuel, a violist based in Granada. I play your ceremony on my own, and I arrange the piece you choose myself. From €390, PA included and a fixed price.",
-      ctaPrimary: "See prices and book",
+        "I'm Manuel, a Granada-born violist with more than twenty years on stage. I play your ceremony on my own, and I arrange the piece you choose myself.",
+      ctaPrimary: "Check availability",
       ctaSecondary: "Listen",
       location: "Granada and province",
     },
@@ -226,22 +202,6 @@ export const dictionaries: Record<Locale, Dict> = {
         { title: "Communions and hospitality", desc: "Short ceremonies and recurring ambient music for hotels and restaurants." },
       ],
     },
-    pricing: {
-      eyebrow: "Prices",
-      title: "What it costs, without having to ask",
-      intro:
-        "I know how awkward it is to request a quote without knowing whether you're about to blow the budget, so here are my prices. They include the PA and the arrangement of your piece. What you see is what it costs.",
-      note: "Travel is free within 50 km of Granada; beyond that, €0.40/km. No hidden extras.",
-      cta: "Check your date",
-      items: [
-        { name: "Ceremony", detail: "Solo viola, no backing. 45 min, PA included, one custom arrangement.", price: "€390" },
-        { name: "Ceremony + cocktail", detail: "The above plus one hour of cocktail with viola and my own tracks.", price: "€690", featured: true },
-        { name: "Full day", detail: "Ceremony, cocktail and the entrance to the reception.", price: "€990" },
-        { name: "Communion or funeral", detail: "45 minutes, solo viola.", price: "€250" },
-        { name: "Hospitality · 1 h set", detail: "Ambient repertoire. Priced by recurrence.", price: "€200" },
-        { name: "Recorded video performance", detail: "A custom piece, recorded at studio quality.", price: "€150" },
-      ],
-    },
     media: {
       eyebrow: "Listen",
       title: "Watch & listen",
@@ -254,11 +214,11 @@ export const dictionaries: Record<Locale, Dict> = {
       title: "Hello, I'm Manuel",
       photoSoon: "Photo coming soon",
       body: [
-        "My name is Manuel and I play the viola. In case you're not sure what that is: picture a slightly larger violin with a lower, warmer sound. It's the string instrument closest to a singing voice, and in a ceremony you can hear it — it doesn't accompany the moment, it holds it up.",
-        "I work in Granada and its province. I come on my own, with my viola and my PA, and I only play one wedding a day — never two.",
-        "And I don't buy your song ready-made. I arrange it, record it and send it to you before the day so you can listen properly. If something doesn't sit right, I change it. It's the part of the job I enjoy most.",
+        "My name is Manuel, I'm from Granada, and I've spent more than twenty years on stage. I started at the conservatory, where I played piano and guitar before the viola, and I've since performed with orchestras and at all kinds of events across the city and province — until the viola became the part of me I most enjoy bringing to a wedding.",
+        "In case you're not sure what a viola is: picture a slightly larger violin with a lower, warmer sound. It's the string instrument closest to a singing voice, and in a ceremony you can hear it — it doesn't accompany the moment, it holds it up.",
+        "Today I work on my own, with my viola and my PA, and I only play one wedding a day — never two. And I don't buy your song ready-made. I arrange it, record it and send it to you before the day so you can listen properly. If something doesn't sit right, I change it. It's the part of the job I enjoy most.",
       ],
-      highlights: ["Live viola", "Your song, arranged by me", "PA system included", "Published prices, no surprises"],
+      highlights: ["Live viola", "Your song, arranged by me", "PA system included", "20+ years of experience"],
     },
     process: {
       eyebrow: "How it works",
@@ -299,7 +259,6 @@ export const dictionaries: Record<Locale, Dict> = {
         { q: "Can you play inside a church?", a: "Yes, and that is where it works best. The ceremony is solo viola — no tracks, no speakers — so there is nothing to negotiate with the priest." },
         { q: "Are the backing tracks somebody else's recordings?", a: "No. I produce them myself, with my own arrangements. I never download tracks or use third-party audio: besides being illegal in a commercial performance, it would sound generic." },
         { q: "Can I choose the song?", a: "Yes, and it's the part I enjoy most. Tell me the piece, I arrange it for viola and send you a recording before the day so you can approve it." },
-        { q: "Is the price on the site the final price?", a: "Yes. It includes the PA system and travel within 50 km of Granada. Beyond that, €0.40/km. No hidden extras." },
         { q: "What if you fall ill?", a: "I have a standing agreement with two trusted musicians to cover the date. A wedding does not get postponed." },
         { q: "How long is each part?", a: "The ceremony runs about 45 minutes: entrance, key moments and exit. The cocktail, one hour." },
       ],
@@ -307,7 +266,7 @@ export const dictionaries: Record<Locale, Dict> = {
     contact: {
       eyebrow: "Book",
       title: "Reserve your date",
-      intro: "Tell me about your event and I'll reply within 24 h with availability and a quote.",
+      intro: "Tell me about your event and I'll reply within 24 h with availability.",
       name: "Name",
       emailField: "Email",
       phone: "Phone",
@@ -323,7 +282,7 @@ export const dictionaries: Record<Locale, Dict> = {
       mailtoHint: "Your email client should have opened with the enquiry ready. If it didn't, write to me directly at the email above.",
       prefill: "Hi! I'd like to check availability for an event.",
     },
-    footer: { rights: "All rights reserved.", built: "Live music for events in Spain." },
+    footer: { rights: "All rights reserved.", built: "Live music for weddings and events in Granada." },
     legal: {
       notice: "Legal notice",
       privacy: "Privacy policy",

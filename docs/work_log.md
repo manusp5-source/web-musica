@@ -492,6 +492,54 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
   `@types/qrcode`; nota operativa en `decision_log.md` sobre no fiarse de un grep sin
   pensar en mayúsculas/minúsculas al verificar manualmente.
 
+### 2026-09-25 — M2-IT-009: quitar precios, Instagram real, tono humano + Granada, biografía nueva, QR más grande completado
+- **Trabajo hecho**: retirada completa de la tarifa publicada (componente `Pricing`, tipo
+  `Price`, campo `pricing` de `Dict`, `nav.pricing`, `priceRange` del JSON-LD, y las
+  menciones de precio en `app/(es)/layout.tsx`, `app/(en)/layout.tsx` y
+  `app/(en)/en/page.tsx`); `site.social.instagram` relleno (`viola.granada`); copy
+  revisado para sonar más cercano y referirse a Granada en vez de España en metadatos y
+  textos de marketing (nunca en páginas legales); biografía nueva en `about.body`
+  (conservatorio, piano y guitarra como formación, orquestas, +20 años, bodas); QR
+  ampliado en `assets/cartel/cartel-boda.html` (42→58mm) y `assets/tarjeta/tarjeta.html`
+  (18→24mm), con el Instagram real sustituyendo el placeholder en los dos impresos.
+- **Modelo usado / Skill cargada**: `claude` (Sonnet 5), sin skill cargada (`copywriting`
+  anotada, no encaja del todo con el catálogo — mismo caso que `M2-IT-006`). Se delegó
+  primero a Codex (`/codex:rescue --effort high --background`, interruptor activo desde
+  20 sep) con un encargo completo en `tasks/codex-brief-M2-IT-009.md`; Manuel pidió
+  seguir con Claude antes de que Codex devolviera ningún resultado — no llegó a producir
+  diff, nada que revisar ni que duplicar.
+- **Ficheros creados / modificados**: `src/config/site.ts`, `src/i18n/dictionaries.ts`,
+  `src/components/{Nav,Hero,Sections,HomePage}.tsx`, `app/(es)/layout.tsx`,
+  `app/(en)/layout.tsx`, `app/(en)/en/page.tsx`, `assets/cartel/cartel-boda.html`,
+  `assets/tarjeta/tarjeta.html`, `tests/unit/anclas-vivas.test.tsx`; retirado
+  `tests/unit/pricing.test.tsx`.
+- **Verificación (salida)**: `npm run build` limpio (13 rutas, sin `Pricing`);
+  `npx vitest run` → 75/75 (eran 80, menos los 5 de `pricing.test.tsx` retirado);
+  `npm run evals` → 16/16, incluido `EV-013` en verde con la biografía nueva; `npm run
+  lint` sin avisos; `grep -rniE "€|precio|tarifa|price" app/ src/` y sobre los dos
+  impresos, sin resultados. QR verificado con capturas Playwright antes/después (no solo
+  el número en el CSS): visiblemente más grande, sin desbordar ni solapar el resto del
+  diseño en ninguno de los dos formatos.
+- **Verificación (trayectoria)**: alcance ceñido a lo pedido — no se tocó el logo
+  (`M2-IT-008`, PR #2 aparte, sin fusionar) ni el resto de M2. Único fichero tocado fuera
+  del alcance inicial del encargo: `HomePage.tsx` (`priceRange` del JSON-LD), encontrado
+  por el propio criterio de aceptación (`grep` de precio en `src/`), no por casualidad.
+- **Eval**: `EV-013` (sin promesa de piano) — se leyó el eval real antes de escribir la
+  biografía en vez de asumir que era un bloqueo ciego de la palabra. Persigue seis
+  frases-promesa concretas, ninguna de las cuales encaja con una mención de formación.
+  Comprobado a mano contra los seis patrones antes de escribir, confirmado después en
+  verde. `EV-017` (anclas huérfanas) también en verde: quitar `#tarifa` de la página no
+  dejó ningún `href` apuntando a un ancla inexistente.
+- **Comprobación de seguridad**: no aplica — cambio de contenido y copy, sin tocar
+  autenticación, datos personales nuevos ni superficie de ataque.
+- **Tests**: `anclas-vivas.test.tsx` actualizado (el CTA del hero pasa a `#contacto`, ya
+  no a `#tarifa`, que no existe); `pricing.test.tsx` retirado por probar un componente
+  retirado. Detalle completo de la decisión de negocio y de por qué `EV-013` no hizo
+  falta tocarlo: `DEC-022` en `decision_log.md`.
+- **Notas**: rama `feat/contenido-humano-sin-precios`, sin PR todavía a la hora de
+  escribir esto. `M2-IT-008` deja de estar bloqueado por el Instagram vacío (ese hueco ya
+  no aplica); sigue parcial solo por la prueba de impresión física, que necesita a Manuel.
+
 ---
 
 ## Review

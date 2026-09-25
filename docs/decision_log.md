@@ -343,3 +343,38 @@ herramientas ya disponibles en la sesión).
 dependencia de una cuenta externa. Si Manuel autoriza Claude Design más adelante
 (`/design-login`), estos mismos ficheros pueden subirse allí como punto de partida — no hay
 que rehacer el trabajo.
+
+## DEC-022: se retira la tarifa publicada; `EV-013` no se toca para permitir piano/guitarra en la biografía
+
+**Fecha:** 2026-09-25
+**Decisión:** la sección `Pricing` y todo el contenido de precio (web, JSON-LD `priceRange`,
+cartel, tarjeta) se retiran. `EV-013` (sin promesa de piano) se deja intacto — no hizo
+falta tocarlo para que la biografía nueva mencione formación en piano y guitarra.
+**Razón:** decisión de negocio de Manuel, reversión explícita de `DEC` implícita de
+`M2-IT-006` ("ningún competidor local publica precio" era el diferenciador central del plan
+de negocio en `docs/plan-negocio-viola.md` §4). No hay indicio técnico de que fuera un
+error: es un cambio de estrategia, y se ejecuta como tal, sin intentar justificarlo a
+posteriori.
+
+Sobre `EV-013`: antes de escribir la biografía nueva se leyó el eval completo en vez de
+asumir su alcance. No es un bloqueo ciego de la palabra "piano" — persigue seis
+frases-promesa concretas (`piano y viola`, `viola y piano`, `piano en directo/vivo`,
+`dos instrumentos`, `piano para el cóctel`, su equivalente en inglés). Una mención
+biográfica ("empecé en el conservatorio con el piano y la guitarra... antes de
+especializarse en la viola") no coincide con ninguno de los seis patrones, comprobado a
+mano contra cada regex antes de escribir y confirmado después con `npm run evals` en
+verde. La distinción real que sí importa y que si el eval mereciera cambiarse habría que
+codificar: piano/guitarra como trayectoria está permitido, como servicio reservable en un
+evento no lo está — hoy el eval ya traza esa línea sin ayuda porque sus patrones son de
+promesa de servicio, no de la palabra suelta.
+**Alternativas descartadas:** generalizar `EV-013` a un bloqueo ciego de "piano" en
+cualquier contexto — la propia historia del fichero explica por qué no: sería el noveno
+falso verde de este proyecto, esta vez en la dirección contraria, bloqueando contenido
+legítimo en vez de dejar pasar uno ilegítimo. Retirar el eval entero: innecesario, sigue
+vigilando lo que tiene que vigilar.
+**Impacto:** `Pricing` fuera de `Sections.tsx` y `HomePage.tsx`; tipo `Price` y campo
+`pricing` fuera de `Dict`; `nav.pricing` fuera de `Dict.nav`; `tests/unit/pricing.test.tsx`
+retirado; `tests/unit/anclas-vivas.test.tsx` actualizado (el CTA del hero pasa a apuntar a
+`#contacto`, no a `#tarifa`, que ya no existe). Si algún día se vuelve a publicar precio,
+se reintroduce en `dictionaries.ts` y `HomePage.tsx` — no hace falta tocar ningún eval para
+deshacer esto.
