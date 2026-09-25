@@ -492,6 +492,45 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
   `@types/qrcode`; nota operativa en `decision_log.md` sobre no fiarse de un grep sin
   pensar en mayúsculas/minúsculas al verificar manualmente.
 
+### 2026-09-25 — M2-IT-010: Cloudflare Web Analytics completado (parcial)
+- **Trabajo hecho**: Manuel pidió "añade las cookies también" sin más contexto — antes de
+  construir nada se le preguntó directamente qué quería, porque las dos lecturas posibles
+  (cookies de verdad vs. métricas) llevan a arquitecturas legales distintas. Eligió
+  Cloudflare Web Analytics: métricas sin cookies, sin banner de consentimiento nuevo, todo
+  ya vive en Cloudflare. `src/components/CloudflareAnalytics.tsx` renderiza el beacon solo
+  si `site.analytics.cloudflareToken` tiene valor; CSP ampliada con los dos hosts reales
+  que exige el beacon (verificados contra la documentación pública, no adivinados);
+  `/cookies` y `/en/cookies` explican la herramienta y por qué no necesita consentimiento
+  bajo el art. 22.2 LSSI-CE, condicionado también al token para no afirmar algo que no es
+  cierto todavía.
+- **Modelo usado / Skill cargada**: `claude` (Sonnet 5), sin skill cargada.
+- **Ficheros creados / modificados**: `src/components/CloudflareAnalytics.tsx` (nuevo),
+  `app/(es)/layout.tsx`, `app/(en)/layout.tsx`, `next.config.mjs`, `src/config/site.ts`,
+  `app/(es)/cookies/page.tsx`, `app/(en)/en/cookies/page.tsx`,
+  `implementation/task_tracker.md`, `docs/decision_log.md` (`DEC-022`).
+- **Verificación (salida)**: `npm run build` limpio; `npx vitest run` → 80/80; `npm run
+  evals` → 16/16, incluido `EV-011` (hosts concretos en CSP, nunca comodín) en verde con
+  los dos hosts nuevos; `npm run lint` sin avisos.
+- **Verificación (trayectoria)**: alcance ceñido a analítica + su documentación legal; no
+  se tocó `site.cookies.analyticsEnabled` (sigue en `false` a propósito: ese flag es para
+  analítica CON cookies, que esto no es).
+- **Eval**: `EV-011` cubre la CSP. No hay eval dedicado a la propia integración porque no
+  hay nada que verificar en build/test sin un token real — el `if (!token) return null`
+  es la única rama con comportamiento, y ya la ejercitan `npm run build` y los tests
+  existentes al renderizar los layouts sin token configurado.
+- **Comprobación de seguridad**: CSP revisada a mano contra la documentación oficial de
+  Cloudflare antes de escribir, no de memoria — un host equivocado aquí falla en silencio
+  (la petición se bloquea, sin error visible para el visitante).
+- **Tests**: ninguno nuevo — no hay comportamiento observable sin un token real que
+  probar; los tests existentes ya cubren que los layouts siguen renderizando bien con el
+  componente montado y el token vacío.
+- **Notas**: **parcial** a propósito — falta que Manuel dé de alta el sitio en el
+  dashboard de Cloudflare (Analytics → Web Analytics → Add a site) y pegue el token en
+  `site.analytics.cloudflareToken`. Sin eso, cero cambio de comportamiento, por diseño.
+  Rama `feat/cloudflare-web-analytics`, salida de `main` el mismo día que
+  `feat/contenido-humano-sin-precios` — las dos añaden un `DEC-022`, colisión de
+  numeración esperada y documentada en el propio `decision_log.md`.
+
 ---
 
 ## Review

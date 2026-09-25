@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   const analytics = site.cookies.analyticsEnabled;
+  const cfAnalytics = Boolean(site.analytics.cloudflareToken);
   return (
     <Legal title="Política de Cookies">
       <h2>1. ¿Qué son las cookies?</h2>
@@ -53,6 +54,19 @@ export default function Page() {
             un banner.
           </p>
         </>
+      )}
+      {cfAnalytics && (
+        <p>
+          Aparte de lo anterior, este sitio usa Cloudflare Web Analytics para medir visitas
+          y páginas vistas de forma agregada. Esta herramienta{" "}
+          <strong>no instala ninguna cookie ni identificador en tu dispositivo</strong>: no
+          te sigue entre visitas ni entre sitios web, por lo que no requiere tu
+          consentimiento previo conforme al artículo 22.2 de la LSSI-CE. Más información en
+          la{" "}
+          <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener noreferrer">
+            política de Cloudflare Web Analytics
+          </a>.
+        </p>
       )}
 
       <h2>3. Gestión de cookies</h2>
