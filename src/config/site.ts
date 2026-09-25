@@ -28,7 +28,7 @@ export const site = {
 
   // --- Redes (deja "" para ocultar el icono) ---
   social: {
-    instagram: "", //  https://instagram.com/...   ←CAMBIAR
+    instagram: "https://instagram.com/viola.granada",
     youtube: "", //    https://youtube.com/@...     ←CAMBIAR
     spotify: "", //    https://open.spotify.com/... ←CAMBIAR
     tiktok: "", //                                  ←CAMBIAR
@@ -76,9 +76,24 @@ export const site = {
 
   // --- Cookies / analytics ---
   cookies: {
-    // Pon true SOLO cuando añadas analytics (Google Analytics, etc.).
-    // Si es false: no se usan cookies de seguimiento → no hace falta banner.
+    // Pon true SOLO si algún día se añade analytics QUE USE COOKIES (Google Analytics,
+    // Meta Pixel, etc.). Cloudflare Web Analytics (justo abajo) es distinto: no usa
+    // cookies, así que no activa este flag ni el banner de consentimiento.
     analyticsEnabled: false,
+  },
+
+  // --- Cloudflare Web Analytics — métricas sin cookies ---
+  // Pega aquí el token del beacon cuando lo tengas (dashboard de Cloudflare → Analytics →
+  // Web Analytics → Add a site → copia el token, no el snippet entero). Vacío = el
+  // <script> del beacon no se renderiza, cero cambio de comportamiento.
+  //
+  // OJO al dar de alta el sitio (hallazgo del crítico, review 25 sep): elige "Manual
+  // setup", NO "Automatic setup". El sitio corre en un Worker de Cloudflare, así que
+  // TODA su respuesta ya pasa por el borde de Cloudflare — "Automatic" inyectaría un
+  // segundo beacon ahí, duplicando cada visita en el panel de métricas junto con el que
+  // ya renderiza CloudflareAnalytics.tsx. Un solo beacon por página, siempre.
+  analytics: {
+    cloudflareToken: "", //                          ←CAMBIAR (opcional)
   },
 
   // --- Códigos QR para imprenta (planning/intent-002.md) ---

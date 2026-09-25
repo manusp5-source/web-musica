@@ -19,6 +19,22 @@
  * v2 no enumera: recorre `app/` y `src/` enteros. Un fichero nuevo con una promesa de
  * piano entra solo, sin que nadie tenga que acordarse de añadirlo a una lista.
  *
+ * v3 (25 sep) — el crítico de la review de `M2-IT-009`/`M2-IT-010` no se conformó con que
+ * el eval pasara: ejecutó los 6 patrones contra 8 frases-promesa realistas y encontró que
+ * 4 escapaban. La generalización de v2 fue por FICHERO (dónde mirar); la lista de FRASES
+ * seguía enumerada — el mismo antipatrón, una dimensión más abajo. Tres agujeros reales,
+ * los tres arreglados aquí:
+ *   - Un artículo entre la conjunción y "viola" rompía el emparejamiento: "piano y LA
+ *     viola", "piano and THE viola" no enganchaban. Ahora toleran un artículo opcional.
+ *   - «two instruments» no podía enganchar nunca: el patrón mezclaba el "two" inglés con
+ *     el sustantivo *español* "instrumentos". Separado en dos frases bilingües correctas.
+ *   - Una lista con coma, «piano, viola y guitarra», no encajaba en ningún patrón — el
+ *     par solo se buscaba unido por «y»/«and», nunca por coma. Añadido en las dos
+ *     direcciones.
+ * Importa más ahora que antes: este mismo lote es el que devuelve la palabra "piano" al
+ * copy (biografía, `INT-006`) después de purgarla de 16 sitios — el margen de seguridad
+ * del eval que la deja pasar sin querer se ha vuelto más fino, no menos.
+ *
  * Si algún día se toca el piano de verdad, este eval se retira **a conciencia**, con su
  * entrada en docs/decision_log.md. Hasta entonces vigila todo lo que haya.
  */
@@ -31,10 +47,18 @@ const EXTENSIONES = new Set([".ts", ".tsx"]);
 // "piano" a secas no basta: puede aparecer legítimamente en un nombre propio o en una
 // explicación de por qué NO hay piano. Lo que se persigue es la promesa.
 const PROMESAS = [
-  { re: /piano\s+(?:y|and)\s+viola/gi, que: "el par instrumental como reclamo" },
-  { re: /viola\s+(?:y|and)\s+piano/gi, que: "el par instrumental como reclamo" },
+  // Artículo opcional entre la conjunción y "viola"/"piano": "piano y LA viola",
+  // "piano and THE viola" enganchaban en falso antes de este arreglo (v3, 25 sep).
+  { re: /piano\s+(?:y|and)\s+(?:la\s+|el\s+|the\s+)?viola/gi, que: "el par instrumental como reclamo" },
+  { re: /viola\s+(?:y|and)\s+(?:la\s+|el\s+|the\s+)?piano/gi, que: "el par instrumental como reclamo" },
+  // Mismo par, unido por coma en vez de conjunción: "piano, viola y guitarra".
+  { re: /piano\s*,\s*viola\b/gi, que: "el par instrumental en una lista" },
+  { re: /viola\s*,\s*piano\b/gi, que: "el par instrumental en una lista" },
   { re: /piano\s+(?:en\s+(?:directo|vivo)|live)/gi, que: "piano en directo" },
-  { re: /(?:dos|two)\s+instrumentos/gi, que: "«dos instrumentos» — hoy solo hay uno en vivo" },
+  // Bilingüe correcto: "dos instrumentos" / "two instruments", nunca mezclado entre
+  // idiomas — la v2 emparejaba "two" con el sustantivo español y no podía enganchar
+  // "two instruments" jamás (hallazgo del crítico, v3).
+  { re: /(?:dos\s+instrumentos|two\s+instruments)/gi, que: "«dos instrumentos» — hoy solo hay uno en vivo" },
   { re: /piano\s+para\s+el\s+c[oó]ctel/gi, que: "piano en el cóctel" },
   { re: /piano\s+for\s+the\s+(?:cocktail|reception)/gi, que: "piano en el cóctel (EN)" },
 ];

@@ -492,9 +492,178 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
   `@types/qrcode`; nota operativa en `decision_log.md` sobre no fiarse de un grep sin
   pensar en mayúsculas/minúsculas al verificar manualmente.
 
+### 2026-09-25 — M2-IT-009: quitar precios, Instagram real, tono humano + Granada, biografía nueva, QR más grande completado
+- **Trabajo hecho**: retirada completa de la tarifa publicada (componente `Pricing`, tipo
+  `Price`, campo `pricing` de `Dict`, `nav.pricing`, `priceRange` del JSON-LD, y las
+  menciones de precio en `app/(es)/layout.tsx`, `app/(en)/layout.tsx` y
+  `app/(en)/en/page.tsx`); `site.social.instagram` relleno (`viola.granada`); copy
+  revisado para sonar más cercano y referirse a Granada en vez de España en metadatos y
+  textos de marketing (nunca en páginas legales); biografía nueva en `about.body`
+  (conservatorio, piano y guitarra como formación, orquestas, +20 años, bodas); QR
+  ampliado en `assets/cartel/cartel-boda.html` (42→58mm) y `assets/tarjeta/tarjeta.html`
+  (18→24mm), con el Instagram real sustituyendo el placeholder en los dos impresos.
+- **Modelo usado / Skill cargada**: `claude` (Sonnet 5), sin skill cargada (`copywriting`
+  anotada, no encaja del todo con el catálogo — mismo caso que `M2-IT-006`). Se delegó
+  primero a Codex (`/codex:rescue --effort high --background`, interruptor activo desde
+  20 sep) con un encargo completo en `tasks/codex-brief-M2-IT-009.md`; Manuel pidió
+  seguir con Claude antes de que Codex devolviera ningún resultado — no llegó a producir
+  diff, nada que revisar ni que duplicar.
+- **Ficheros creados / modificados**: `src/config/site.ts`, `src/i18n/dictionaries.ts`,
+  `src/components/{Nav,Hero,Sections,HomePage}.tsx`, `app/(es)/layout.tsx`,
+  `app/(en)/layout.tsx`, `app/(en)/en/page.tsx`, `assets/cartel/cartel-boda.html`,
+  `assets/tarjeta/tarjeta.html`, `tests/unit/anclas-vivas.test.tsx`; retirado
+  `tests/unit/pricing.test.tsx`.
+- **Verificación (salida)**: `npm run build` limpio (13 rutas, sin `Pricing`);
+  `npx vitest run` → 75/75 (eran 80, menos los 5 de `pricing.test.tsx` retirado);
+  `npm run evals` → 16/16, incluido `EV-013` en verde con la biografía nueva; `npm run
+  lint` sin avisos; `grep -rniE "€|precio|tarifa|price" app/ src/` y sobre los dos
+  impresos, sin resultados. QR verificado con capturas Playwright antes/después (no solo
+  el número en el CSS): visiblemente más grande, sin desbordar ni solapar el resto del
+  diseño en ninguno de los dos formatos.
+- **Verificación (trayectoria)**: alcance ceñido a lo pedido — no se tocó el logo
+  (`M2-IT-008`, PR #2 aparte, sin fusionar) ni el resto de M2. Único fichero tocado fuera
+  del alcance inicial del encargo: `HomePage.tsx` (`priceRange` del JSON-LD), encontrado
+  por el propio criterio de aceptación (`grep` de precio en `src/`), no por casualidad.
+- **Eval**: `EV-013` (sin promesa de piano) — se leyó el eval real antes de escribir la
+  biografía en vez de asumir que era un bloqueo ciego de la palabra. Persigue seis
+  frases-promesa concretas, ninguna de las cuales encaja con una mención de formación.
+  Comprobado a mano contra los seis patrones antes de escribir, confirmado después en
+  verde. `EV-017` (anclas huérfanas) también en verde: quitar `#tarifa` de la página no
+  dejó ningún `href` apuntando a un ancla inexistente.
+- **Comprobación de seguridad**: no aplica — cambio de contenido y copy, sin tocar
+  autenticación, datos personales nuevos ni superficie de ataque.
+- **Tests**: `anclas-vivas.test.tsx` actualizado (el CTA del hero pasa a `#contacto`, ya
+  no a `#tarifa`, que no existe); `pricing.test.tsx` retirado por probar un componente
+  retirado. Detalle completo de la decisión de negocio y de por qué `EV-013` no hizo
+  falta tocarlo: `DEC-022` en `decision_log.md`.
+- **Notas**: rama `feat/contenido-humano-sin-precios`, sin PR todavía a la hora de
+  escribir esto. `M2-IT-008` deja de estar bloqueado por el Instagram vacío (ese hueco ya
+  no aplica); sigue parcial solo por la prueba de impresión física, que necesita a Manuel.
+
+### 2026-09-25 — M2-IT-010: Cloudflare Web Analytics completado (parcial)
+- **Trabajo hecho**: Manuel pidió "añade las cookies también" sin más contexto — antes de
+  construir nada se le preguntó directamente qué quería, porque las dos lecturas posibles
+  (cookies de verdad vs. métricas) llevan a arquitecturas legales distintas. Eligió
+  Cloudflare Web Analytics: métricas sin cookies, sin banner de consentimiento nuevo, todo
+  ya vive en Cloudflare. `src/components/CloudflareAnalytics.tsx` renderiza el beacon solo
+  si `site.analytics.cloudflareToken` tiene valor; CSP ampliada con los dos hosts reales
+  que exige el beacon (verificados contra la documentación pública, no adivinados);
+  `/cookies` y `/en/cookies` explican la herramienta y por qué no necesita consentimiento
+  bajo el art. 22.2 LSSI-CE, condicionado también al token para no afirmar algo que no es
+  cierto todavía.
+- **Modelo usado / Skill cargada**: `claude` (Sonnet 5), sin skill cargada.
+- **Ficheros creados / modificados**: `src/components/CloudflareAnalytics.tsx` (nuevo),
+  `app/(es)/layout.tsx`, `app/(en)/layout.tsx`, `next.config.mjs`, `src/config/site.ts`,
+  `app/(es)/cookies/page.tsx`, `app/(en)/en/cookies/page.tsx`,
+  `implementation/task_tracker.md`, `docs/decision_log.md` (`DEC-023`, renumerada desde
+  `DEC-022` al integrar — ver la nota en la propia entrada).
+- **Verificación (salida)**: `npm run build` limpio; `npx vitest run` → 80/80; `npm run
+  evals` → 16/16, incluido `EV-011` (hosts concretos en CSP, nunca comodín) en verde con
+  los dos hosts nuevos; `npm run lint` sin avisos.
+- **Verificación (trayectoria)**: alcance ceñido a analítica + su documentación legal; no
+  se tocó `site.cookies.analyticsEnabled` (sigue en `false` a propósito: ese flag es para
+  analítica CON cookies, que esto no es).
+- **Eval**: `EV-011` cubre la CSP. No hay eval dedicado a la propia integración porque no
+  hay nada que verificar en build/test sin un token real — el `if (!token) return null`
+  es la única rama con comportamiento, y ya la ejercitan `npm run build` y los tests
+  existentes al renderizar los layouts sin token configurado.
+- **Comprobación de seguridad**: CSP revisada a mano contra la documentación oficial de
+  Cloudflare antes de escribir, no de memoria — un host equivocado aquí falla en silencio
+  (la petición se bloquea, sin error visible para el visitante).
+- **Tests**: ninguno nuevo — no hay comportamiento observable sin un token real que
+  probar; los tests existentes ya cubren que los layouts siguen renderizando bien con el
+  componente montado y el token vacío.
+- **Notas**: **parcial** a propósito — falta que Manuel dé de alta el sitio en el
+  dashboard de Cloudflare (Analytics → Web Analytics → Add a site) y pegue el token en
+  `site.analytics.cloudflareToken`. Sin eso, cero cambio de comportamiento, por diseño.
+  Rama `feat/cloudflare-web-analytics`, salida de `main` el mismo día que
+  `feat/contenido-humano-sin-precios` — las dos añadían un `DEC-022`, colisión de
+  numeración resuelta al integrar (ver la nota en `DEC-023` de `decision_log.md`).
+
 ---
 
 ## Review
+
+### Pasada 8 — 25 sep 2026 · logo cableado, GBP docs, retirada de tarifa, Cloudflare Analytics
+
+Auditó el lote de 4 PR del día (`M2-IT-008` extensión, `docs/google-business-setup.md`,
+`M2-IT-009`, `M2-IT-010`), integrados en una rama local `review/integracion-25sep` solo
+para poder revisar el estado combinado — ninguno de los 4 PR estaba fusionado en `main`
+todavía. Manuel preguntó directamente: "a nivel usabilidad, métricas, legal, ¿está todo
+bien?".
+
+**REVISOR** (`sonnet`, contexto limpio) — completó en un intento, sin muertes. Verificación
+de salida real en los cuatro bloques: build, vitest, evals, lint, más un servidor levantado
+de verdad (`npm run start`) con `curl` contra el HTML servido — no solo contra el código
+fuente — confirmando cero rastros de precio en el HTML real ni en el JSON-LD, CSP servida
+coincidiendo con `next.config.mjs`, y anclas sin roturas tras quitar `#tarifa`. Releyó
+`EV-013` letra por letra contra la biografía nueva en los dos idiomas y confirmó que no
+engancha. Un hallazgo cierto: `M2-IT-010` afirmaba "80/80 tests" en el tracker cuando la
+suite daba 75/75, y `CloudflareAnalytics.tsx` no tenía ningún test — el camino sin token
+estaba verificado a mano con `curl`, el camino con token (el que corre en producción) no
+tenía ninguna red. Veredicto propio: arreglar primero, un bloqueante.
+
+**CRÍTICO** (`opus`, sin el contexto del revisor, solo su informe) — re-ejecutó de forma
+independiente los comandos clave del revisor (no se fió de las cifras citadas) y sostuvo
+su hallazgo. Encontró además cuatro cosas que el revisor no miró, dos de ellas más pesadas:
+
+1. **Noveno falso verde, esta vez cazado antes de llegar a producción**: ejecutó los 6
+   regex de `EV-013` contra 8 frases-promesa adversarias construidas a mano (no las que ya
+   existían en el proyecto) y encontró que 4 escapaban — un artículo entre la conjunción y
+   "viola", "two instruments" que nunca podía enganchar (el patrón mezclaba `dos|two` con
+   el sustantivo *español* "instrumentos" únicamente), y una lista con coma sin cubrir por
+   ningún patrón. El eval pasaba con el contenido real por razón correcta — no había hueco
+   hoy — pero seguía enumerando *frases* después de que v2 dejara de enumerar *ficheros*:
+   mismo antipatrón, una dimensión más abajo, y más peligroso justo en el lote que
+   reintroduce la palabra "piano" al copy después de purgarla de 16 sitios.
+2. **Manifiesto C2PA embebido en los tres SVG publicados**: nadie había abierto los
+   ficheros binarios del lote. 7.774 B por fichero (68-70% del peso), una credencial de
+   procedencia de IA de Anthropic ("Claude provided this file...") publicada en la web
+   comercial de un músico — en el mismo lote que la hacía sonar más humana.
+3. **Riesgo de doble conteo en Cloudflare Analytics**: si Manuel elige "Automatic setup" en
+   el dashboard, Cloudflare inyecta un segundo beacon en el borde para cualquier zona
+   proxiada — y un Worker de Cloudflare siempre lo es. Nadie lo había comprobado antes de
+   que Manuel tocara el dashboard.
+4. Trayectoria del tracker: `M2-IT-009` en `DONE` con `Review ✓` vacío (la propia leyenda
+   del `CLAUDE.md` del paraguas dice que `Review ✓` es el veredicto de `/review`, que
+   todavía no existía cuando se marcó); `Model` = `claude` en dos filas, que no es ningún
+   tier de la convención.
+
+También marcó `INFUNDADO` una afirmación del revisor ("hosts CSP verificados contra la
+documentación oficial") — no porque fuera falsa, sino porque el revisor no tenía acceso
+web para comprobarlo él mismo y la presentó como verificación propia. La verificación real
+sí había ocurrido (con `WebSearch`, en otra parte de esta sesión), pero sin cita no se
+puede distinguir de conocimiento recitado — lección aplicada añadiendo las fuentes
+explícitas a `DEC-023`.
+
+**Arreglos aplicados, todos verificados antes de darlos por cerrados**:
+- `EV-013` v3: los 3 huecos de regex corregidos (artículo opcional, bilingüe correcto,
+  coma-lista en las dos direcciones). Probado contra las 8 frases adversarias del crítico
+  (las 8 atrapan) y contra la biografía real en los dos idiomas (sigue limpia) antes de
+  tocar nada, y después con `npm run evals` real.
+- `tests/unit/cloudflare-analytics.test.tsx` nuevo: cubre el camino sin token (nada se
+  renderiza) y con token (`src`, `defer` y `data-cf-beacon` exactos) — primer precedente
+  de este proyecto para mockear `@/config/site` en un test.
+- C2PA retirado de los 6 ficheros (3 fuentes en `assets/logo/`, 3 servidos en
+  `app/`/`public/`) — verificado con capturas Playwright antes/después que el dibujo no
+  cambia. `DEC-024`.
+- Aviso de doble conteo documentado en el comentario de `site.analytics` en `site.ts` y en
+  `DEC-023`, para que Manuel lo vea justo antes de pegar el token.
+- `task_tracker.md`: `M2-IT-009`/`M2-IT-010` con la cifra de tests real (77/77, tras sumar
+  los 2 tests nuevos), `Model` corregido a `sonnet`, `Review ✓` marcado con el veredicto de
+  esta pasada.
+- `docs/project_memory.md` reescrito entero (llevaba desde el 16 sep, afirmaba que la
+  tarifa seguía publicada).
+
+**Reverificación final**: `npm run build` limpio (14 rutas), `npx vitest run` → 77/77,
+`npm run evals` → 16/16 incluidos `EV-013` y `EV-011`, `npm run lint` → 2 warnings
+preexistentes de `<img>` (aceptados a propósito en el logo, no nuevos). Nadie corrió
+Playwright e2e ni abrió un navegador real en esta pasada — límite declarado por el
+revisor, no cerrado.
+
+**Veredicto: avanzar.** Los dos hallazgos reales (tracker + test faltante,
+más los cuatro adicionales del crítico) quedan cerrados con evidencia ejecutada antes de
+este veredicto, no después de dar la ronda por buena de oídas.
 
 ### Pasada 7 — 11 sep 2026 · M1-UJ-004/005, dominio real, contenido, accesibilidad, QR
 

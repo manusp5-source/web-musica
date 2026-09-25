@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { site } from "@/config/site";
 import { serif, sans } from "@/config/fonts";
+import CloudflareAnalytics from "@/components/CloudflareAnalytics";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.domain),
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   },
   description:
     "Viola en directo para ceremonias de boda en " + site.city +
-    ". Arreglo propio de vuestra canción, equipo de sonido incluido y tarifa publicada desde 390 €.",
+    ". Arreglo propio de vuestra canción y equipo de sonido incluido, con Manuel, violista granadino.",
   // "viola" apenas se busca (docs/mercado-viola-eventos.md §3.2): las palabras que
   // trae la gente son música, ceremonia, boda y la ciudad. La viola es el instrumento,
   // no el reclamo — pero tampoco se disfraza de violín, que sería mentir.
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     siteName: site.brand,
     title: `${site.brand} — Música para ceremonias en ${site.city}`,
     description:
-      "La ceremonia a viola sola, con vuestro arreglo hecho a medida. Tarifa publicada desde 390 €.",
+      "La ceremonia a viola sola, con vuestro arreglo hecho a medida por un violista de Granada.",
   },
   alternates: {
     canonical: "/",
@@ -40,7 +41,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={`${serif.variable} ${sans.variable}`}>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        {children}
+        <CloudflareAnalytics />
+      </body>
     </html>
   );
 }

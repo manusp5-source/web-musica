@@ -343,3 +343,124 @@ herramientas ya disponibles en la sesión).
 dependencia de una cuenta externa. Si Manuel autoriza Claude Design más adelante
 (`/design-login`), estos mismos ficheros pueden subirse allí como punto de partida — no hay
 que rehacer el trabajo.
+
+## DEC-022: se retira la tarifa publicada; `EV-013` no se toca para permitir piano/guitarra en la biografía
+
+**Fecha:** 2026-09-25
+**Decisión:** la sección `Pricing` y todo el contenido de precio (web, JSON-LD `priceRange`,
+cartel, tarjeta) se retiran. `EV-013` (sin promesa de piano) se deja intacto — no hizo
+falta tocarlo para que la biografía nueva mencione formación en piano y guitarra.
+**Razón:** decisión de negocio de Manuel, reversión explícita de `DEC` implícita de
+`M2-IT-006` ("ningún competidor local publica precio" era el diferenciador central del plan
+de negocio en `docs/plan-negocio-viola.md` §4). No hay indicio técnico de que fuera un
+error: es un cambio de estrategia, y se ejecuta como tal, sin intentar justificarlo a
+posteriori.
+
+Sobre `EV-013`: antes de escribir la biografía nueva se leyó el eval completo en vez de
+asumir su alcance. No es un bloqueo ciego de la palabra "piano" — persigue seis
+frases-promesa concretas (`piano y viola`, `viola y piano`, `piano en directo/vivo`,
+`dos instrumentos`, `piano para el cóctel`, su equivalente en inglés). Una mención
+biográfica ("empecé en el conservatorio con el piano y la guitarra... antes de
+especializarse en la viola") no coincide con ninguno de los seis patrones, comprobado a
+mano contra cada regex antes de escribir y confirmado después con `npm run evals` en
+verde. La distinción real que sí importa y que si el eval mereciera cambiarse habría que
+codificar: piano/guitarra como trayectoria está permitido, como servicio reservable en un
+evento no lo está — hoy el eval ya traza esa línea sin ayuda porque sus patrones son de
+promesa de servicio, no de la palabra suelta.
+**Alternativas descartadas:** generalizar `EV-013` a un bloqueo ciego de "piano" en
+cualquier contexto — la propia historia del fichero explica por qué no: sería el noveno
+falso verde de este proyecto, esta vez en la dirección contraria, bloqueando contenido
+legítimo en vez de dejar pasar uno ilegítimo. Retirar el eval entero: innecesario, sigue
+vigilando lo que tiene que vigilar.
+**Impacto:** `Pricing` fuera de `Sections.tsx` y `HomePage.tsx`; tipo `Price` y campo
+`pricing` fuera de `Dict`; `nav.pricing` fuera de `Dict.nav`; `tests/unit/pricing.test.tsx`
+retirado; `tests/unit/anclas-vivas.test.tsx` actualizado (el CTA del hero pasa a apuntar a
+`#contacto`, no a `#tarifa`, que ya no existe). Si algún día se vuelve a publicar precio,
+se reintroduce en `dictionaries.ts` y `HomePage.tsx` — no hace falta tocar ningún eval para
+deshacer esto.
+
+## DEC-023: Cloudflare Web Analytics en vez de Google Analytics
+
+> Nota de numeración: esta entrada nació como `DEC-022` en `feat/cloudflare-web-analytics`,
+> rama salida de `main` el mismo día que `feat/contenido-humano-sin-precios` — las dos
+> reclamaban el mismo número. Renumerada a `DEC-023` al integrar, por ser la que llegó
+> segunda a esta rama de revisión; no es un error de ninguna de las dos entradas.
+
+**Fecha:** 2026-09-25
+**Decisión:** las métricas del sitio, cuando se activen, corren por Cloudflare Web
+Analytics, no por Google Analytics ni ninguna otra herramienta basada en cookies.
+**Razón:** Manuel pidió "añadir las cookies también" sin más detalle — antes de construir
+nada se preguntó directamente, porque las dos lecturas posibles llevan a arquitecturas
+legales distintas (RGPD/LSSI): cookies de verdad exigen banner de consentimiento
+aceptar/rechazar antes de cargar cualquier script, con ampliar `site.cookies` y la lógica
+condicional que ya existe en `/cookies`; sin cookies, ninguna de las dos cosas hace falta.
+Manuel eligió sin cookies. Cloudflare Web Analytics además encaja con que todo el resto del
+proyecto (`DEC-020`) ya vive en Cloudflare — una cuenta menos que gestionar.
+**Alternativas descartadas:** Google Analytics (cookies de verdad, banner nuevo, página
+`/cookies` con su rama condicional ya construida pero sin activar); Plausible/Fathom
+(cookieless también, pero de pago y una cuenta más fuera de Cloudflare sin necesidad).
+**Verificado, no asumido:** los dos hosts que exige el beacon del CSP
+(`static.cloudflareinsights.com` en `script-src`, `cloudflareinsights.com` en
+`connect-src`, distintos entre sí) se confirmaron contra la documentación pública antes de
+tocar `next.config.mjs`, no de memoria — un CSP mal puesto aquí falla en silencio (la
+petición se bloquea, no hay error visible para un visitante) y es fácil no darse cuenta
+hasta mirar la consola del navegador. Fuente citada (el crítico de la review del 25 sep
+marcó esto `INFUNDADO` por no llevar cita — tenía razón en que el propio subagente no
+podía comprobarlo sin acceso web, pero la verificación sí ocurrió, con
+`WebSearch` contra `developers.cloudflare.com/web-analytics/faq` y ejemplos reales de
+`content-security-policy.com/examples/cloudflare` y varios issues de GitHub que documentan
+el mismo bloqueo con la misma pareja de hosts):
+`https://developers.cloudflare.com/web-analytics/faq/`,
+`https://content-security-policy.com/examples/cloudflare/`.
+**Impacto:** `src/components/CloudflareAnalytics.tsx` nuevo, importado en los dos layouts
+raíz. `site.analytics.cloudflareToken` vacío por defecto — el beacon no se renderiza hasta
+que Manuel dé de alta el sitio en el dashboard de Cloudflare y pegue el token; cero cambio
+de comportamiento hasta entonces. `/cookies` y `/en/cookies` documentan la herramienta como
+lo que es, condicionado también al token: no reclaman analítica activa si no lo está.
+
+**Adenda de la review, 25 sep — riesgo de doble conteo (hallazgo del crítico):** Cloudflare
+Web Analytics ofrece alta "Automatic" (inyecta el beacon en el borde para cualquier zona
+proxiada) o "Manual" (el snippet que ya renderiza este componente). Un Worker de Cloudflare
+**siempre** es una zona proxiada — si Manuel elige "Automatic" al dar de alta el sitio,
+Cloudflare añadiría un segundo beacon en el borde y cada visita se contaría dos veces,
+junto con el que ya sirve `CloudflareAnalytics.tsx`. Verificado con `WebSearch` contra
+`developers.cloudflare.com/analytics/web-analytics/configuring-web-analytics/rules` y un
+hilo de la comunidad de Cloudflare que documenta exactamente este caso ("avoid combining
+automatic and manual setups on the same page"). Mitigación: **elegir "Manual setup"**,
+documentado en el comentario de `site.analytics` en `site.ts` para que quede donde Manuel
+lo vea justo antes de pegar el token.
+
+**Adenda de la review, 25 sep — bloqueante real cerrado:** el revisor encontró una cifra de
+tests falsa en `M2-IT-010` del tracker (afirmaba 80/80, la suite daba 75/75) y que
+`CloudflareAnalytics.tsx` no tenía ningún test — el camino sin token estaba verificado a
+mano con `curl` contra el HTML servido, pero el camino CON token, el único que corre de
+verdad en producción, no tenía ninguna red. El crítico sostuvo el hallazgo. Arreglado:
+`tests/unit/cloudflare-analytics.test.tsx`, cubre los dos caminos.
+
+## DEC-024: se retira el manifiesto C2PA embebido de los tres SVG del logo
+
+**Fecha:** 2026-09-25 (hallazgo del crítico en la review del mismo día)
+**Decisión:** `app/icon.svg`, `public/logo/logo-horizontal.svg` y
+`public/logo/logo-horizontal-dark.svg` (y sus fuentes en `assets/logo/`) pierden el bloque
+`<metadata><c2pa:manifest>…</c2pa:manifest></metadata>` y el atributo `xmlns:c2pa` de la
+raíz `<svg>`. El dibujo no cambia ni un píxel — solo se retira la credencial de
+procedencia.
+**Razón:** ese bloque ocupaba 7.774 bytes de cada fichero (68-70% de su peso total: de
+~11.160-11.390 B a ~3.388-3.610 B), y era el único contenido del bloque un manifiesto de
+C2PA declarando "Claude provided this file at the request of a user and may have created
+or modified the file contents", con certificados de firma de Anthropic. Nadie lo pidió, y
+el lote de trabajo de hoy (`M2-IT-009`) fue justo el de hacer la web sonar más humana y
+menos corporativa — publicar una credencial de autoría de IA en el logo de un músico va en
+la dirección contraria a propósito, no por descuido. El peso también es real: tres SVG que
+cargan en cada visita (favicon + header + footer) llevando 23 KB de metadatos que nadie va
+a leer, en un proyecto que vigila el First Load JS al byte.
+**Verificado, no asumido:** capturas de Playwright de los tres ficheros antes/después
+confirman que el dibujo es idéntico — el `<metadata>` no afecta el renderizado, es
+puramente informativo. `npm run build` limpio tras el cambio.
+**Alternativas descartadas:** dejarlo (el argumento en contra pesa más: ni el peso ni el
+mensaje de marca lo justifican); mantenerlo solo en las fuentes de `assets/logo/` y
+quitarlo solo de lo servido (deja las dos copias desincronizadas sin motivo, y las fuentes
+son las que Manuel tocaría si algún día reabre el diseño en Claude Design).
+**Impacto:** si Manuel algún día quiere que el logo declare su procedencia de IA por
+transparencia deliberada (no es descabellado — es una postura legítima), es una decisión
+suya a tomar de nuevo, no algo que quedó puesto sin que nadie lo mirara.

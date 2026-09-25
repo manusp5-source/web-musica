@@ -14,7 +14,7 @@ export default function Footer({ dict }: { dict: Dict }) {
   return (
     <footer className="bg-carbon text-marfil/80">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 py-12 text-center">
-        <div className="font-serif text-2xl text-marfil">{site.brand}</div>
+        <img src="/logo/logo-horizontal-dark.svg" alt={site.brand} className="h-10 w-auto" />
         <p className="text-sm">{dict.footer.built}</p>
         {socials.length > 0 && (
           <div className="flex gap-5">
