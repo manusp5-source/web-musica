@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { site } from "@/config/site";
 import { serif, sans } from "@/config/fonts";
+import CloudflareAnalytics from "@/components/CloudflareAnalytics";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.domain),
@@ -36,7 +37,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${serif.variable} ${sans.variable}`}>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        {children}
+        <CloudflareAnalytics />
+      </body>
     </html>
   );
 }

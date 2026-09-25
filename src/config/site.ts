@@ -76,9 +76,18 @@ export const site = {
 
   // --- Cookies / analytics ---
   cookies: {
-    // Pon true SOLO cuando añadas analytics (Google Analytics, etc.).
-    // Si es false: no se usan cookies de seguimiento → no hace falta banner.
+    // Pon true SOLO si algún día se añade analytics QUE USE COOKIES (Google Analytics,
+    // Meta Pixel, etc.). Cloudflare Web Analytics (justo abajo) es distinto: no usa
+    // cookies, así que no activa este flag ni el banner de consentimiento.
     analyticsEnabled: false,
+  },
+
+  // --- Cloudflare Web Analytics — métricas sin cookies ---
+  // Pega aquí el token del beacon cuando lo tengas (dashboard de Cloudflare → Analytics →
+  // Web Analytics → Add a site → copia el token, no el snippet entero). Vacío = el
+  // <script> del beacon no se renderiza, cero cambio de comportamiento.
+  analytics: {
+    cloudflareToken: "", //                          ←CAMBIAR (opcional)
   },
 
   // --- Códigos QR para imprenta (planning/intent-002.md) ---

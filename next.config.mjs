@@ -18,7 +18,11 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'",
+      // static.cloudflareinsights.com: solo si site.analytics.cloudflareToken tiene valor
+      // (Cloudflare Web Analytics — sin cookies). El host va siempre en la CSP, se use o
+      // no; si el token está vacío el <script> del beacon no se renderiza y el host
+      // sobra sin hacer daño — más simple que condicionar la CSP en build.
+      "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
       "style-src 'self' 'unsafe-inline'",
       // Hosts concretos, nunca `https:` a secas: el esquema suelto acepta cualquier
       // origen. Los dos que hay son las miniaturas de YouTube y coinciden con
@@ -27,7 +31,9 @@ const securityHeaders = [
       "img-src 'self' https://i.ytimg.com https://img.youtube.com data:",
       "font-src 'self'",
       "media-src 'self'",
-      "connect-src 'self' https://formspree.io",
+      // cloudflareinsights.com (sin "static."): a donde el beacon manda los datos, host
+      // distinto del que sirve el script.
+      "connect-src 'self' https://formspree.io https://cloudflareinsights.com",
       "frame-src https://www.youtube.com https://www.youtube-nocookie.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",

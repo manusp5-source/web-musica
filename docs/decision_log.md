@@ -378,3 +378,35 @@ retirado; `tests/unit/anclas-vivas.test.tsx` actualizado (el CTA del hero pasa a
 `#contacto`, no a `#tarifa`, que ya no existe). Si algún día se vuelve a publicar precio,
 se reintroduce en `dictionaries.ts` y `HomePage.tsx` — no hace falta tocar ningún eval para
 deshacer esto.
+
+## DEC-023: Cloudflare Web Analytics en vez de Google Analytics
+
+> Nota de numeración: esta entrada nació como `DEC-022` en `feat/cloudflare-web-analytics`,
+> rama salida de `main` el mismo día que `feat/contenido-humano-sin-precios` — las dos
+> reclamaban el mismo número. Renumerada a `DEC-023` al integrar, por ser la que llegó
+> segunda a esta rama de revisión; no es un error de ninguna de las dos entradas.
+
+**Fecha:** 2026-09-25
+**Decisión:** las métricas del sitio, cuando se activen, corren por Cloudflare Web
+Analytics, no por Google Analytics ni ninguna otra herramienta basada en cookies.
+**Razón:** Manuel pidió "añadir las cookies también" sin más detalle — antes de construir
+nada se preguntó directamente, porque las dos lecturas posibles llevan a arquitecturas
+legales distintas (RGPD/LSSI): cookies de verdad exigen banner de consentimiento
+aceptar/rechazar antes de cargar cualquier script, con ampliar `site.cookies` y la lógica
+condicional que ya existe en `/cookies`; sin cookies, ninguna de las dos cosas hace falta.
+Manuel eligió sin cookies. Cloudflare Web Analytics además encaja con que todo el resto del
+proyecto (`DEC-020`) ya vive en Cloudflare — una cuenta menos que gestionar.
+**Alternativas descartadas:** Google Analytics (cookies de verdad, banner nuevo, página
+`/cookies` con su rama condicional ya construida pero sin activar); Plausible/Fathom
+(cookieless también, pero de pago y una cuenta más fuera de Cloudflare sin necesidad).
+**Verificado, no asumido:** los dos hosts que exige el beacon del CSP
+(`static.cloudflareinsights.com` en `script-src`, `cloudflareinsights.com` en
+`connect-src`, distintos entre sí) se confirmaron contra la documentación pública antes de
+tocar `next.config.mjs`, no de memoria — un CSP mal puesto aquí falla en silencio (la
+petición se bloquea, no hay error visible para un visitante) y es fácil no darse cuenta
+hasta mirar la consola del navegador.
+**Impacto:** `src/components/CloudflareAnalytics.tsx` nuevo, importado en los dos layouts
+raíz. `site.analytics.cloudflareToken` vacío por defecto — el beacon no se renderiza hasta
+que Manuel dé de alta el sitio en el dashboard de Cloudflare y pegue el token; cero cambio
+de comportamiento hasta entonces. `/cookies` y `/en/cookies` documentan la herramienta como
+lo que es, condicionado también al token: no reclaman analítica activa si no lo está.
