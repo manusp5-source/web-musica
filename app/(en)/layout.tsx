@@ -10,10 +10,10 @@ export const metadata: Metadata = {
     template: `%s · ${site.artistName}`,
   },
   description:
-    "Live viola for wedding ceremonies in Granada. Your song arranged by me, PA included, from €390.",
+    "Live viola for wedding ceremonies in Granada. Your song arranged by me, PA included, by a Granada-based violist.",
   keywords: [
     "wedding ceremony music Granada",
-    "live music wedding Spain",
+    "live music wedding Granada province",
     "string player wedding ceremony",
     "viola player weddings",
     "church wedding music Granada",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     siteName: site.brand,
     title: `${site.brand} — Ceremony music in ${site.city}`,
     description:
-      "The ceremony on solo viola, your song arranged by me. Published prices from €390.",
+      "The ceremony on solo viola, your song arranged by me, by a violist based in Granada.",
   },
   alternates: {
     canonical: "/en",

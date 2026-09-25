@@ -3,51 +3,6 @@ import { site } from "@/config/site";
 import type { Dict } from "@/i18n/dictionaries";
 import { IconNote } from "./icons";
 
-/**
- * Tarifa publicada — INT-006, del §4 del plan de negocio.
- *
- * Ningún competidor local publica precio: es el diferenciador más barato de implantar y
- * el que sostiene el posicionamiento ahora que no hay piano en vivo. Si algún día se
- * retira, se retira en `dictionaries.ts`, no aquí.
- */
-export function Pricing({ dict }: { dict: Dict }) {
-  return (
-    <section id="tarifa" className="bg-marfil2">
-      <div className="section">
-        <p className="eyebrow">{dict.pricing.eyebrow}</p>
-        <h2 className="h-section max-w-3xl">{dict.pricing.title}</h2>
-        <p className="mt-4 max-w-2xl text-carbon/70">{dict.pricing.intro}</p>
-
-        <ul className="mt-12 grid gap-4 md:grid-cols-2">
-          {dict.pricing.items.map((item) => (
-            <li
-              key={item.name}
-              className={
-                item.featured
-                  ? "flex items-baseline justify-between gap-6 rounded-2xl border border-dorado/60 bg-white/70 p-6"
-                  : "flex items-baseline justify-between gap-6 rounded-2xl border border-carbon/10 bg-white/40 p-6"
-              }
-            >
-              <div className="min-w-0">
-                <h3 className="font-serif text-xl text-carbon">{item.name}</h3>
-                <p className="mt-1 text-sm text-carbon/70">{item.detail}</p>
-              </div>
-              <span className="shrink-0 font-serif text-2xl text-bronce">{item.price}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="max-w-xl text-sm text-carbon/70">{dict.pricing.note}</p>
-          <a href="#contacto" className="btn-gold shrink-0">
-            {dict.pricing.cta}
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export function Services({ dict }: { dict: Dict }) {
   return (
     <section id="servicios" className="bg-marfil">

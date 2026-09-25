@@ -28,7 +28,7 @@ export const site = {
 
   // --- Redes (deja "" para ocultar el icono) ---
   social: {
-    instagram: "", //  https://instagram.com/...   ←CAMBIAR
+    instagram: "https://instagram.com/viola.granada",
     youtube: "", //    https://youtube.com/@...     ←CAMBIAR
     spotify: "", //    https://open.spotify.com/... ←CAMBIAR
     tiktok: "", //                                  ←CAMBIAR
