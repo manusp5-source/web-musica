@@ -580,6 +580,38 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
   `feat/contenido-humano-sin-precios` — las dos añadían un `DEC-022`, colisión de
   numeración resuelta al integrar (ver la nota en `DEC-023` de `decision_log.md`).
 
+### 2026-10-01 — email de contacto actualizado a `manuelgpw@gmail.com`
+- **Trabajo hecho**: Manuel pidió cambiar su correo a `manuelgpw@gmail.com` "en todos los
+  lados". `grep` sobre el repo entero (menos `node_modules`, directorios de build y
+  ficheros `.env*`) encontró el email antiguo en exactamente dos sitios: `site.ts` y una
+  entrada histórica de este mismo fichero fechada el 10 sep, que se deja intacta a
+  propósito — es un registro de lo que pasó ese día, no del estado actual. Cambiados
+  `site.email` y `site.legal.privacyEmail`; `site.legal.lastUpdated` actualizado al mismo
+  día porque el correo de derechos RGPD es parte del texto legal que esa fecha declara
+  revisado.
+- **Modelo usado / Skill cargada**: `sonnet`, sin skill cargada (cambio de dato, no de
+  lógica).
+- **Ficheros creados / modificados**: `src/config/site.ts`, `docs/decision_log.md`
+  (`DEC-025`).
+- **Verificación (salida)**: `npm run build` real tras el cambio; `grep` sobre el HTML
+  generado para `violagranada31@gmail.com` (cero) y `manuelgpw@gmail.com` (presente en
+  las páginas que muestran email).
+- **Verificación (trayectoria)**: confirmado antes de tocar nada que las 8 páginas/
+  componentes que muestran un email (`Contact.tsx`, el JSON-LD de `HomePage.tsx`, las 4
+  páginas legales en los dos idiomas) leen todas de `site.ts` en build — un solo cambio en
+  la fuente, sin ningún email hardcodeado por duplicado en ningún sitio.
+- **Eval**: ninguno dedicado — no hay un `EV-0XX` que vigile el valor de un dato de
+  contacto, solo que exista (`check-legal.mjs`, que sigue en verde con cualquier valor no
+  vacío).
+- **Comprobación de seguridad**: no aplica — no es un secreto, es contacto público.
+- **Tests**: ninguno nuevo necesario; no hay ningún test existente que fijara el valor
+  concreto del email antiguo (se habría roto y no lo hizo).
+- **Notas**: los materiales impresos (cartel, tarjeta) no muestran ningún email — no les
+  afecta este cambio. `assets/tarjeta/tarjeta.pdf` apareció modificado en el árbol antes de
+  empezar esta tarea (diff binario, sin relación con el email); revisado y es ruido de
+  regeneración, no contenido distinto — se deja como está, no se investiga más porque no
+  es parte de este encargo.
+
 ---
 
 ## Review

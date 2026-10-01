@@ -464,3 +464,28 @@ son las que Manuel tocaría si algún día reabre el diseño en Claude Design).
 **Impacto:** si Manuel algún día quiere que el logo declare su procedencia de IA por
 transparencia deliberada (no es descabellado — es una postura legítima), es una decisión
 suya a tomar de nuevo, no algo que quedó puesto sin que nadie lo mirara.
+
+## DEC-025: el email de contacto y el de derechos RGPD pasan a `manuelgpw@gmail.com`
+
+**Fecha:** 2026-10-01
+**Decisión:** `site.email` y `site.legal.privacyEmail` cambian de `violagranada31@gmail.com`
+a `manuelgpw@gmail.com`. `site.legal.lastUpdated` se actualiza al mismo día: el email de
+contacto RGPD es parte del texto legal que esa fecha declara revisado.
+**Razón:** instrucción directa de Manuel, sin motivo técnico que cuestionar — es su correo,
+su decisión.
+**Verificado, no asumido:** `grep` de `violagranada31@gmail.com` sobre todo el repo (menos
+`node_modules`, build y ficheros `.env*`) antes del cambio encontró exactamente dos
+sitios: `site.ts` (la fuente) y una entrada histórica de `docs/work_log.md` del 10 sep que
+**no se toca** — documenta un hecho de esa fecha (qué correo dio Manuel entonces), y
+reescribir el pasado para que cuadre con el presente es precisamente lo que este proyecto
+nunca hace con su propio registro. Confirmado que las ocho páginas que muestran un email
+(`Contact.tsx`, `HomePage.tsx` para el JSON-LD, las cuatro páginas legales en los dos
+idiomas) lo leen todas de `site.ts` en tiempo de build, ninguna lo repite a mano — un solo
+cambio en la fuente basta, verificado con `npm run build` y grep sobre el HTML real
+generado para `violagranada31@gmail.com` (cero coincidencias) y `manuelgpw@gmail.com`
+(presente donde debe).
+**Alternativas descartadas:** ninguna — no hay ambigüedad que resolver, es un dato que
+Manuel declaró, no una decisión de ingeniería.
+**Impacto:** los materiales impresos (cartel, tarjeta) no muestran ningún email, así que no
+les afecta. El email antiguo queda en el historial de `work_log.md` y en el de git, donde
+debe quedar.

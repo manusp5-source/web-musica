@@ -17,7 +17,7 @@ export const site = {
   serviceArea: "Granada y provincia · desplazamiento gratis hasta 50 km",
 
   // --- Contacto ---
-  email: "violagranada31@gmail.com",
+  email: "manuelgpw@gmail.com",
   // OJO: 858 es prefijo fijo de Granada. El botón de WhatsApp solo funciona si este
   // número está dado de alta en WhatsApp Business (se puede, verificando por llamada).
   whatsapp: "34858886795", // solo dígitos, con prefijo país
@@ -70,8 +70,8 @@ export const site = {
     nif: "77148158V",
     address: "Calle Emir 5, 18006 Granada, España",
     // Email para ejercer derechos RGPD (puede ser el mismo de contacto)
-    privacyEmail: "violagranada31@gmail.com",
-    lastUpdated: "2026-09-10", // fecha última revisión de los textos legales
+    privacyEmail: "manuelgpw@gmail.com",
+    lastUpdated: "2026-10-01", // fecha última revisión de los textos legales
   },
 
   // --- Cookies / analytics ---
