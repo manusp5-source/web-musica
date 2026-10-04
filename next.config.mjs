@@ -34,7 +34,10 @@ const securityHeaders = [
       // cloudflareinsights.com (sin "static."): a donde el beacon manda los datos, host
       // distinto del que sirve el script.
       "connect-src 'self' https://formspree.io https://cloudflareinsights.com",
-      "frame-src https://www.youtube.com https://www.youtube-nocookie.com",
+      // open.spotify.com: para cuando site.media.spotifyEmbed tenga valor. Verificado
+      // contra la documentación/comunidad de Spotify (no adivinado): todo embed sirve
+      // desde open.spotify.com/embed/..., ese es el único host que necesita frame-src.
+      "frame-src https://www.youtube.com https://www.youtube-nocookie.com https://open.spotify.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self' https://formspree.io",

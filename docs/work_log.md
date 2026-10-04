@@ -612,6 +612,45 @@ Registro cronológico. Una entrada por IT o UJ, escrita al terminar la tarea, no
   regeneración, no contenido distinto — se deja como está, no se investiga más porque no
   es parte de este encargo.
 
+### 2026-10-04 — M2-IT-011: repertorio real + hueco de Spotify completado (parcial)
+- **Trabajo hecho**: Manuel pasó el set list real de la boda (38 canciones, playlist de
+  versiones karaoke de YouTube usadas como referencia de arreglo) y pidió una sección
+  donde escucharle y ver los temas disponibles, con Spotify viniendo progresivamente.
+  Limpiada la lista a mano: fuera "(Karaoke Version)"/"(INSTRUMENTAL)" y el canal (Sing
+  King, KaraokeMedia, etc.), dentro solo título + artista original — `site.media.repertoire`.
+  Pintado dentro de la sección `#media` ya existente (no una nueva: ya era "Escuchadme").
+  `site.media.spotifyEmbed` — declarado desde el scaffold original, nunca cableado hasta
+  hoy — ahora renderiza un iframe condicionado a que tenga valor; vacío todavía porque
+  Manuel no ha subido nada a Spotify.
+- **Modelo usado / Skill cargada**: `sonnet`, sin skill cargada.
+- **Ficheros creados / modificados**: `src/config/site.ts`, `src/i18n/dictionaries.ts`,
+  `src/components/Sections.tsx`, `next.config.mjs` (CSP: `open.spotify.com` en
+  `frame-src`), `tests/unit/media.test.tsx` (nuevo).
+- **Verificación (salida)**: `npm run build` limpio (14 rutas); `npx vitest run` → 81/81
+  (eran 77, +4 de `media.test.tsx`); `npm run evals` → 16/16; `npm run lint` → mismos 2
+  avisos preexistentes de `<img>`, ninguno nuevo.
+- **Verificación (trayectoria)**: repertorio y Spotify viven en la sección de media ya
+  existente, no se creó una nueva ni se tocó `Nav.tsx` — alcance ceñido a lo pedido.
+- **Eval**: `EV-015` (tono de texto) encontró un fallo real propio antes de llegar a
+  producción — `text-carbon/50` en el artista de cada canción mide 4.42:1 sobre marfil,
+  por debajo de AA. Subido a `/70` (6.14:1, ya verificado en otras partes de este mismo
+  fichero), confirmado con los 16 evals en verde después del arreglo. `EV-011` (hosts CSP
+  concretos) sigue en verde con `open.spotify.com` añadido.
+- **Comprobación de seguridad**: host de Spotify verificado contra documentación/
+  comunidad oficial (`WebSearch`) antes de escribirlo en la CSP, no adivinado — mismo
+  cuidado que con los hosts de Cloudflare Analytics, porque un host CSP equivocado falla
+  en silencio.
+- **Tests**: `tests/unit/media.test.tsx` nuevo, 4 casos — repertorio real pinta sin
+  "karaoke" ni nombres de canal; sin `spotifyEmbed` no hay iframe; con `spotifyEmbed` el
+  iframe lleva el `src` exacto; con `repertoire` vacío la sección entera desaparece.
+- **Notas operativas, no de producto**: durante esta tanda, `npm run build`/`vitest run`/
+  `npm run evals` murieron repetidamente en segundo plano sin ninguna salida — no eran
+  cuelgues reales. `EV-009` por sí solo tarda 80-130s (hace un build real dentro) y
+  excede el límite de ejecución en segundo plano de esta sesión; en foreground con más
+  margen de tiempo, todo corrió y terminó normal. Lección para la próxima vez que algo
+  "muera" en segundo plano sin salida: antes de investigar como si fuera un cuelgue,
+  probar en foreground con margen generoso.
+
 ---
 
 ## Review

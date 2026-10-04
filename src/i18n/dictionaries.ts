@@ -20,7 +20,10 @@ export type Dict = {
   hero: { eyebrow: string; title: string; subtitle: string; ctaPrimary: string; ctaSecondary: string; location: string };
   trust: string[];
   services: { eyebrow: string; title: string; intro: string; items: Service[] };
-  media: { eyebrow: string; title: string; intro: string; placeholder: string; videoTitle: string };
+  media: {
+    eyebrow: string; title: string; intro: string; placeholder: string; videoTitle: string;
+    repertoireTitle: string; repertoireIntro: string;
+  };
   about: { eyebrow: string; title: string; body: string[]; highlights: string[]; photoSoon: string };
   process: { eyebrow: string; title: string; steps: Step[] };
   events: { eyebrow: string; title: string; intro: string; empty: string };
@@ -82,6 +85,8 @@ export const dictionaries: Record<Locale, Dict> = {
       intro: "Ninguna descripción sustituye a oírlo. Aquí tenéis grabaciones del directo y alguno de los arreglos que he preparado para otras parejas.",
       placeholder: "Vídeos próximamente — material en producción",
       videoTitle: "Vídeo",
+      repertoireTitle: "Repertorio",
+      repertoireIntro: "Un vistazo a lo que ya llevo preparado. Si vuestra canción no está en la lista, la arreglo igual — esto es solo lo que ya tengo listo.",
     },
     about: {
       eyebrow: "Sobre mí",
@@ -208,6 +213,8 @@ export const dictionaries: Record<Locale, Dict> = {
       intro: "No description replaces hearing it. Here are live recordings and some of the arrangements I've written for other couples.",
       placeholder: "Videos coming soon — material in production",
       videoTitle: "Video",
+      repertoireTitle: "Repertoire",
+      repertoireIntro: "A look at what I already have ready. If your song isn't on the list, I'll still arrange it — this is just what's already prepared.",
     },
     about: {
       eyebrow: "About",

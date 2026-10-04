@@ -43,7 +43,10 @@ export const site = {
   media: {
     // IDs/URLs de YouTube para los reels. Deja "" para mostrar placeholder.
     youtubeIds: ["", "", ""], //                   ←CAMBIAR (3 vídeos)
-    // URL embed de Spotify o SoundCloud (opcional)
+    // URL EMBED de Spotify (empieza por https://open.spotify.com/embed/...), no el link
+    // normal de compartir. Deja "" mientras no haya nada subido — no se renderiza nada,
+    // cero cambio de comportamiento. Pégala según vayas subiendo temas (25 sep: todavía
+    // nada en Spotify).
     spotifyEmbed: "", //                           ←CAMBIAR
     // Audio del hero para el efecto reactivo. Pon un mp3 en /public (ej: "/sample.mp3").
     // Si está vacío, las partículas flotan en modo ambiente (sin botón de play).
@@ -53,6 +56,50 @@ export const site = {
     heroPhoto: "/manuel-viola.jpg",
     // Retrato de la seccion "Sobre mi". Puede ser la misma foto u otra distinta.
     portraitPhoto: "/manuel-viola.jpg",
+    // Repertorio publicado en la web — lista real, no inventada: limpiada a partir del
+    // set list que Manuel pasó (playlist de versiones karaoke usadas como referencia de
+    // arreglo), quitando "(Karaoke Version)" y el nombre del canal, dejando solo título y
+    // artista original. Vacío = la sección de repertorio no se renderiza.
+    repertoire: [
+      { title: "All of Me", artist: "John Legend" },
+      { title: "A Thousand Years", artist: "Christina Perri" },
+      { title: "Perfect", artist: "Ed Sheeran" },
+      { title: "My Heart Will Go On", artist: "Celine Dion" },
+      { title: "Shallow", artist: "Lady Gaga, Bradley Cooper" },
+      { title: "Viva la Vida", artist: "Coldplay" },
+      { title: "Dancing in the Moonlight", artist: "Toploader" },
+      { title: "Hallelujah", artist: "Leonard Cohen" },
+      { title: "Despacito", artist: "Luis Fonsi ft. Daddy Yankee" },
+      { title: "Can't Help Falling in Love", artist: "Elvis Presley" },
+      { title: "Until I Found You", artist: "Stephen Sanchez" },
+      { title: "Golden", artist: "KPop Demon Hunters" },
+      { title: "We Are Young", artist: "fun. ft. Janelle Monáe" },
+      { title: "Accidentally in Love", artist: "Counting Crows" },
+      { title: "Wrecking Ball", artist: "Miley Cyrus" },
+      { title: "Die With a Smile", artist: "Lady Gaga, Bruno Mars" },
+      { title: "Te Regalo", artist: "Rels B, J Abecia" },
+      { title: "Ordinary", artist: "Alex Warren" },
+      { title: "Somebody That I Used to Know", artist: "Gotye ft. Kimbra" },
+      { title: "Those Eyes", artist: "New West" },
+      { title: "La Salvación", artist: "Arde Bogotá" },
+      { title: "Human", artist: "Christina Perri" },
+      { title: "Somewhere Only We Know", artist: "Keane" },
+      { title: "Another Love", artist: "Tom Odell" },
+      { title: "Piano Man", artist: "Billy Joel" },
+      { title: "Flowers", artist: "Miley Cyrus" },
+      { title: "I'm Good (Blue)", artist: "David Guetta, Bebe Rexha" },
+      { title: "Bam Bam", artist: "Camila Cabello, Ed Sheeran" },
+      { title: "Me and My Broken Heart", artist: "Rixton" },
+      { title: "Telephone", artist: "Lady Gaga, Beyoncé" },
+      { title: "Let Me Down Slowly", artist: "Alec Benjamin" },
+      { title: "El Despertar", artist: "Nil Moliner" },
+      { title: "Jerk It Out", artist: "Caesars" },
+      { title: "The Night We Met", artist: "Lord Huron" },
+      { title: "Ni Tú Ni Nadie", artist: "Alaska y Dinarama" },
+      { title: "Alquitrán y Carmín", artist: "El Niño de la Hipoteca" },
+      { title: "Englishman in New York", artist: "Sting" },
+      { title: "La Vie en Rose", artist: "Édith Piaf" },
+    ],
   },
 
   // --- Efectos visuales ---

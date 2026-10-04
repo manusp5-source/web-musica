@@ -163,6 +163,38 @@ export function Media({ dict }: { dict: Dict }) {
                 </div>
               ))}
         </div>
+
+        {/* Spotify — vacío mientras no haya nada subido (sitio del usuario, no de la
+            app: "URL embed", no el link de compartir). No renderiza nada hasta entonces. */}
+        {site.media.spotifyEmbed && (
+          <div className="mt-6 overflow-hidden rounded-xl">
+            <iframe
+              className="w-full"
+              height="152"
+              src={site.media.spotifyEmbed}
+              title="Spotify"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            />
+          </div>
+        )}
+
+        {/* Repertorio — lista real, limpiada a mano de un set list de referencia.
+            Oculto si algún día queda vacío, mismo patrón que Testimonials. */}
+        {site.media.repertoire.length > 0 && (
+          <div className="mt-16 border-t border-carbon/10 pt-12">
+            <h3 className="font-serif text-2xl text-carbon">{dict.media.repertoireTitle}</h3>
+            <p className="mt-2 max-w-2xl text-sm text-carbon/70">{dict.media.repertoireIntro}</p>
+            <ul className="mt-6 grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+              {site.media.repertoire.map((song) => (
+                <li key={`${song.title}-${song.artist}`} className="flex items-baseline gap-2 text-sm">
+                  <span className="text-carbon">{song.title}</span>
+                  <span className="min-w-0 flex-1 truncate text-carbon/70">· {song.artist}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </section>
   );
