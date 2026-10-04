@@ -2,7 +2,7 @@ import { site } from "@/config/site";
 import { getDict, type Locale } from "@/i18n/dictionaries";
 import Nav from "./Nav";
 import Hero from "./Hero";
-import { Services, Pricing, About, Process, Events, Media, Faq } from "./Sections";
+import { Services, About, Process, Events, Media, Faq } from "./Sections";
 import Reviews from "./Reviews";
 import Contact from "./Contact";
 import Footer from "./Footer";
@@ -37,9 +37,6 @@ export default function HomePage({ locale }: { locale: Locale }) {
     // en el año 1, y declarar "España" diluye la señal local que es todo el activo SEO.
     areaServed: { "@type": "AdministrativeArea", name: site.region },
     genre: ["Classical", "Wedding", "Ceremony music", "Viola"],
-    // Rango real de la tarifa publicada. Coherente con la sección de precios: si cambia
-    // una, cambia la otra, porque salen del mismo sitio.
-    priceRange: "150 € – 990 €",
     sameAs: [site.social.instagram, site.social.youtube, site.social.spotify].filter(Boolean),
     // Valoración y reseñas. Sin datos no añade ninguna clave: lo declarado siempre
     // coincide con lo que se ve en la página (M1-UJ-003).
@@ -59,9 +56,6 @@ export default function HomePage({ locale }: { locale: Locale }) {
       <main>
         <Hero dict={dict} />
         <Services dict={dict} />
-        {/* La tarifa va justo detrás de los servicios: es lo que el visitante viene a
-            buscar y lo que ningún competidor local le enseña sin pedirla. */}
-        <Pricing dict={dict} />
         <Media dict={dict} />
         <About dict={dict} />
         <Process dict={dict} />

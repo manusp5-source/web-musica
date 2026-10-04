@@ -39,14 +39,15 @@ describe("Ninguna sección con id queda sin enlace entrante", () => {
     expect(huerfanos, `sin enlace entrante: ${huerfanos.join(", ")}`).toEqual([]);
   });
 
-  it("el CTA principal del hero enlaza a la tarifa, no a contacto", () => {
+  it("el CTA principal del hero enlaza a contacto", () => {
     // Renderizado el Hero SOLO, no toda la home: así el test aísla la fuente del enlace.
-    // La primera versión comprobaba "algún href=#tarifa en la página", y con Nav.tsx ya
-    // proveyéndolo, un regreso aislado del botón del hero no se habría detectado —
-    // hallazgo del revisor en la pasada de reverificación, corregido aquí.
+    // `#tarifa` se retiró de la web (M2-IT-009, 25 sep): el negocio dejó de publicar
+    // precio, y el CTA del hero pasó a apuntar directo a `#contacto`. Sigue aislado por la
+    // misma razón que antes — un regreso del botón del hero no debe depender de que
+    // Nav.tsx provea el mismo destino por otro lado.
     const dict = getDict("es");
     const { getByRole } = render(<Hero dict={dict} />);
     const cta = getByRole("link", { name: dict.hero.ctaPrimary });
-    expect(cta).toHaveAttribute("href", "#tarifa");
+    expect(cta).toHaveAttribute("href", "#contacto");
   });
 });
